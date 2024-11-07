@@ -1,0 +1,3 @@
+/home/wagner/CLionProjects/2022_1/Projeto-3-Wagner/cmake-build-debug/CMakeFiles/Projeto_3_Wagner.dir
+/home/wagner/CLionProjects/2022_1/Projeto-3-Wagner/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/wagner/CLionProjects/2022_1/Projeto-3-Wagner/cmake-build-debug/CMakeFiles/rebuild_cache.dir
