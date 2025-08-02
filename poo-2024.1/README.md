@@ -1,4 +1,4 @@
-# Github Wagner - POO 2024.1
+## Repositório dedicado a disciplina POO129003 - PROGRAMAÇÃO ORIENTADA A OBJETOS	
 
 ### Dicas úteis Java
 
