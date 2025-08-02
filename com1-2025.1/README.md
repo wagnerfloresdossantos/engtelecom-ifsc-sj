@@ -1,4 +1,4 @@
-# Repositório dedicado a disciplina de MIC029004 - MICROPROCESSADORES	
+## Repositório dedicado a disciplina de MIC029004 - MICROPROCESSADORES	
 
 streamlit run quantizacao.py
 
