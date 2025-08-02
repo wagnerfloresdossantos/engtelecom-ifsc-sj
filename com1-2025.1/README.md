@@ -1,4 +1,4 @@
-## Repositório dedicado a disciplina de COM029007 - SISTEMAS DE COMUNICAÇÃO I	
+## Repositório dedicado a disciplina COM029007 - SISTEMAS DE COMUNICAÇÃO I	
 
 streamlit run quantizacao.py
 
