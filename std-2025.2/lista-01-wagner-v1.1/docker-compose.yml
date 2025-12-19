@@ -1,0 +1,33 @@
+services:
+  iot1:
+    build: ./dispositivo-iot
+    networks: [labnet]
+    environment:
+      # Garante preferência IPv4 dentro do container (multicast mais previsível)
+      JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+
+  iot2:
+    build: ./dispositivo-iot
+    networks: [labnet]
+    command: ["./bin/app","v1.0"]
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+
+  iot3:
+    build: ./dispositivo-iot
+    networks: [labnet]
+    command: ["./bin/app","v1.0"]
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+
+  gerenciador:
+    build: ./gerenciador-atualizacoes
+    networks: [labnet]
+    stdin_open: true   # permite digitar na CLI
+    tty: true          # console interativo
+    environment:
+      JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
+
+networks:
+  labnet:
+    driver: bridge

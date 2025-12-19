@@ -1,0 +1,12 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'engtelecom.std.GerenciadorAtualizacoes'
+}
+
+tasks.named('run') {
+    // permite digitar no console (Scanner(System.in))
+    standardInput = System.in
+}

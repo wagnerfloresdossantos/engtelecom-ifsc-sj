@@ -33,9 +33,5 @@ public class App {
         }catch (IOException e){
             System.err.println("Erro ao iniciar servidor: " + e.getMessage());
         }
-
-
-
-
     }
 }
