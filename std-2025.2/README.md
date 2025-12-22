@@ -1,0 +1,1 @@
+## Repositório dedicado a disciplina STD129006 - SISTEMAS DISTRIBUÍDOS (2025 .2 - T01)
