@@ -1,4 +1,52 @@
 # A1.2 — Miniprojeto (ADS)  
+
+## Passo a passo execução
+
+1. abrir IMUNES e carregar a topologia
+2. clicar em Run no IMUNES
+3. no terminal do host:
+`python3 run_experimento.py
+
+## O que o script faz automaticamente
+
+Quando você rodar:
+
+`python3 experimento_imunes.py
+ O que o script faz automaticamente
+
+Quando você rodar:
+
+python3 experimento_imunes.py
+
+ele já vai:
+
+- entrar no pc2
+
+- matar um iperf antigo, se existir
+
+- subir o iperf server no pc2
+
+- validar se a porta 5001 está escutando
+
+- limpar delay antigo no router1
+
+- para cada cenário:
+
+- configurar Reno ou Cubic no pc1
+
+- aplicar 10 ms ou 50 ms no router1
+
+- iniciar tcpdump no pc1
+
+- rodar iperf client no pc1
+
+- copiar o .pcap
+
+- calcular retransmissões com tshark
+
+- gravar no CSV
+
+
 **Medição ativa com `iperf` + medição passiva com `tcpdump/tshark` no IMUNES**  
 Planejamento fatorial completo **2²** com **8 repetições** por tratamento (total **32 execuções**).
 
