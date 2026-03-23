@@ -626,7 +626,7 @@ if st.session_state.step == "home":
         unsafe_allow_html=True,
     )
 
-    c1, c2, c3 = st.columns([1, 2, 1])
+    c1, c2, c3 = st.columns([1.5, 2, 1.5])
     with c2:
         if st.button("COMEÇAR AGORA"):
             st.session_state.step = "register"
