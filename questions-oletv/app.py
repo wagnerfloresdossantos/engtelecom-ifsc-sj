@@ -101,15 +101,12 @@ def get_base64_file(path):
     if not path:
         return None
 
-    possible_paths = [
-        path,
-        os.path.join(".", path),
-    ]
+    base_dir = os.path.dirname(__file__)
+    full_path = os.path.join(base_dir, path)
 
-    for p in possible_paths:
-        if os.path.exists(p):
-            with open(p, "rb") as f:
-                return base64.b64encode(f.read()).decode("utf-8")
+    if os.path.exists(full_path):
+        with open(full_path, "rb") as f:
+            return base64.b64encode(f.read()).decode("utf-8")
 
     return None
 
