@@ -285,6 +285,30 @@ def inject_css(cfg):
                 margin-bottom: 10px;
             }}
 
+            .hero-action {{
+                margin-top: 26px;
+                text-align: center;
+            }}
+
+            .hero-start-link {{
+                display: inline-block;
+                min-width: 240px;
+                padding: 16px 28px;
+                border-radius: 18px;
+                background: var(--primary);
+                color: var(--button-text) !important;
+                font-size: 1.18rem;
+                font-weight: 900;
+                text-decoration: none;
+                cursor: pointer;
+                box-sizing: border-box;
+            }}
+
+            .hero-start-link:hover {{
+                opacity: 0.92;
+                transform: scale(1.01);
+            }}
+
             .card-box {{
                 background: var(--card);
                 border: 1px solid rgba(255,255,255,0.10);
@@ -596,6 +620,11 @@ with st.sidebar:
 
 
 if st.session_state.step == "home":
+    if "start" in st.query_params:
+        st.session_state.step = "register"
+        st.query_params.clear()
+        st.rerun()
+
     oletv_logo = get_base64_file(config.get("oletv_logo_path"))
     fair_logo = get_base64_file(config.get("fair_logo_path"))
 
@@ -604,33 +633,29 @@ if st.session_state.step == "home":
         logos_html += f'<img src="data:image/png;base64,{oletv_logo}" alt="OléTV">'
     if fair_logo:
         logos_html += f'<img src="data:image/png;base64,{fair_logo}" alt="Feira">'
-    logos_html += '</div>'
+    logos_html += "</div>"
 
-    st.markdown(
-        f"""
-        <div class="hero-screen">
-            <div class="hero-wrapper">
-                <div class="hero-box">
-                    {logos_html}
-                    <div class="hero-badge">{config["fair_name"]}</div>
-                    <div class="hero-title">{config["event_name"]}</div>
-                    <div class="hero-subtitle">{config["event_subtitle"]}</div>
-                    <div class="totem-info">📝 Faça seu cadastro</div>
-                    <div class="totem-info">🎯 Responda {config.get("questions_per_game", 10)} perguntas</div>
-                    <div class="totem-info">⏱️ Tempo total: {config["quiz_time_seconds"]} segundos</div>
-                    <div class="totem-info">🎁 Quem acertar tudo ganha um brinde</div>
+    home_html = f"""
+    <div class="hero-screen">
+        <div class="hero-wrapper">
+            <div class="hero-box">
+                {logos_html}
+                <div class="hero-badge">{config["fair_name"]}</div>
+                <div class="hero-title">{config["event_name"]}</div>
+                <div class="hero-subtitle">{config["event_subtitle"]}</div>
+                <div class="totem-info">📝 Faça seu cadastro</div>
+                <div class="totem-info">🎯 Responda {config.get("questions_per_game", 10)} perguntas</div>
+                <div class="totem-info">⏱️ Tempo total: {config["quiz_time_seconds"]} segundos</div>
+                <div class="totem-info">🎁 Quem acertar tudo ganha um brinde</div>
+                <div class="hero-action">
+                    <a class="hero-start-link" href="?start=1">COMEÇAR AGORA</a>
                 </div>
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    </div>
+    """
 
-    c1, c2, c3 = st.columns([1.5, 2, 1.5])
-    with c2:
-        if st.button("COMEÇAR AGORA"):
-            st.session_state.step = "register"
-            st.rerun()
+    st.markdown(home_html, unsafe_allow_html=True)
 
 elif st.session_state.step == "register":
     st.markdown('<div class="card-box">', unsafe_allow_html=True)
@@ -647,11 +672,35 @@ elif st.session_state.step == "register":
         if not nome.strip() or not empresa.strip() or not email.strip() or not whatsapp.strip():
             st.error("Preencha todos os campos.")
         else:
+            leads_df = pd.read_csv(LEADS_FILE)
+
+            email_limpo = email.strip()
+            whatsapp_limpo = whatsapp.strip()
+
+            registros_mesma_pessoa = leads_df[
+                (leads_df["email"].astype(str) == email_limpo) |
+                (leads_df["whatsapp"].astype(str) == whatsapp_limpo)
+            ].copy()
+
+            ja_ganhou = False
+            if not registros_mesma_pessoa.empty and "ganhou_brinde" in registros_mesma_pessoa.columns:
+                ja_ganhou = (
+                    registros_mesma_pessoa["ganhou_brinde"]
+                    .astype(str)
+                    .str.upper()
+                    .eq("SIM")
+                    .any()
+                )
+
+            if ja_ganhou:
+                st.error("Você já ganhou um brinde neste desafio e não pode participar novamente.")
+                st.stop()
+
             st.session_state.user = {
                 "nome": nome.strip(),
                 "empresa": empresa.strip(),
-                "email": email.strip(),
-                "whatsapp": whatsapp.strip(),
+                "email": email_limpo,
+                "whatsapp": whatsapp_limpo,
             }
             st.session_state.score = 0
             st.session_state.q_index = 0
