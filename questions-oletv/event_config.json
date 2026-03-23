@@ -1,0 +1,18 @@
+{
+  "event_name": "Desafio OléTV",
+  "event_subtitle": "Teste seus conhecimentos sobre filmes, séries e entretenimento",
+  "fair_name": "Evento Especial",
+  "logo_text": "OléTV",
+  "primary_color": "#00C2FF",
+  "secondary_color": "#001B2E",
+  "background_color": "#08101C",
+  "background_color_2": "#032B43",
+  "card_color": "rgba(7, 17, 31, 0.78)",
+  "text_color": "#FFFFFF",
+  "button_text_color": "#001B2E",
+  "quiz_time_seconds": 120,
+  "show_ranking": false,
+  "oletv_logo_path": "assents/logo.png",
+  "fair_logo_path": "assents/logo_bg.png",
+  "questions_per_game": 10
+}
