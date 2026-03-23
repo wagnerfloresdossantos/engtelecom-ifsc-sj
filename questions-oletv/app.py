@@ -594,15 +594,16 @@ with st.sidebar:
                 reset_game()
                 st.success("Jogo reiniciado.")
 
+
 if st.session_state.step == "home":
     oletv_logo = get_base64_file(config.get("oletv_logo_path"))
     fair_logo = get_base64_file(config.get("fair_logo_path"))
 
     logos_html = '<div class="hero-logos">'
     if oletv_logo:
-        logos_html += f'<img src="data:image/png;base64,{oletv_logo}">'
+        logos_html += f'<img src="data:image/png;base64,{oletv_logo}" alt="OléTV">'
     if fair_logo:
-        logos_html += f'<img src="data:image/png;base64,{fair_logo}">'
+        logos_html += f'<img src="data:image/png;base64,{fair_logo}" alt="Feira">'
     logos_html += '</div>'
 
     st.markdown(
@@ -610,34 +611,14 @@ if st.session_state.step == "home":
         <div class="hero-screen">
             <div class="hero-wrapper">
                 <div class="hero-box">
-                    
                     {logos_html}
-
                     <div class="hero-badge">{config["fair_name"]}</div>
                     <div class="hero-title">{config["event_name"]}</div>
                     <div class="hero-subtitle">{config["event_subtitle"]}</div>
-
                     <div class="totem-info">📝 Faça seu cadastro</div>
                     <div class="totem-info">🎯 Responda {config.get("questions_per_game", 10)} perguntas</div>
                     <div class="totem-info">⏱️ Tempo total: {config["quiz_time_seconds"]} segundos</div>
                     <div class="totem-info">🎁 Quem acertar tudo ganha um brinde</div>
-
-                    <br>
-
-                    <a href="?start=1" style="
-                        display:inline-block;
-                        margin-top:18px;
-                        padding:16px 28px;
-                        background:{config["primary_color"]};
-                        color:{config["button_text_color"]};
-                        font-weight:900;
-                        border-radius:16px;
-                        text-decoration:none;
-                        font-size:1.2rem;
-                    ">
-                        COMEÇAR AGORA
-                    </a>
-
                 </div>
             </div>
         </div>
@@ -645,12 +626,11 @@ if st.session_state.step == "home":
         unsafe_allow_html=True,
     )
 
-    # captura clique via query param
-    query = st.query_params
-    if "start" in query:
-        st.session_state.step = "register"
-        st.query_params.clear()
-        st.rerun()
+    c1, c2, c3 = st.columns([1.5, 2, 1.5])
+    with c2:
+        if st.button("COMEÇAR AGORA"):
+            st.session_state.step = "register"
+            st.rerun()
 
 elif st.session_state.step == "register":
     st.markdown('<div class="card-box">', unsafe_allow_html=True)
