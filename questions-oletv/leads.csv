@@ -1,3 +1,5 @@
 timestamp,evento,nome,empresa,email,whatsapp,score,tempo_segundos,ganhou_brinde
 2026-03-23 17:26:11,Evento Especial,WAGNER,Italbras,italbrasnet@gmail.com,48999815336,0,5,NÃO
 2026-03-23 17:26:48,Evento Especial,WAGNER,italbras,italbrasnet@gmail.com,48999815336,0,9,NÃO
+2026-03-24 16:00:28,Evento Especial,Eu,eu,eu@eu,48999815355,7,73,NÃO
+2026-03-25 07:50:53,Evento Especial,WAGNER,WAPA,wapa@wapa,48999815336,10,51,SIM

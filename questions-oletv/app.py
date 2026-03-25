@@ -17,43 +17,78 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-LEADS_FILE = "leads.csv"
-RANKING_FILE = "ranking.csv"
-CONFIG_FILE = "event_config.json"
+BASE_DIR = os.path.dirname(__file__)
+LEADS_FILE = os.path.join(BASE_DIR, "leads.csv")
+RANKING_FILE = os.path.join(BASE_DIR, "ranking.csv")
+CONFIG_FILE = os.path.join(BASE_DIR, "event_config.json")
 ADMIN_PASSWORD = "oletv2026"
+
+
+def empty_leads_df():
+    return pd.DataFrame(
+        columns=[
+            "timestamp",
+            "evento",
+            "nome",
+            "empresa",
+            "email",
+            "whatsapp",
+            "score",
+            "tempo_segundos",
+            "ganhou_brinde",
+        ]
+    )
+
+
+def empty_ranking_df():
+    return pd.DataFrame(
+        columns=[
+            "timestamp",
+            "evento",
+            "nome",
+            "empresa",
+            "score",
+            "tempo_segundos",
+        ]
+    )
+
+
+def read_leads_csv():
+    if not os.path.exists(LEADS_FILE) or os.path.getsize(LEADS_FILE) == 0:
+        df = empty_leads_df()
+        df.to_csv(LEADS_FILE, index=False)
+        return df
+    try:
+        return pd.read_csv(LEADS_FILE)
+    except Exception:
+        df = empty_leads_df()
+        df.to_csv(LEADS_FILE, index=False)
+        return df
+
+
+def read_ranking_csv():
+    if not os.path.exists(RANKING_FILE) or os.path.getsize(RANKING_FILE) == 0:
+        df = empty_ranking_df()
+        df.to_csv(RANKING_FILE, index=False)
+        return df
+    try:
+        return pd.read_csv(RANKING_FILE)
+    except Exception:
+        df = empty_ranking_df()
+        df.to_csv(RANKING_FILE, index=False)
+        return df
 
 
 def ensure_files():
     if not os.path.exists(LEADS_FILE):
-        pd.DataFrame(
-            columns=[
-                "timestamp",
-                "evento",
-                "nome",
-                "empresa",
-                "email",
-                "whatsapp",
-                "score",
-                "tempo_segundos",
-                "ganhou_brinde",
-            ]
-        ).to_csv(LEADS_FILE, index=False)
+        empty_leads_df().to_csv(LEADS_FILE, index=False)
 
     if not os.path.exists(RANKING_FILE):
-        pd.DataFrame(
-            columns=[
-                "timestamp",
-                "evento",
-                "nome",
-                "empresa",
-                "score",
-                "tempo_segundos",
-            ]
-        ).to_csv(RANKING_FILE, index=False)
+        empty_ranking_df().to_csv(RANKING_FILE, index=False)
 
     default_config = {
         "event_name": "Desafio OléTV",
-        "event_subtitle": "Teste seus conhecimentos sobre filmes, séries e entretenimento",
+        "event_subtitle": "Teste seus conhecimentos sobre filmes, séries, streaming e telecom",
         "fair_name": "Evento Especial",
         "logo_text": "OléTV",
         "primary_color": "#00C2FF",
@@ -101,8 +136,7 @@ def get_base64_file(path):
     if not path:
         return None
 
-    base_dir = os.path.dirname(__file__)
-    full_path = os.path.join(base_dir, path)
+    full_path = os.path.join(BASE_DIR, path)
 
     if os.path.exists(full_path):
         with open(full_path, "rb") as f:
@@ -165,6 +199,12 @@ def inject_css(cfg):
                 margin: 0 !important;
                 padding: 0 !important;
                 height: 100% !important;
+                overflow: hidden !important;
+                overscroll-behavior: none !important;
+            }}
+
+            [data-testid="stAppViewContainer"] {{
+                overflow: hidden !important;
             }}
 
             [data-testid="stHeader"] {{
@@ -180,7 +220,9 @@ def inject_css(cfg):
             }}
 
             [data-testid="stToolbar"] {{
-                top: 0.25rem !important;
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
             }}
 
             div[data-testid="stAppViewBlockContainer"] {{
@@ -192,9 +234,11 @@ def inject_css(cfg):
                 padding-top: 0 !important;
                 margin-top: 0 !important;
                 max-width: 1280px;
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-bottom: 2rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-bottom: 0 !important;
+                height: 100vh !important;
+                overflow: hidden !important;
             }}
 
             .stApp {{
@@ -211,47 +255,66 @@ def inject_css(cfg):
             }}
 
             .hero-screen {{
+                height: 100vh;
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 margin: 0 !important;
                 padding: 0 !important;
+                overflow: hidden !important;
             }}
 
             .hero-wrapper {{
                 width: 100%;
-                min-height: 100vh;
+                height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 24px;
+                padding: 12px;
                 box-sizing: border-box;
             }}
 
             .hero-box {{
                 width: 100%;
-                max-width: 920px;
-                border-radius: 32px;
-                padding: 36px;
-                background: rgba(7, 17, 31, 0.55);
+                max-width: 900px;
+                max-height: 94vh;
+                overflow: hidden;
+                border-radius: 28px;
+                padding: 24px 28px;
+                background: rgba(7, 17, 31, 0.62);
                 border: 1px solid rgba(255,255,255,0.12);
                 box-shadow: 0 20px 50px rgba(0,0,0,0.35);
                 backdrop-filter: blur(8px);
                 text-align: center;
+                position: relative;
+            }}
+
+            .hero-glow {{
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(circle at 20% 20%, rgba(0,194,255,0.10), transparent 28%),
+                    radial-gradient(circle at 80% 80%, rgba(0,194,255,0.08), transparent 24%);
+                pointer-events: none;
+            }}
+
+            .hero-content {{
+                position: relative;
+                z-index: 2;
             }}
 
             .hero-logos {{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 28px;
+                gap: 22px;
                 flex-wrap: wrap;
-                margin-bottom: 24px;
+                margin-bottom: 16px;
             }}
 
             .hero-logos img {{
-                max-height: 82px;
+                max-height: 68px;
                 width: auto;
                 display: block;
             }}
@@ -260,60 +323,81 @@ def inject_css(cfg):
                 display: inline-block;
                 background: var(--primary);
                 color: var(--button-text) !important;
-                padding: 10px 18px;
+                padding: 8px 16px;
                 border-radius: 999px;
                 font-weight: 900;
-                margin-bottom: 18px;
-                font-size: 1rem;
+                margin-bottom: 14px;
+                font-size: 0.95rem;
             }}
 
             .hero-title {{
-                font-size: 4rem;
+                font-size: 3rem;
                 font-weight: 900;
-                line-height: 1.05;
-                margin-bottom: 16px;
-            }}
-
-            .hero-subtitle {{
-                font-size: 1.35rem;
-                opacity: 0.96;
-                margin-bottom: 24px;
-            }}
-
-            .totem-info {{
-                font-size: 1.1rem;
+                line-height: 1.02;
                 margin-bottom: 10px;
             }}
 
+            .hero-subtitle {{
+                font-size: 1.06rem;
+                opacity: 0.96;
+                margin-bottom: 16px;
+            }}
+
+            .totem-info {{
+                font-size: 1rem;
+                margin-bottom: 6px;
+            }}
+
             .hero-action {{
-                margin-top: 26px;
+                margin-top: 18px;
                 text-align: center;
             }}
 
             .hero-start-link {{
                 display: inline-block;
-                min-width: 240px;
+                min-width: 260px;
                 padding: 16px 28px;
                 border-radius: 18px;
                 background: var(--primary);
                 color: var(--button-text) !important;
-                font-size: 1.18rem;
+                font-size: 1.16rem;
                 font-weight: 900;
                 text-decoration: none;
                 cursor: pointer;
                 box-sizing: border-box;
+                animation: pulseStart 1.6s infinite;
+                box-shadow: 0 0 0 0 rgba(0,194,255,0.45);
             }}
 
             .hero-start-link:hover {{
-                opacity: 0.92;
+                opacity: 0.94;
                 transform: scale(1.01);
+            }}
+
+            .touch-hint {{
+                margin-top: 12px;
+                font-size: 0.98rem;
+                opacity: 0.92;
+                animation: fadeHint 1.8s infinite;
+            }}
+
+            @keyframes pulseStart {{
+                0% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(0,194,255,0.42); }}
+                70% {{ transform: scale(1.02); box-shadow: 0 0 0 18px rgba(0,194,255,0); }}
+                100% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(0,194,255,0); }}
+            }}
+
+            @keyframes fadeHint {{
+                0% {{ opacity: 0.55; }}
+                50% {{ opacity: 1; }}
+                100% {{ opacity: 0.55; }}
             }}
 
             .card-box {{
                 background: var(--card);
                 border: 1px solid rgba(255,255,255,0.10);
                 border-radius: 24px;
-                padding: 24px;
+                padding: 22px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.24);
                 backdrop-filter: blur(6px);
             }}
@@ -330,24 +414,24 @@ def inject_css(cfg):
 
             .stButton > button {{
                 width: 100%;
-                min-height: 64px;
+                min-height: 60px;
                 border-radius: 18px;
                 border: none;
                 background: var(--primary) !important;
                 color: var(--button-text) !important;
-                font-size: 1.18rem;
+                font-size: 1.08rem;
                 font-weight: 900;
                 cursor: pointer;
             }}
 
             div[data-testid="stFormSubmitButton"] > button {{
                 width: 100%;
-                min-height: 64px;
+                min-height: 60px;
                 border-radius: 18px;
                 border: none;
                 background: var(--primary) !important;
                 color: var(--button-text) !important;
-                font-size: 1.18rem;
+                font-size: 1.08rem;
                 font-weight: 900;
                 cursor: pointer;
             }}
@@ -358,7 +442,7 @@ def inject_css(cfg):
 
             .stDownloadButton > button {{
                 width: 100%;
-                min-height: 56px;
+                min-height: 54px;
                 border-radius: 18px;
                 border: none;
                 background: var(--primary) !important;
@@ -368,27 +452,148 @@ def inject_css(cfg):
             }}
 
             .stTextInput input {{
-                min-height: 54px;
+                min-height: 52px;
                 border-radius: 14px;
             }}
 
             .timer-box {{
                 text-align: center;
-                font-size: 1.4rem;
+                font-size: 1.25rem;
                 font-weight: 900;
-                padding: 14px;
+                padding: 12px;
                 border-radius: 18px;
                 background: rgba(255,255,255,0.08);
                 border: 1px solid rgba(255,255,255,0.14);
-                margin-bottom: 14px;
+                margin-bottom: 12px;
             }}
 
             section[data-testid="stSidebar"] {{
                 background: rgba(8, 12, 20, 0.96);
             }}
+
+            @media (max-width: 1366px) {{
+                .hero-box {{
+                    max-width: 820px;
+                    padding: 20px 22px;
+                    max-height: 92vh;
+                }}
+
+                .hero-logos img {{
+                    max-height: 56px;
+                }}
+
+                .hero-title {{
+                    font-size: 2.45rem;
+                }}
+
+                .hero-subtitle {{
+                    font-size: 0.98rem;
+                    margin-bottom: 12px;
+                }}
+
+                .totem-info {{
+                    font-size: 0.92rem;
+                    margin-bottom: 4px;
+                }}
+
+                .hero-start-link {{
+                    min-width: 220px;
+                    padding: 14px 22px;
+                    font-size: 1rem;
+                }}
+            }}
+
+            @media (max-height: 768px) {{
+                .hero-wrapper {{
+                    padding: 8px;
+                }}
+
+                .hero-box {{
+                    padding: 18px 20px;
+                    max-height: 93vh;
+                }}
+
+                .hero-logos {{
+                    margin-bottom: 10px;
+                }}
+
+                .hero-logos img {{
+                    max-height: 50px;
+                }}
+
+                .hero-badge {{
+                    margin-bottom: 10px;
+                    font-size: 0.88rem;
+                }}
+
+                .hero-title {{
+                    font-size: 2.2rem;
+                    margin-bottom: 8px;
+                }}
+
+                .hero-subtitle {{
+                    font-size: 0.95rem;
+                    margin-bottom: 10px;
+                }}
+
+                .totem-info {{
+                    font-size: 0.9rem;
+                    margin-bottom: 3px;
+                }}
+
+                .hero-action {{
+                    margin-top: 12px;
+                }}
+
+                .touch-hint {{
+                    margin-top: 8px;
+                    font-size: 0.9rem;
+                }}
+            }}
         </style>
         """,
         unsafe_allow_html=True,
+    )
+
+
+def inject_kiosk_js():
+    st.components.v1.html(
+        """
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.body.style.overflow = "hidden";
+                document.documentElement.style.overflow = "hidden";
+
+                document.addEventListener("keydown", function(e) {
+                    const key = e.key.toLowerCase();
+                    if (
+                        key === "f5" ||
+                        (e.ctrlKey && key === "r") ||
+                        (e.metaKey && key === "r") ||
+                        key === "f11"
+                    ) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }, true);
+
+                document.addEventListener("contextmenu", function(e) {
+                    e.preventDefault();
+                });
+
+                const hideStreamlitChrome = () => {
+                    const toolbar = window.parent.document.querySelector('[data-testid="stToolbar"]');
+                    const header = window.parent.document.querySelector('[data-testid="stHeader"]');
+                    if (toolbar) toolbar.style.display = "none";
+                    if (header) header.style.display = "none";
+                };
+
+                setInterval(hideStreamlitChrome, 500);
+                hideStreamlitChrome();
+            });
+        </script>
+        """,
+        height=0,
     )
 
 
@@ -469,11 +674,11 @@ def save_result(cfg):
         "tempo_segundos": elapsed,
     }
 
-    leads_df = pd.read_csv(LEADS_FILE)
+    leads_df = read_leads_csv()
     leads_df = pd.concat([leads_df, pd.DataFrame([lead_row])], ignore_index=True)
     leads_df.to_csv(LEADS_FILE, index=False)
 
-    ranking_df = pd.read_csv(RANKING_FILE)
+    ranking_df = read_ranking_csv()
     ranking_df = pd.concat([ranking_df, pd.DataFrame([rank_row])], ignore_index=True)
     ranking_df.to_csv(RANKING_FILE, index=False)
 
@@ -499,6 +704,7 @@ ensure_files()
 config = load_config()
 init_state()
 inject_css(config)
+inject_kiosk_js()
 
 with st.sidebar:
     st.markdown("## Admin")
@@ -564,8 +770,8 @@ with st.sidebar:
                 save_config(new_cfg)
                 st.success("Configuração salva. Recarregue a página.")
 
-        leads_df = pd.read_csv(LEADS_FILE)
-        ranking_df = pd.read_csv(RANKING_FILE)
+        leads_df = read_leads_csv()
+        ranking_df = read_ranking_csv()
 
         all_events = []
         if not leads_df.empty:
@@ -639,16 +845,20 @@ if st.session_state.step == "home":
     <div class="hero-screen">
         <div class="hero-wrapper">
             <div class="hero-box">
-                {logos_html}
-                <div class="hero-badge">{config["fair_name"]}</div>
-                <div class="hero-title">{config["event_name"]}</div>
-                <div class="hero-subtitle">{config["event_subtitle"]}</div>
-                <div class="totem-info">📝 Faça seu cadastro</div>
-                <div class="totem-info">🎯 Responda {config.get("questions_per_game", 10)} perguntas</div>
-                <div class="totem-info">⏱️ Tempo total: {config["quiz_time_seconds"]} segundos</div>
-                <div class="totem-info">🎁 Quem acertar tudo ganha um brinde</div>
-                <div class="hero-action">
-                    <a class="hero-start-link" href="?start=1">COMEÇAR AGORA</a>
+                <div class="hero-glow"></div>
+                <div class="hero-content">
+                    {logos_html}
+                    <div class="hero-badge">{config["fair_name"]}</div>
+                    <div class="hero-title">{config["event_name"]}</div>
+                    <div class="hero-subtitle">{config["event_subtitle"]}</div>
+                    <div class="totem-info">📝 Faça seu cadastro</div>
+                    <div class="totem-info">🎯 Responda {config.get("questions_per_game", 10)} perguntas</div>
+                    <div class="totem-info">⏱️ Tempo total: {config["quiz_time_seconds"]} segundos</div>
+                    <div class="totem-info">🎁 Quem acertar tudo ganha um brinde</div>
+                    <div class="hero-action">
+                        <a class="hero-start-link" href="?start=1">TOQUE PARA COMEÇAR</a>
+                        <div class="touch-hint">Toque na tela para iniciar o desafio</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -672,7 +882,7 @@ elif st.session_state.step == "register":
         if not nome.strip() or not empresa.strip() or not email.strip() or not whatsapp.strip():
             st.error("Preencha todos os campos.")
         else:
-            leads_df = pd.read_csv(LEADS_FILE)
+            leads_df = read_leads_csv()
 
             email_limpo = email.strip()
             whatsapp_limpo = whatsapp.strip()
