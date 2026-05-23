@@ -268,8 +268,8 @@ Espera-se observar:
 
 Resultado esperado:
 
-1. baixa probabilidade de bloqueio;
-2. baixa utilização dos canais.
+- baixa probabilidade de bloqueio;
+- baixa utilização dos canais.
 
 <p align="center">
   <img src="imagens/image5.png" width="900">
@@ -286,9 +286,9 @@ Resultado esperado:
 | k | 9 |
 
 Resultado esperado:
-1. crescimento da carga oferecida ao sistema.
-2. aumento significativo do bloqueio;
-3. maior utilização dos canais;
+
+- aumento significativo do bloqueio;
+- maior utilização dos canais;
 
 <p align="center">
   <img src="imagens/image6.png" width="900">
