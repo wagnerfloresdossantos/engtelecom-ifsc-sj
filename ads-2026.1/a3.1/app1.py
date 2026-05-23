@@ -82,22 +82,10 @@ simulation_time = st.sidebar.number_input(
 
 
 # ==========================================
-# SIMULADOR INTERATIVO
+# SIMULAÇÃO INDIVIDUAL
 # ==========================================
 
-st.divider()
-
-st.header("🧪 Simulador Interativo")
-
-st.info(
-    """
-    Esta seção utiliza os valores definidos nos sliders da barra lateral.
-
-    Use esta parte para testar diferentes valores de λ, µ, k e tempo de simulação.
-    """
-)
-
-if st.button("Executar Simulação com os Sliders"):
+if st.button("Executar Simulação"):
 
     sim = Simulator(
         end_time=simulation_time,
@@ -120,13 +108,13 @@ if st.button("Executar Simulação com os Sliders"):
 
     error = abs(
         simulated - theoretical
-    )
+    ) / theoretical
 
     # ======================================
     # MÉTRICAS
     # ======================================
 
-    st.subheader("📊 Resultados da Simulação Interativa")
+    st.header("📊 Resultados")
 
     col1, col2, col3 = st.columns(3)
 
@@ -151,13 +139,9 @@ if st.button("Executar Simulação com os Sliders"):
 
         "Métrica": [
 
-            "λ utilizado",
-            "µ utilizado",
-            "k utilizado",
-            "Carga oferecida A",
             "Bloqueio Simulado",
             "Bloqueio Teórico",
-            "Erro Absoluto",
+            "Erro Relativo",
             "Utilização",
             "Vazão"
 
@@ -165,10 +149,6 @@ if st.button("Executar Simulação com os Sliders"):
 
         "Valor": [
 
-            f"{lambda_rate:.2f}",
-            f"{mu:.2f}",
-            f"{k}",
-            f"{A:.4f}",
             f"{simulated:.6f}",
             f"{theoretical:.6f}",
             f"{error:.6f}",
@@ -185,7 +165,9 @@ if st.button("Executar Simulação com os Sliders"):
     # COMPARAÇÃO
     # ======================================
 
-    st.subheader("📈 Comparação Teórico vs Simulado")
+    st.divider()
+
+    st.header("📈 Comparação")
 
     comparison_df = pd.DataFrame({
 
@@ -194,7 +176,7 @@ if st.button("Executar Simulação com os Sliders"):
             "Simulado"
         ],
 
-        "Probabilidade de Bloqueio": [
+        "Probabilidade": [
             theoretical,
             simulated
         ]
@@ -207,19 +189,12 @@ if st.button("Executar Simulação com os Sliders"):
 
         x="Tipo",
 
-        y="Probabilidade de Bloqueio",
+        y="Probabilidade",
 
         color="Tipo",
 
-        text="Probabilidade de Bloqueio",
+        title="Erlang-B vs DES"
 
-        title="Comparação Erlang-B vs DES"
-
-    )
-
-    fig_compare.update_traces(
-        texttemplate="%{text:.6f}",
-        textposition="outside"
     )
 
     st.plotly_chart(
@@ -229,25 +204,12 @@ if st.button("Executar Simulação com os Sliders"):
 
 
 # ==========================================
-# EXPERIMENTOS DO ENUNCIADO
+# EXPERIMENTOS AUTOMÁTICOS
 # ==========================================
 
 st.divider()
 
-st.header("📚 Experimentos do Enunciado")
-
-st.info(
-    """
-    Esta seção executa automaticamente os cenários exigidos no enunciado:
-
-    - λ = 2, 4, 5, 6, 8 chamadas/min
-    - µ = 1 chamada/min
-    - k = 9 canais
-
-    Os sliders não alteram λ, µ e k nesta seção.
-    O tempo de simulação usado continua sendo o valor definido no campo lateral.
-    """
-)
+st.header("📚 Experimentos Automáticos")
 
 if st.button("Executar Experimentos do Enunciado"):
 
@@ -257,25 +219,20 @@ if st.button("Executar Experimentos do Enunciado"):
 
     for l in lambdas:
 
-        fixed_mu = 1
-        fixed_k = 9
-
         sim = Simulator(
             end_time=simulation_time,
             lambda_rate=l,
-            mu=fixed_mu,
-            k=fixed_k
+            mu=1,
+            k=9
         )
 
         sim.run()
 
         results = sim.results()
 
-        A = l / fixed_mu
-
         theoretical = erlang_b(
-            fixed_k,
-            A
+            9,
+            l / 1
         )
 
         simulated = results[
@@ -284,20 +241,11 @@ if st.button("Executar Experimentos do Enunciado"):
 
         error = abs(
             simulated - theoretical
-        ) 
+        ) / theoretical
 
         experiment_results.append({
 
             "Lambda": l,
-
-            "Mu":
-                fixed_mu,
-
-            "k":
-                fixed_k,
-
-            "Carga A":
-                A,
 
             "Bloqueio Teórico":
                 theoretical,
@@ -305,14 +253,11 @@ if st.button("Executar Experimentos do Enunciado"):
             "Bloqueio Simulado":
                 simulated,
 
-            "Erro Absoluto":
+            "Erro Relativo":
                 error,
 
             "Utilização":
-                results["utilization"],
-
-            "Vazão":
-                results["throughput"]
+                results["utilization"]
 
         })
 
@@ -347,7 +292,7 @@ if st.button("Executar Experimentos do Enunciado"):
     )
 
     # ======================================
-    # GRÁFICO TEORIA VS SIMULAÇÃO
+    # GRÁFICO
     # ======================================
 
     st.subheader(
@@ -365,45 +310,11 @@ if st.button("Executar Experimentos do Enunciado"):
             "Bloqueio Simulado"
         ],
 
-        markers=True,
-
-        title="Probabilidade de Bloqueio: Erlang-B vs DES"
+        markers=True
 
     )
 
     st.plotly_chart(
         fig,
-        width="stretch"
-    )
-
-    # ======================================
-    # GRÁFICO DO ERRO Absoluto
-    # ======================================
-
-    st.subheader(
-        "📉 Erro Absoluto"
-    )
-
-    fig_error = px.bar(
-
-        df,
-
-        x="Lambda",
-
-        y="Erro Absoluto",
-
-        text="Erro Absoluto",
-
-        title="Erro Absoluto entre Teoria e Simulação"
-
-    )
-
-    fig_error.update_traces(
-        texttemplate="%{text:.4f}",
-        textposition="outside"
-    )
-
-    st.plotly_chart(
-        fig_error,
         width="stretch"
     )
