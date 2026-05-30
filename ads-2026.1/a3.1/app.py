@@ -80,6 +80,14 @@ simulation_time = st.sidebar.number_input(
     step=1000
 )
 
+seed = st.sidebar.number_input(
+    "Semente PRNG",
+    min_value=0,
+    max_value=999999,
+    value=42,
+    step=1
+)
+
 
 # ==========================================
 # SIMULADOR INTERATIVO
@@ -103,7 +111,8 @@ if st.button("Executar Simulação com os Sliders"):
         end_time=simulation_time,
         lambda_rate=lambda_rate,
         mu=mu,
-        k=k
+        k=k,
+        seed=seed
     )
 
     sim.run()
@@ -154,6 +163,7 @@ if st.button("Executar Simulação com os Sliders"):
             "λ utilizado",
             "µ utilizado",
             "k utilizado",
+            "Semente PRNG",
             "Carga oferecida A",
             "Bloqueio Simulado",
             "Bloqueio Teórico",
@@ -168,6 +178,7 @@ if st.button("Executar Simulação com os Sliders"):
             f"{lambda_rate:.2f}",
             f"{mu:.2f}",
             f"{k}",
+            f"{seed}",
             f"{A:.4f}",
             f"{simulated:.6f}",
             f"{theoretical:.6f}",
@@ -260,13 +271,14 @@ if st.button("Executar Experimentos do Enunciado"):
         fixed_mu = 1
         fixed_k = 9
 
+    
         sim = Simulator(
             end_time=simulation_time,
             lambda_rate=l,
             mu=fixed_mu,
-            k=fixed_k
+            k=fixed_k,
+            seed=seed + l
         )
-
         sim.run()
 
         results = sim.results()
@@ -295,6 +307,9 @@ if st.button("Executar Experimentos do Enunciado"):
 
             "k":
                 fixed_k,
+
+             "Semente PRNG":
+                seed + l,
 
             "Carga A":
                 A,

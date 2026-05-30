@@ -1,4 +1,5 @@
 import heapq
+import random
 
 from events import ArrivalEvent
 
@@ -10,8 +11,12 @@ class Simulator:
         end_time,
         lambda_rate,
         mu,
-        k
+        k,
+        seed=None
     ):
+
+        if seed is not None:
+            random.seed(seed)
 
         self.current_time = 0.0
         self.end_time = end_time
@@ -19,6 +24,7 @@ class Simulator:
         self.lambda_rate = lambda_rate
         self.mu = mu
         self.k = k
+        self.seed = seed
 
         self.event_queue = []
 

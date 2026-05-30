@@ -34,6 +34,46 @@ Características do sistema:
 
 ---
 
+# 🎲 Geração de Números Pseudoaleatórios
+
+A simulação utiliza o gerador pseudoaleatório (PRNG) da biblioteca padrão `random` do Python.
+
+Internamente, o Python utiliza o algoritmo:
+
+- Mersenne Twister (MT19937)
+
+para gerar números pseudoaleatórios uniformes.
+
+A partir desses números uniformes, a função:
+
+```python
+random.expovariate()
+```
+
+é utilizada para gerar variáveis aleatórias exponenciais.
+
+No projeto são geradas duas variáveis aleatórias:
+
+| Variável | Distribuição |
+|---|---|
+| Tempo entre chegadas | Exponencial (λ) |
+| Duração das chamadas | Exponencial (µ) |
+
+A semente (seed) pode ser configurada pelo usuário na interface.
+
+Utilizando a mesma semente e os mesmos parâmetros, os resultados da simulação serão reproduzidos exatamente.
+
+Exemplo:
+
+```text
+Seed = 42
+λ = 5
+µ = 1
+k = 9
+```
+
+sempre produzirá os mesmos resultados.
+
 # 📚 Fórmula de Erlang-B
 
 A probabilidade teórica de bloqueio é dada por:
@@ -75,7 +115,6 @@ a3.1/
 ├── simulator.py
 ├── events.py
 ├── erlang.py
-├── metrics.py
 ├── experiment.py
 ├── plot_results.py
 ├── requirements.txt
@@ -171,7 +210,10 @@ O sistema possui controles interativos para:
 | λ | Taxa média de chegada |
 | µ | Taxa média de atendimento |
 | k | Número de canais |
-| Tempo de Simulação | Tempo total do DES |
+| Tempo de Simulação | Tempo total da simulação |
+| Semente PRNG | Define a sequência pseudoaleatória utilizada |
+|
+| Quanto maior o tempo de simulação, maior a convergência dos resultados para os valores teóricos. |
 
 <p align="center">
   <img src="imagens/image.png" width="900">
@@ -219,40 +261,45 @@ O sistema gera gráficos comparando:
 
 
 ---
+## ✅ Experimentos do Enunciado
 
-## ✅ Experimentos Automáticos
-
-A aplicação também executa automaticamente os cenários exigidos no enunciado do trabalho:
+A aplicação executa automaticamente os cenários exigidos no enunciado:
 
 - λ = 2, 4, 5, 6, 8
 - µ = 1
 - k = 9
 
-Gerando automaticamente:
+Para cada cenário são calculados:
 
-- tabela de resultados;
-- gráfico comparativo;
-- cálculo do erro absoluto;
-- exportação CSV.
+- probabilidade de bloqueio teórica (Erlang-B);
+- probabilidade de bloqueio simulada (DES);
+- erro absoluto;
+- utilização média;
+- vazão do sistema.
+
+Os experimentos utilizam a semente PRNG definida pelo usuário, permitindo total reprodutibilidade dos resultados.
+
+<p align="center">
+  <img src="imagens/image2.png" width="900">
+</p>
 
 <p align="center">
   <img src="imagens/image3.png" width="900">
 </p>
 
-<p align="center">
-  <img src="imagens/image4.png" width="900">
-</p>
-
 ---
+# 📌 Reprodutibilidade dos Resultados
 
-# 📈 Resultados Esperados
+A simulação utiliza um gerador pseudoaleatório (PRNG) inicializado por uma semente configurável.
 
-Espera-se observar:
+Dessa forma:
 
-- aumento da probabilidade de bloqueio conforme λ aumenta;
-- aumento da utilização dos canais;
-- aproximação entre resultados simulados e teóricos;
-- convergência da simulação DES para Erlang-B.
+- mesma semente + mesmos parâmetros → mesmos resultados;
+- semente diferente → resultados diferentes.
+
+Essa característica permite reproduzir exatamente os experimentos realizados e é uma prática comum em estudos de simulação computacional.
+
+Embora cada execução utilize eventos aleatórios, a utilização de uma semente fixa garante que a sequência de números pseudoaleatórios seja sempre a mesma.
 
 ---
 
@@ -265,6 +312,8 @@ Espera-se observar:
 | λ | 2 |
 | µ | 1 |
 | k | 9 |
+| Tempo | 10000 |
+| Semente | 9 |
 
 Resultado esperado:
 
@@ -272,7 +321,7 @@ Resultado esperado:
 - baixa utilização dos canais.
 
 <p align="center">
-  <img src="imagens/image5.png" width="900">
+  <img src="imagens/image4.png" width="900">
 </p>
 
 ---
@@ -284,6 +333,8 @@ Resultado esperado:
 | λ | 8 |
 | µ | 1 |
 | k | 9 |
+| Tempo | 10000 |
+| Semente | 9 |
 
 Resultado esperado:
 
@@ -291,7 +342,7 @@ Resultado esperado:
 - maior utilização dos canais;
 
 <p align="center">
-  <img src="imagens/image6.png" width="900">
+  <img src="imagens/image5.png" width="900">
 </p>
 
 ---
@@ -320,6 +371,18 @@ Entretanto, à medida que o tempo de simulação aumenta, os valores simulados t
 - Utilização de Servidores
 
 ---
+# 📈 Validação do Modelo
+
+Os resultados obtidos pela Simulação a Eventos Discretos (DES) apresentaram elevada proximidade com os valores teóricos calculados pela fórmula de Erlang-B.
+
+Os experimentos demonstraram:
+
+- crescimento da probabilidade de bloqueio com o aumento da carga oferecida;
+- aumento da utilização dos canais;
+- convergência entre teoria e simulação;
+- consistência do modelo M/M/k/k implementado.
+
+Os erros absolutos observados permaneceram baixos em todos os cenários avaliados.
 
 # 👨‍💻 Autores
 
