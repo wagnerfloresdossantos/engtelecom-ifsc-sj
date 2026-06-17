@@ -1,0 +1,656 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,brazil]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds}
+\pgfplotsset{compat=1.18}
+\sisetup{locale = DE}
+
+\usetheme{ifsclean}
+
+\definecolor{ifscgreen}{RGB}{0,128,0}
+
+\title{Análise do Showcase Queueing Time}
+\subtitle{Avaliação de Desempenho com OMNeT++/INET e apoio de IA}
+\author{Gabriel Kuster Kraus e Wagner Flores dos Santos}
+\institute{ADS29009 -- Avaliação de Desempenho de Sistemas \\ Engenharia de Telecomunicações}
+\date{Junho de 2026}
+
+\begin{document}
+
+% ---------------------------------------------------------
+\begin{frame}[plain,noframenumbering]
+    \maketitle
+
+    \vspace{0.5cm}
+    \centering
+    \small
+    Showcase de referência: \\
+    \url{https://inet.omnetpp.org/docs/showcases/measurement/queueingtime/doc/index.html}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Agenda}
+  \tableofcontents
+\end{frame}
+
+% =========================================================
+\section{Introdução}
+
+\begin{frame}{Contexto e objetivo}
+\begin{itemize}
+    \item O trabalho analisa um experimento já preparado de avaliação de desempenho de redes usando OMNeT++ e INET.
+    \item O showcase escolhido é o \textbf{Queueing Time}, voltado à medição do tempo de espera de pacotes em fila.
+    \item O objetivo principal é compreender como a carga da rede influencia o atraso, a formação de filas e o desempenho geral do sistema.
+    \item Além da análise do showcase, é proposta uma variação experimental com coleta de dados e apoio de IA.
+\end{itemize}
+
+\begin{informacao}
+O foco da apresentação é relacionar o modelo de simulação com métricas clássicas de Avaliação de Desempenho de Sistemas.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Breve revisão de conceitos}
+\begin{itemize}
+    \item \textbf{Fila:} estrutura onde pacotes aguardam atendimento quando o servidor está ocupado.
+    \item \textbf{Tempo de fila:} tempo que um pacote permanece esperando antes de ser processado.
+    \item \textbf{Taxa de chegada:} ritmo em que pacotes entram no sistema.
+    \item \textbf{Taxa de serviço:} ritmo em que pacotes são processados.
+    \item \textbf{Saturação:} ocorre quando a taxa de chegada se aproxima ou supera a capacidade de atendimento.
+\end{itemize}
+
+\begin{informacao}
+Quando a carga aumenta, o tempo de espera tende a crescer de forma significativa.
+\end{informacao}
+\end{frame}
+
+% =========================================================
+\section{Modelo simulado}
+
+\begin{frame}{Modelo básico do sistema}
+\centering
+\begin{tikzpicture}[
+    >=Latex,
+    bloco/.style={
+        draw,
+        rounded corners,
+        minimum width=2.7cm,
+        minimum height=1.0cm,
+        align=center,
+        font=\small
+    }
+]
+
+\node[bloco, fill=green!10] (source) {Source\\Geração de pacotes};
+\node[bloco, fill=yellow!15, right=1.0cm of source] (queue) {Queue\\Fila};
+\node[bloco, fill=blue!10, right=1.0cm of queue] (server) {Server\\Atendimento};
+\node[bloco, fill=gray!15, right=1.0cm of server] (sink) {Sink\\Destino};
+
+\draw[->, thick] (source) -- (queue);
+\draw[->, thick] (queue) -- (server);
+\draw[->, thick] (server) -- (sink);
+
+\end{tikzpicture}
+
+\vspace{0.8cm}
+
+\begin{itemize}
+    \item O sistema representa uma sequência simples de geração, enfileiramento, atendimento e recepção dos pacotes.
+    \item A fila é o principal ponto de interesse, pois nela ocorre o tempo de espera analisado.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Estrutura dos módulos no INET}
+\begin{columns}[T,onlytextwidth]
+
+\column{0.48\textwidth}
+\textbf{Módulos principais}
+\begin{itemize}
+    \item \texttt{UdpSourceApp}
+    \item \texttt{EthernetInterface}
+    \item \texttt{PacketQueue}
+    \item \texttt{UdpSinkApp}
+\end{itemize}
+
+\column{0.52\textwidth}
+\textbf{Função de cada módulo}
+\begin{itemize}
+    \item Source: gera pacotes UDP.
+    \item Queue: armazena pacotes temporariamente.
+    \item Interface Ethernet: transmite os pacotes.
+    \item Sink: recebe os pacotes no destino.
+\end{itemize}
+
+\end{columns}
+
+\vspace{0.5cm}
+\begin{informacao}
+Esse modelo permite observar diretamente o impacto da taxa de chegada sobre o tempo de fila e a vazão.
+\end{informacao}
+\end{frame}
+
+% =========================================================
+\section{Configuração da simulação}
+
+\begin{frame}{Configuração da rede}
+\begin{table}
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Elemento} & \textbf{Descrição} \\
+\midrule
+Ambiente & OMNeT++ 6.4.0 com INET 4.6.0 \\
+Modelo & QueueingTimeMeasurementShowcase \\
+Tempo de simulação & \SI{5}{s} \\
+Aplicação de origem & \texttt{UdpSourceApp} \\
+Aplicação de destino & \texttt{UdpSinkApp} \\
+Tamanho do pacote & \SI{1200}{B} \\
+Métrica principal & Tempo de fila dos pacotes \\
+Saída & Arquivos \texttt{.sca}, \texttt{.vec} e CSV \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.4cm}
+
+\begin{itemize}
+    \item A configuração original utiliza geração de pacotes com intervalo exponencial.
+    \item O comentário do próprio \texttt{omnetpp.ini} indica tráfego de origem próximo de \SI{96}{Mbps}.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Fatores, níveis e parâmetros fixados}
+\begin{table}
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Tipo} & \textbf{Parâmetro} & \textbf{Valores} \\
+\midrule
+Fator & Intervalo de geração & 100, 50, 25 e 10 us \\
+Parâmetro fixado & Tempo de simulação & \SI{5}{s} \\
+Parâmetro fixado & Tamanho do pacote & \SI{1200}{B} \\
+Parâmetro fixado & Modelo da rede & Showcase original \\
+Métrica & Throughput & Mbps \\
+Métrica & Queueing Time & us / ms \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{informacao}
+Na variação proposta, o principal fator analisado foi o intervalo de geração dos pacotes.
+\end{informacao}
+\end{frame}
+
+% =========================================================
+\section{Coleta de estatísticas}
+
+\begin{frame}{Métricas analisadas}
+\begin{itemize}
+    \item \textbf{Queueing Time:} tempo que cada pacote permanece aguardando na fila.
+    \item \textbf{Queue Length:} quantidade de pacotes presentes na fila ao longo do tempo.
+    \item \textbf{Throughput:} taxa efetiva de transmissão observada.
+    \item \textbf{Packet Loss:} perdas ocasionadas por limitação de fila ou sobrecarga.
+\end{itemize}
+
+\begin{informacao}
+Essas métricas permitem avaliar se o sistema está operando em condição estável ou próximo da saturação.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}[fragile]{Exportação dos resultados}
+Os resultados do OMNeT++ foram exportados para análise externa usando o \texttt{opp\_scavetool}.
+
+\vspace{0.4cm}
+\footnotesize
+\begin{block}{Comando utilizado}
+\begin{verbatim}
+opp_scavetool export -F CSV-R -o cenarios.csv results/*.sca results/*.vec
+\end{verbatim}
+\end{block}
+
+\vspace{0.4cm}
+
+\begin{itemize}
+    \item Os arquivos \texttt{.sca} armazenam estatísticas escalares.
+    \item Os arquivos \texttt{.vec} armazenam séries temporais.
+    \item O CSV consolidado foi analisado com Python, Pandas e Matplotlib.
+\end{itemize}
+\end{frame}
+
+% =========================================================
+\section{Resultados do showcase}
+
+\begin{frame}{Execução da simulação original}
+\begin{itemize}
+    \item O showcase original foi executado em linha de comando com \texttt{Cmdenv}.
+    \item A simulação processou aproximadamente \textbf{695.444 eventos}.
+    \item Foram criadas aproximadamente \textbf{198.100 mensagens/pacotes}.
+    \item O tempo simulado foi de \SI{5}{s}.
+    \item O throughput observado ficou próximo de \SI{99}{Mbps}.
+\end{itemize}
+
+\begin{informacao}
+Esses valores confirmam que o experimento foi executado e que os dados foram coletados para análise externa.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Análise esperada do Queueing Time}
+\begin{itemize}
+    \item Em baixa carga, os pacotes encontram pouca ou nenhuma fila.
+    \item Com carga intermediária, o tempo de fila começa a crescer.
+    \item Quando a taxa de chegada se aproxima da taxa de serviço, a fila tende a aumentar rapidamente.
+    \item Em condição de sobrecarga, o sistema pode apresentar atraso elevado e perdas.
+\end{itemize}
+
+\begin{informacao}
+O tempo de fila é uma métrica sensível à relação entre chegada e atendimento.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Crítica sobre a apresentação dos resultados}
+\begin{itemize}
+    \item O showcase apresenta bem o funcionamento básico da métrica de tempo de fila.
+    \item Porém, a análise poderia ser ampliada com mais repetições e sementes diferentes.
+    \item Também seria interessante apresentar intervalo de confiança.
+    \item A comparação entre diferentes níveis de carga poderia ser destacada de forma mais direta.
+    \item A análise externa com Pandas facilita a geração de gráficos comparativos.
+\end{itemize}
+\end{frame}
+
+% =========================================================
+\section{Variação proposta}
+
+\begin{frame}{Objetivo da variação experimental}
+\begin{itemize}
+    \item Propor uma nova perspectiva de análise sobre o showcase original.
+    \item Avaliar o impacto do aumento progressivo da taxa de chegada de pacotes.
+    \item Identificar o ponto em que o sistema começa a apresentar crescimento acentuado do tempo de fila.
+    \item Comparar tempo de fila e vazão em diferentes cenários.
+\end{itemize}
+
+\begin{informacao}
+A variação transforma o showcase em um pequeno estudo de sensibilidade da carga sobre o desempenho.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Cenários simulados}
+\begin{table}
+\centering
+\small
+\begin{tabular}{cccc}
+\toprule
+\textbf{Cenário} & \textbf{Intervalo de geração} & \textbf{Carga relativa} & \textbf{Expectativa} \\
+\midrule
+C1 & 100 us & Original & Fila moderada \\
+C2 & 50 us & 2x maior & Maior atraso \\
+C3 & 25 us & 4x maior & Saturação \\
+C4 & 10 us & 10x maior & Saturação acentuada \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.4cm}
+
+\begin{informacao}
+A comparação entre cenários permite observar a transição entre operação controlada e saturação.
+\end{informacao}
+\end{frame}
+
+% =========================================================
+\section{Resultados obtidos}
+
+\begin{frame}{Resultados obtidos -- Throughput}
+\centering
+\includegraphics[width=0.70\linewidth]{figs/grafico_throughput_cenarios.png}
+
+\footnotesize
+\begin{itemize}
+    \item O throughput permaneceu próximo de \SI{99}{Mbps} em todos os cenários.
+    \item O aumento da carga de entrada não gerou aumento proporcional da vazão.
+    \item Isso indica que o enlace passou a operar próximo de sua capacidade máxima.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Resultados obtidos -- Tempo em fila}
+\centering
+\includegraphics[width=0.70\linewidth]{figs/grafico_queueingtime_cenarios.png}
+
+\footnotesize
+\begin{itemize}
+    \item O cenário C1 apresentou tempo médio em fila de aproximadamente \SI{51}{ms}.
+    \item A partir de C2, o tempo médio ficou próximo de \SI{100}{ms}.
+    \item O aumento da carga não elevou a vazão, mas aumentou o atraso.
+    \item Esse comportamento caracteriza saturação do sistema.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Resumo quantitativo dos cenários}
+\begin{table}
+\centering
+\small
+\begin{tabular}{cccc}
+\toprule
+\textbf{Cenário} & \textbf{Intervalo} & \textbf{Throughput médio} & \textbf{Tempo médio em fila} \\
+\midrule
+C1 & 100 us & \SI{98,90}{Mbps} & \SI{51,08}{ms} \\
+C2 & 50 us  & \SI{99,05}{Mbps} & \SI{99,18}{ms} \\
+C3 & 25 us  & \SI{99,05}{Mbps} & \SI{99,89}{ms} \\
+C4 & 10 us  & \SI{99,05}{Mbps} & \SI{100,13}{ms} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.4cm}
+
+\begin{informacao}
+O throughput estabiliza, enquanto o tempo em fila cresce. Esse é o principal indicativo de saturação.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Análise dos resultados}
+\begin{itemize}
+    \item O aumento da taxa de geração elevou a pressão sobre a fila.
+    \item A vazão não aumentou porque o sistema já estava próximo do limite de transmissão.
+    \item O impacto do aumento de carga apareceu principalmente no \textbf{tempo em fila}.
+    \item A diferença mais significativa ocorreu entre C1 e C2.
+    \item A partir de C2, os cenários permaneceram próximos de \SI{100}{ms}, indicando regime de saturação.
+\end{itemize}
+
+\begin{informacao}
+Em sistemas saturados, aumentar a chegada de pacotes tende a aumentar atraso e perdas, não necessariamente a vazão.
+\end{informacao}
+\end{frame}
+\begin{frame}[fragile]{Dataset Gerado}
+
+\small
+
+\begin{itemize}
+\item Arquivos produzidos pelo OMNeT++:
+\begin{itemize}
+\item General-\#0.sca
+\item General-\#0.vec
+\end{itemize}
+
+\item Conversão para CSV usando:
+
+\texttt{opp\_scavetool}
+
+\item Dataset final:
+
+\textbf{cenarios.csv (241 MB)}
+\end{itemize}
+
+\vspace{0.3cm}
+
+\begin{verbatim}
+Exported 172 scalars,
+1238 parameters,
+105 vectors,
+20 histograms
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Dados Exportados}
+
+\scriptsize
+
+\begin{verbatim}
+run,type,module,name,mean,max
+
+C1,histogram,...,
+queueingTime:histogram,
+0.051075,0.093588
+
+C2,histogram,...,
+queueingTime:histogram,
+0.099177,0.101279
+
+C3,histogram,...,
+queueingTime:histogram,
+0.099887,0.101279
+
+C4,histogram,...,
+queueingTime:histogram,
+0.100129,0.101279
+\end{verbatim}
+
+\vspace{0.2cm}
+
+Os dados acima foram extraídos diretamente
+do arquivo CSV exportado pelo OMNeT++.
+
+\end{frame}
+
+\begin{frame}[fragile]{Extração das Métricas com Python}
+
+\scriptsize
+
+\begin{verbatim}
+df = pd.read_csv("cenarios.csv")
+
+q = df[
+ (df["type"]=="histogram") &
+ (df["name"]=="queueingTime:histogram")
+]
+
+q["cenario"] = q["run"].str.extract(r"^(C\d)")
+q["mean_us"] = q["mean"] * 1e6
+\end{verbatim}
+
+\vspace{0.3cm}
+
+O script foi utilizado para extrair as
+métricas do dataset e gerar os gráficos.
+
+\end{frame}
+
+
+% =========================================================
+\section{Dataset e análise externa}
+
+\begin{frame}{Fluxo de geração do dataset}
+\centering
+\begin{tikzpicture}[
+    >=Latex,
+    bloco/.style={
+        draw,
+        rounded corners,
+        minimum width=2.6cm,
+        minimum height=0.9cm,
+        align=center,
+        font=\small
+    }
+]
+
+\node[bloco, fill=green!10] (omnet) {OMNeT++\\INET};
+\node[bloco, fill=yellow!15, right=0.8cm of omnet] (sca) {.sca / .vec};
+\node[bloco, fill=blue!10, right=0.8cm of sca] (csv) {CSV\\scavetool};
+\node[bloco, fill=gray!15, right=0.8cm of csv] (pandas) {Pandas\\Gráficos};
+
+\draw[->, thick] (omnet) -- (sca);
+\draw[->, thick] (sca) -- (csv);
+\draw[->, thick] (csv) -- (pandas);
+
+\end{tikzpicture}
+
+\vspace{0.8cm}
+
+\begin{itemize}
+    \item O OMNeT++ gera os arquivos de resultado.
+    \item O \texttt{opp\_scavetool} converte os dados para CSV.
+    \item O Python permite filtrar métricas, agrupar cenários, calcular médias e gerar gráficos.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Dataset gerado}
+\begin{itemize}
+    \item Foi gerado um arquivo CSV consolidado com aproximadamente \textbf{241 MB}.
+    \item O arquivo contém dados escalares, vetoriais, histogramas e parâmetros de configuração.
+    \item As métricas extraídas para os gráficos foram:
+    \begin{itemize}
+        \item \texttt{throughput:histogram}
+        \item \texttt{queueingTime:histogram}
+    \end{itemize}
+    \item O dataset pode ser versionado no GitHub junto com os scripts de análise.
+\end{itemize}
+
+\begin{informacao}
+Para reprodutibilidade, recomenda-se publicar também o \texttt{omnetpp.ini}, os scripts Python e os gráficos gerados.
+\end{informacao}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}[fragile]{Exemplo de análise com Pandas}
+\begin{block}{Trecho usado para extrair o tempo médio em fila}
+\begin{verbatim}
+df = pd.read_csv("cenarios.csv")
+
+q = df[
+    (df["type"] == "histogram") &
+    (df["name"] == "queueingTime:histogram")
+].copy()
+
+q["cenario"] = q["run"].str.extract(r"^(C\d)")
+q["mean_ms"] = q["mean"].astype(float) * 1e3
+\end{verbatim}
+\end{block}
+
+\begin{itemize}
+    \item O processamento externo permitiu comparar os cenários de forma direta.
+\end{itemize}
+\end{frame}
+
+% =========================================================
+\section{Uso de IA em ADS}
+
+\begin{frame}{Uso da IA no projeto}
+\begin{itemize}
+    \item A IA foi utilizada para auxiliar na instalação e configuração do ambiente OMNeT++.
+    \item Auxiliou na execução do showcase Queueing Time.
+    \item Foi utilizada para criar cenários adicionais de carga.
+    \item Auxiliou na extração das métricas dos arquivos \texttt{.sca} e \texttt{.vec}.
+    \item Foi utilizada para gerar scripts Python para análise dos resultados.
+    \item Auxiliou na interpretação dos gráficos e identificação do ponto de saturação do sistema.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}[fragile]{Exemplos de prompts usados}
+
+\small
+\begin{block}{Prompts possíveis}
+\begin{verbatim}
+Como exportar os resultados do OMNeT++ para CSV usando scavetool?
+
+Localize no CSV as métricas relacionadas a queueing time.
+
+Gere um script Python para comparar throughput entre os cenários.
+
+Explique por que o throughput estabilizou, mas o tempo em fila aumentou.
+\end{verbatim}
+\end{block}
+
+\vspace{0.3cm}  
+
+\begin{itemize}
+    \item Os prompts ajudaram na exploração dos resultados e na construção da análise.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Relação com o showcase Aloha AI}
+\begin{itemize}
+    \item O showcase Aloha AI demonstra uma interação em linguagem natural com a simulação.
+    \item No contexto de ADS, essa abordagem pode ser usada para investigar eventos críticos.
+    \item Em vez de procurar colisões, como no Aloha, o foco foi encontrar cenários de maior atraso ou saturação.
+    \item Assim, o estudo com INET permanece como base principal, e o Aloha AI entra como inspiração para a parte de IA.
+\end{itemize}
+
+\vspace{0.4cm}
+
+\centering
+\small
+\url{https://omnetpp.org/documentation/ai-demos/aloha/showcase}
+\end{frame}
+
+% =========================================================
+
+\section{Conclusão}
+
+\begin{frame}{Conclusões}
+\begin{itemize}
+    \item O showcase Queueing Time é adequado para estudar conceitos de filas e atraso em redes.
+    \item A estrutura do INET permite coletar estatísticas relevantes para Avaliação de Desempenho.
+    \item A variação proposta avaliou o impacto da carga sobre o tempo de fila e a vazão.
+    \item Os resultados mostraram throughput praticamente constante e aumento significativo do tempo em fila.
+    \item O uso de IA auxiliou na exploração dos cenários, extração das métricas e interpretação dos resultados.
+\end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+\begin{frame}{Possibilidades futuras}
+\begin{itemize}
+    \item Executar múltiplas repetições com sementes diferentes.
+    \item Calcular intervalo de confiança.
+    \item Avaliar diferentes tamanhos de fila.
+    \item Comparar diferentes políticas de atendimento.
+    \item Usar IA para sugerir automaticamente novos cenários de simulação.
+\end{itemize}
+
+\begin{informacao}
+A principal evolução seria transformar o showcase em um experimento completo com análise estatística.
+\end{informacao}
+\end{frame}
+
+% =========================================================
+\begin{frame}{Referências}
+
+\footnotesize
+
+\begin{thebibliography}{99}
+
+\bibitem{inet}
+INET Framework. Queueing Time Measurement Showcase.
+Disponível em: \url{https://inet.omnetpp.org/docs/showcases/measurement/queueingtime/doc/index.html}.
+
+\bibitem{omnet}
+OMNeT++ Discrete Event Simulator.
+Disponível em: \url{https://omnetpp.org}.
+
+\bibitem{repo}
+SANTOS, Wagner F.; equipe.
+Projeto ADS 2026.1 – Avaliação A3.2.
+Disponível em:
+\url{https://github.com/wagnerfloresdossantos/engtelecom-ifsc-sj/tree/main/ads-2026.1/a3.2}
+
+\end{thebibliography}
+
+\end{frame}
+
+\end{document}
+
