@@ -1,0 +1,183 @@
+\documentclass[11pt]{ifscarticle}
+\usepackage{ifscutils}
+\geometry{a4paper,hmargin=2cm,top=3.5cm,bottom=2cm,headheight=3cm,heightrounded}
+
+\usepackage[style=abnt,noslsn,justify]{biblatex}
+\usepackage{csquotes}
+% Bibliografia do(a) aluno(a): exporte o seu .bib do Zotero/Mendeley com o
+% nome referencias.bib e deixe-o na mesma pasta deste arquivo. O arquivo
+% distribuído junto com este template já traz entradas de exemplo.
+\addbibresource{referencias.bib}
+
+% -----------------------------------------------------------------
+% Template de resumo estendido -- TCC1 EngTel
+% Estrutura conforme wiki de recursos da UC (TCC1-EngTel, página):
+%   resumo <=250 palavras; introdução/metodologia/resultados <=1000
+%   palavras cada; considerações <=200 palavras; 3-5 palavras-chave.
+% -----------------------------------------------------------------
+
+\begin{document}
+
+\begin{center}
+	{\Large \textbf{Análise Comparativa entre Arquiteturas de Agente Único e Multiagente Baseadas em LLM para Chatbots de Atendimento}}\vspace{.3cm}
+
+	Wagner Flores dos Santos\textsuperscript{1}, Prof. Dr. Arliones Stevert Hoeller Júnior\textsuperscript{2} 
+
+	\vspace{.2cm}
+	{\small
+	\textsuperscript{1}Acadêmico do Curso de Engenharia de Telecomunicações, IFSC Câmpus São José\\
+	\textsuperscript{2}Orientador(a), IFSC Câmpus São José
+	}
+\end{center}
+
+\vspace{.5cm}
+
+\section*{Resumo}
+% Máximo de 250 palavras. Contextualize o tema, o problema, o objetivo e a
+% abordagem esperada em um único parágrafo.
+Os modelos de linguagem de grande escala (LLMs) ampliaram as possibilidades de automação do atendimento ao cliente, permitindo interpretar solicitações, consultar informações e produzir respostas mais flexíveis do que as obtidas com fluxos baseados apenas em regras. Ainda não está claro, porém, em quais condições a distribuição das responsabilidades entre agentes especializados oferece vantagens suficientes  para compensar o aumento da complexidade e do consumo de recursos em relação a uma arquitetura de agente único. Este trabalho tem como objetivo comparar experimentalmente as duas arquiteturas em
+um cenário controlado de atendimento textual de um provedor de Internet, considerando a correção e a relevância das respostas, a conclusão das tarefas, a precisão dos encaminhamentos, o tempo de resposta e o consumo de tokens. Para isso, serão implementados dois protótipos, submetidos ao mesmo conjunto
+balanceado de casos de teste e às mesmas condições de execução, com avaliação apoiada pelo DeepEval e por métricas registradas diretamente durante o experimento. Espera-se identificar em quais situações a especialização por agentes setoriais melhora o atendimento e quais efeitos essa organização produz sobre a latência, o uso de tokens e o custo operacional.
+
+\noindent\textbf{Palavras-chave:} modelos de linguagem de grande escala; sistemas multiagentes; chatbots; atendimento ao cliente; agentes inteligentes.
+% 3 a 5 palavras-chave, separadas por ponto-e-vírgula.
+
+\section{Introdução}
+% Máximo de 1000 palavras. Contextualização do tema, motivação, problema de
+% pesquisa e objetivos (geral e específicos).
+
+% Contexto
+Os modelos de linguagem de grande escala, ou \textit{Large Language Models} (LLMs), ampliaram as possibilidades de automação de atividades que envolvem compreensão e geração de linguagem natural. Quando integrados a bases de conhecimento, ferramentas e mecanismos de decisão, esses modelos podem formar agentes capazes de interpretar solicitações e executar tarefas com certo grau de autonomia. No atendimento ao cliente, essa abordagem permite desenvolver soluções mais flexíveis do que os chatbots baseados apenas em regras e fluxos predefinidos. Trabalhos recentes apresentam aplicações de LLMs na classificação de chamados e na geração de respostas de suporte \cite{c.moncadaLargeLanguageModels2025a}, bem como arquiteturas compostas por agentes coordenadores e especializados para operar diferentes componentes de sistemas de telecomunicações \cite{k.-y.leeEnhancingTelecomOperation2025a}.
+
+Essas soluções podem ser organizadas em arquiteturas de agente único ou multiagente. Na primeira, um mesmo componente interpreta a solicitação, consulta as informações disponíveis, decide o procedimento e produz a resposta. Essa centralização simplifica o fluxo e reduz a necessidade de coordenação. Na arquitetura multiagente, as responsabilidades são distribuídas entre agentes com funções específicas, como triagem, consulta, atendimento e encaminhamento. A especialização pode favorecer a organização do contexto e o tratamento de tarefas complexas, mas introduz comunicação adicional entre os componentes. Essa comunicação influencia a eficiência, a escalabilidade e a robustez do sistema, podendo aumentar a demanda computacional e criar novos pontos de falha ou perda de informação \cite{yanSelfTalkCommunicationCentricSurvey2026}. Falhas de agentes, interrupções na comunicação e propagação de erros também são apontadas como riscos desses sistemas, para os quais a engenharia do caos pode ser utilizada como estratégia de avaliação de robustez \cite{j.owotogbeAssessingEnhancingRobustness2025a}.
+
+% Lacuna
+Estudos anteriores apresentam resultados favoráveis ao emprego de agentes especializados, mas ainda deixam questões em aberto. Moncada et al. avaliaram um sistema multiagente para classificar chamados e gerar respostas, obtendo 85\% de acurácia em uma amostra de 20 casos, sem comparação com uma arquitetura de agente único \cite{c.moncadaLargeLanguageModels2025a}. Amri et al. realizaram uma comparação direta entre as duas arquiteturas na decisão de transferir conversas para atendimento humano. O sistema multiagente obteve maior Macro F1, mas apresentou tendência a realizar transferências mais cedo, e sua vantagem não ocorreu em todas as métricas \cite{m.f.amriOptimizingLLMChatbot2026a}. Yang et al., por sua vez, mostraram que modelos de linguagem podem melhorar o reconhecimento de intenções ambíguas, embora com latência superior à de métodos mais simples \cite{w.yangTwoStageIntentRecognition2025a}.
+
+Esses resultados mostram que a especialização dos agentes pode trazer benefícios, mas não permitem concluir que uma arquitetura multiagente seja sempre mais adequada. Ainda são necessárias comparações nas quais as arquiteturas utilizem o mesmo modelo, as mesmas informações, os mesmos casos de teste e critérios equivalentes de avaliação. Também é necessário considerar conjuntamente a qualidade das respostas, a conclusão das tarefas, a precisão dos encaminhamentos e o custo computacional. Diante dessa lacuna, este trabalho busca responder à seguinte pergunta:
+
+% Pergunta
+\begin{quote}
+\textit{Quais diferenças de desempenho são observadas entre uma arquitetura de agente único e uma arquitetura multiagente, ambas baseadas em modelos de linguagem de grande escala e aplicadas a chatbots de atendimento, quanto à correção e à relevância das respostas, à conclusão das tarefas, à precisão dos encaminhamentos, ao tempo de resposta e ao consumo de tokens?}
+\end{quote}
+
+% Objetivos
+O objetivo geral é comparar experimentalmente uma arquitetura de agente único e uma arquitetura multiagente em um cenário controlado de chatbot de atendimento. Para alcançar esse objetivo, serão desenvolvidos dois protótipos equivalentes, construído um conjunto balanceado de casos de teste e avaliadas a correção e a relevância das respostas, a conclusão das tarefas e a precisão dos encaminhamentos. Também serão medidos o tempo de resposta, o consumo de tokens e o número de chamadas ao modelo. Por fim, os resultados serão comparados para identificar as vantagens, limitações e custos de cada organização.
+
+% Justificativa
+A comparação poderá auxiliar pesquisadores e desenvolvedores na escolha de uma arquitetura compatível com os requisitos de qualidade, desempenho e custo de suas aplicações. Para o setor de telecomunicações, o estudo oferece uma referência para o desenvolvimento de chatbots destinados a diferentes setores de atendimento, nos quais uma classificação incorreta pode encaminhar o usuário para uma fila inadequada ou produzir uma resposta fora do contexto. O trabalho também relaciona inteligência artificial, sistemas distribuídos, integração de serviços e avaliação de desempenho, temas pertinentes à Engenharia de Telecomunicações.
+
+\section{Metodologia}
+% Máximo de 1000 palavras. Método de trabalho previsto para investigar/atacar
+% o problema. Em TCC1 pode ser uma metodologia preliminar, a ser detalhada no
+% documento de pré-projeto.
+
+\subsection{Abordagem da Pesquisa}
+
+O trabalho será desenvolvido como uma pesquisa aplicada, de abordagem quantitativa e procedimento experimental. Essa abordagem foi escolhida porque o objetivo não é apenas construir dois chatbots, mas comparar seu comportamento sob condições controladas. Os mesmos casos de atendimento serão executados nas duas arquiteturas, mantendo constantes o modelo de linguagem, os parâmetros de geração e as informações disponíveis. Com isso, busca-se observar principalmente os efeitos da organização dos agentes.
+
+Serão implementados dois protótipos de chatbot textual para o atendimento de usuários de um provedor de Internet. O primeiro utilizará um agente único, responsável por identificar a intenção, produzir a resposta e indicar o encaminhamento. O segundo será composto por um agente de triagem e quatro agentes especializados: primeiro atendimento, comercial, ouvidoria e suporte técnico. Nesse caso, a triagem selecionará o setor e encaminhará a solicitação para o agente responsável pela resposta.
+
+As duas arquiteturas terão acesso ao mesmo conjunto total de regras e informações. No agente único, esse conteúdo será reunido em um único contexto. No sistema multiagente, será dividido conforme as atribuições de cada agente. Essa organização permitirá comparar a centralização das instruções com a distribuição do contexto entre agentes especializados.
+
+\subsection{Etapas do Trabalho}
+
+A primeira etapa será a definição das regras de atendimento e da base de informações utilizada pelos protótipos. O conteúdo será organizado por setor e revisado para evitar regras contraditórias ou informações disponíveis apenas em uma das arquiteturas.
+
+Na segunda etapa, serão implementados os protótipos. O agente único receberá as instruções dos quatro setores e deverá retornar a fila escolhida e a resposta ao usuário. Na arquitetura multiagente, uma primeira chamada será usada para a triagem e outra para o atendimento pelo agente setorial. As saídas serão armazenadas em formato estruturado, incluindo a resposta, a fila selecionada, o tempo de execução e os dados de consumo da API.
+
+A terceira etapa será a construção do conjunto de testes. Inicialmente, serão preparados 48 casos sintéticos, distribuídos igualmente entre as quatro filas. Para cada fila, serão definidos três tipos de situação, com quatro variações de redação. O objetivo é representar diferentes formas de expressar uma mesma intenção sem favorecer uma das arquiteturas.
+
+Cada caso conterá:
+
+\begin{itemize}
+    \item solicitação de entrada;
+    \item fila esperada;
+    \item informações necessárias para a resposta;
+    \item resultado esperado;
+    \item critérios de conclusão da tarefa.
+\end{itemize}
+
+Os casos utilizarão dados fictícios ou anonimizados. Não haverá interação com clientes reais. O estudo ficará restrito ao atendimento textual e não incluirá voz, conteúdo multimodal, treinamento ou ajuste fino de modelos, comparação entre diferentes LLMs ou implantação em produção.
+
+A quarta etapa será um teste-piloto. Ele servirá para verificar o funcionamento dos protótipos, identificar ambiguidades nos casos e conferir se os critérios de avaliação podem ser aplicados de maneira equivalente. Ajustes no conjunto de testes, nos critérios ou no número de repetições poderão ser feitos nessa etapa, antes da execução principal. As mudanças serão registradas e aplicadas igualmente às duas arquiteturas.
+
+Na quinta etapa será realizado o experimento principal. Cada caso será executado inicialmente cinco vezes em cada arquitetura, resultando em 480 execuções:
+
+\[
+48 \times 5 \times 2 = 480
+\]
+
+As repetições serão utilizadas para observar a variação das respostas do modelo. Durante o experimento serão mantidos constantes o modelo, a temperatura, os demais parâmetros de geração, a base de informações e o ambiente de execução.
+
+\subsection{Materiais e Ferramentas}
+
+Os protótipos serão desenvolvidos em Python e utilizarão uma API de acesso ao modelo de linguagem. O código também será responsável por executar os casos, registrar as respostas e coletar as informações de uso fornecidas pela API. O modelo será definido antes do teste-piloto e permanecerá o mesmo em todo o experimento.
+
+O DeepEval será utilizado como apoio na avaliação da correção, da relevância e da conclusão das tarefas. Os dados objetivos, como fila escolhida, latência, tokens e número de chamadas, serão registrados diretamente pelo programa. Bibliotecas de análise de dados e visualização serão utilizadas para organizar os resultados, calcular as métricas e gerar tabelas e gráficos.
+
+Os prompts, a base de informações, os casos de teste, as configurações e os resultados serão mantidos de forma versionada. Esse registro permitirá documentar as condições em que o experimento foi realizado e facilitar sua reprodução.
+
+\subsection{Avaliação}
+
+A qualidade das respostas será avaliada em três aspectos: correção, relevância e conclusão da tarefa. A correção verificará se a resposta respeita as informações e regras fornecidas. A relevância considerará se ela responde diretamente à solicitação. A conclusão será avaliada a partir dos critérios definidos previamente para cada caso. Pretende-se utilizar métricas do DeepEval para essa avaliação, mantendo o mesmo modelo avaliador e os mesmos limiares nas duas arquiteturas.
+
+Uma amostra das avaliações automáticas também será revisada manualmente. Essa conferência será realizada com os mesmos critérios definidos para os casos de teste e servirá para identificar possíveis divergências na avaliação produzida por LLM.
+
+A precisão dos encaminhamentos será calculada diretamente pela comparação entre a fila produzida e a fila esperada. Além da acurácia geral, serão calculados os resultados de cada setor. Uma matriz de confusão será utilizada para mostrar quais filas foram confundidas com maior frequência.
+
+O desempenho operacional será avaliado pelo tempo total de resposta, pelo número de chamadas ao modelo e pelas quantidades de tokens de entrada e saída. Quando houver informação suficiente, também será estimado o custo de execução. Na arquitetura multiagente, o registro incluirá separadamente a etapa de triagem e a etapa de atendimento, além do valor total da interação.
+
+Os resultados serão analisados por meio de estatística descritiva. Para as medidas numéricas, serão calculados média, mediana, valores mínimo e máximo e medidas de dispersão. Para encaminhamento e conclusão das tarefas, serão utilizadas taxas de acerto gerais e por fila. A comparação considerará o equilíbrio entre qualidade e custo operacional, sem assumir previamente que a arquitetura multiagente será superior.
+
+\section{Resultados e discussão esperados}
+% Máximo de 1000 palavras. O que se espera obter/demonstrar ao final do
+% trabalho (TCC1 + TCC2); não é necessário ter resultados definitivos nesta
+% etapa.
+
+Espera-se obter uma comparação quantitativa entre as arquiteturas de agente único e multiagente no atendimento textual de usuários de um provedor de Internet. O experimento deverá mostrar como a distribuição das instruções entre agentes especializados afeta a qualidade das respostas, a conclusão das tarefas, a precisão dos encaminhamentos, o tempo de resposta e o consumo de tokens.
+
+A especialização poderá ajudar nos casos em que a solicitação exige regras próprias de um setor, pois o agente responsável receberá um contexto mais específico. Por outro lado, o resultado da arquitetura multiagente também dependerá da triagem. Uma classificação incorreta poderá encaminhar a solicitação para um agente que não possui as informações necessárias, mesmo que esse agente execute corretamente suas instruções.
+
+Também se espera que as arquiteturas apresentem diferenças de custo operacional. O agente único realizará a classificação e a resposta em um único fluxo, enquanto o sistema multiagente utilizará uma etapa de triagem seguida pelo atendimento setorial. Essa chamada adicional poderá aumentar a latência. Entretanto, como os agentes especializados receberão contextos menores, o consumo total de tokens não pode ser determinado antecipadamente e deverá ser medido.
+
+
+\subsection{Apresentação dos Resultados}
+
+Os resultados serão organizados em tabelas e gráficos comparativos. Uma tabela principal reunirá, para cada arquitetura, os valores de correção, relevância, conclusão das tarefas, acurácia dos encaminhamentos, latência, tokens de entrada e saída, número de chamadas e custo estimado.
+
+A precisão dos encaminhamentos será apresentada de forma geral e separada por fila. Uma matriz de confusão mostrará quais setores foram confundidos com maior frequência. Essa análise permitirá verificar, por exemplo, se reclamações foram direcionadas para o primeiro atendimento ou se solicitações comerciais foram confundidas com dúvidas gerais.
+
+Gráficos de barras serão utilizados para comparar as taxas de acerto e as avaliações de qualidade. A distribuição da latência e do consumo de tokens poderá ser apresentada por meio de diagramas de caixa. Também serão selecionados alguns casos em que as arquiteturas apresentaram comportamentos diferentes, permitindo relacionar os valores numéricos às respostas produzidas.
+
+\subsection{Critérios de Sucesso}
+
+Para cada caso de teste, será considerado satisfatório o comportamento em que a resposta respeite as informações fornecidas, atenda diretamente à solicitação, cumpra os critérios de conclusão definidos para a tarefa e indique a fila esperada. Esses aspectos serão avaliados separadamente, permitindo identificar em que tipo de situação cada arquitetura apresenta acertos ou falhas.
+
+A arquitetura multiagente será considerada vantajosa quando apresentar melhoria nas métricas de qualidade, conclusão ou encaminhamento sem comprometer as demais. Se as arquiteturas apresentarem resultados semelhantes nessas métricas, será considerada mais adequada aquela que utilizar menos chamadas ao modelo, tokens e tempo de processamento. Quando houver ganho em uma medida e perda em outra, o resultado será apresentado como um compromisso entre qualidade e custo operacional.
+
+O trabalho não dependerá da superioridade de uma das arquiteturas. O resultado será considerado satisfatório se o procedimento experimental permitir comparar as arquiteturas nas mesmas condições e identificar as situações em que cada organização é mais adequada.
+
+\subsection{Limitações Previstas}
+
+Os resultados estarão limitados ao atendimento textual e ao conjunto de casos construído para o experimento. Embora as solicitações procurem representar situações encontradas em provedores de Internet, elas não reproduzirão toda a diversidade e a continuidade das conversas realizadas em produção.
+
+Será utilizado apenas um modelo de linguagem. Portanto, os resultados não poderão ser generalizados diretamente para todos os LLMs. Também ficarão fora do escopo o atendimento por voz, as interfaces multimodais, o ajuste fino de modelos e a implantação com clientes reais.
+
+A avaliação automática também poderá sofrer influência do modelo utilizado como avaliador. Para reduzir esse problema, as duas arquiteturas serão avaliadas com os mesmos critérios, configurações e modelo avaliador. Uma amostra será conferida manualmente para verificar se as notas atribuídas correspondem aos critérios definidos para os casos. Também não serão realizados testes de robustez com injeção deliberada de falhas de agentes ou de comunicação, conforme a proposta de \textcite{j.owotogbeAssessingEnhancingRobustness2025a}.
+
+\section{Considerações}
+% Máximo de 200 palavras. Síntese da relevância do tema e do que se espera
+% contribuir com o trabalho.
+
+A escolha entre uma arquitetura de agente único e uma arquitetura multiagente envolve mais do que a qualidade isolada das respostas. A distribuição das responsabilidades pode facilitar a especialização e a organização das regras de atendimento, mas também acrescenta etapas de comunicação, aumenta a complexidade da solução e pode elevar seu custo operacional.
+
+A comparação proposta deverá produzir dados para avaliar esse equilíbrio em um cenário de atendimento de um provedor de Internet. Ao considerar conjuntamente a qualidade das respostas, a conclusão das tarefas, os encaminhamentos e o consumo de recursos, o trabalho poderá indicar em quais situações a separação por agentes setoriais é justificável e quando uma solução centralizada é suficiente.
+
+No TCC2, serão implementados os dois protótipos, finalizado o conjunto de casos de teste e executado o experimento. Os resultados obtidos serão analisados para elaborar uma recomendação de arquitetura baseada nas condições e nos limites observados.
+
+% Só aparecem aqui as referências efetivamente citadas no texto, com
+% \cite{chave} ou \textcite{chave}.
+\printbibliography[heading=bibintoc,title={Referências}]
+
+\end{document}
