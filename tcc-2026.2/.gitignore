@@ -218,5 +218,46 @@ TSWLatexianTemp*
 # expex forward references with \gathertags
 *-tags.tex
 
+# ============================================================
+# Projeto experimental do TCC
+# ============================================================
+
+## Credenciais e configurações locais
+.env
+.env.*
+!.env.example
+
+## Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+## Ambientes virtuais adicionais
+venv/
+experimento/venv/
+experimento/.venv/
+
+## Jupyter Notebook
+.ipynb_checkpoints/
+
+## DeepEval
+.deepeval/
+.deepeval-cache/
+
+## Resultados temporários
+experimento/resultados/temporarios/
+experimento/resultados/cache/
+
+## Arquivos temporários gerais
+*.tmp
+*.temp
+
 # End of https://www.gitignore.io/api/latex
 
