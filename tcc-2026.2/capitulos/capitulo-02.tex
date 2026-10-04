@@ -1,137 +1,139 @@
 \chapter{Revisão bibliográfica}\label{cap:revisao}
 
-É uma análise comentada sobre o que já foi publicado sobre o assunto da pesquisa, buscando mostrar os pontos de vista convergentes e divergentes entre os autores. Traça-se um quadro teórico e elabora-se a estruturação conceitual que subsidiará o desenvolvimento da pesquisa. A revisão de literatura permitirá um mapeamento de quem já escreveu e o que já foi escrito sobre o assunto ou o problema de pesquisa.
+Este capítulo apresenta os conceitos utilizados no desenvolvimento do trabalho e discute pesquisas relacionadas ao uso de modelos de linguagem em sistemas de atendimento. São abordados os agentes baseados em modelos de linguagem, as arquiteturas de agente único e multiagente, a comunicação entre agentes e os critérios empregados na avaliação de sistemas conversacionais.
 
+\section{Fundamentação teórica}\label{sec:fundamentacao}
 
-\section{Quadros}\label{sec:quadros}
+\subsection{Modelos de linguagem de grande escala}
+\label{subsec:llm}
 
+Os modelos de linguagem de grande escala são capazes de interpretar instruções e produzir textos a partir do contexto fornecido em sua entrada. Em sistemas de atendimento, esses modelos podem ser utilizados para identificar a intenção do usuário, consultar informações e elaborar respostas adequadas à solicitação recebida.
 
-Um quadro é formado por linhas horizontais e verticais, sendo fechado em todas as suas extremidades e, geralmente, é utilizado para expressar dados qualitativos. Verifique um exemplo de utilização no \autoref{quadro:exemplo}.
+Diferentemente de um fluxo baseado somente em regras fixas, um sistema apoiado em \glspl{LLM} pode tratar diferentes formas de expressar uma mesma intenção. Essa característica é útil em conversas nas quais o usuário não segue um roteiro predefinido ou fornece as informações de maneira incompleta.
 
+O comportamento do modelo depende das instruções, das informações disponíveis e do histórico incluído no contexto. Uma resposta também pode variar entre execuções, mesmo quando a entrada é semelhante. Por esse motivo, a utilização de \glspl{LLM} em processos de atendimento exige critérios que permitam verificar a correção das respostas e o cumprimento das regras definidas para o serviço.
 
-\begin{quadro}[htb]
-\caption{Exemplo de quadro}\label{quadro:exemplo}
-\begin{tabular}{|l|r|r|r|}
-    \hline
-    \textbf{Pessoa} & \textbf{Idade} & \textbf{Peso} & \textbf{Altura} \\ \hline
-    Marcos & 26    & 68   & 178    \\ \hline
-    Ivone  & 22    & 57   & 162    \\ \hline
-    ...    & ...   & ...  & ...    \\ \hline
-    Sueli  & 40    & 65   & 153    \\ \hline
-\end{tabular}
-\fonteproprioautor
-\end{quadro}
+Yang, Xu e Zhang observam que modelos de linguagem podem melhorar o reconhecimento de intenções em comparação com métodos baseados somente em regras ou classificação tradicional. Os autores também destacam o custo computacional e a latência associados ao seu uso~\cite{yang2025}. Esses fatores são relevantes neste trabalho porque as arquiteturas comparadas podem realizar quantidades diferentes de chamadas ao modelo.
 
-No \autoref{quadro:docentes} são listados os docentes do curso.
+\subsection{Agentes baseados em modelos de linguagem}
+\label{subsec:agentes-llm}
+
+Um agente baseado em modelo de linguagem combina o modelo com instruções que definem sua função, informações de contexto e mecanismos para executar ações. Em um chatbot de atendimento, essas ações podem incluir classificar uma solicitação, consultar uma base de informações, formular uma resposta ou encaminhar a conversa para outro setor.
+
+As instruções fornecidas ao agente delimitam sua atuação. Um agente de suporte técnico, por exemplo, pode receber regras sobre os testes permitidos, os dados que devem ser solicitados e as situações que exigem transferência para atendimento humano. O histórico da conversa permite utilizar informações fornecidas em mensagens anteriores e evitar que o usuário tenha que repeti-las.
+
+Moncada et al. utilizam agentes especializados para realizar a ingestão de dados, a classificação de chamados e a geração de respostas em uma aplicação de suporte ao cliente~\cite{moncada2025}. O trabalho mostra que uma tarefa de atendimento pode ser dividida entre componentes com responsabilidades distintas. Essa divisão, entretanto, exige que as informações necessárias sejam transmitidas corretamente entre os agentes.
+
+\subsection{Arquiteturas de agente único e multiagente}
+\label{subsec:arquiteturas}
+
+Na arquitetura de agente único, um mesmo agente concentra as funções necessárias ao atendimento. Ele recebe as mensagens, interpreta a solicitação, mantém o histórico, consulta as informações disponíveis e produz a resposta. As regras dos diferentes setores ficam reunidas no contexto desse agente.
+
+Essa organização reduz a necessidade de encaminhamentos internos. Por outro lado, o aumento da quantidade de regras e assuntos pode tornar o contexto mais extenso e dificultar a separação das responsabilidades. O agente precisa identificar quais instruções devem ser aplicadas em cada situação.
+
+Na arquitetura multiagente, as responsabilidades são divididas entre agentes com funções específicas. Um agente pode realizar a triagem da conversa, enquanto outros tratam de assuntos comerciais, técnicos ou administrativos. Lee, Tseng e Chen apresentam uma organização semelhante para sistemas de suporte à operação de telecomunicações, composta por um agente principal e agentes especializados~\cite{lee2025}.
+
+A especialização permite limitar as instruções e informações recebidas por cada agente. Em contrapartida, torna necessário definir como o sistema seleciona o próximo agente e quais partes do histórico serão transferidas. Assim, parte do desempenho da arquitetura passa a depender do mecanismo de coordenação.
+
+Amri et al. comparam arquiteturas de agente único e multiagente no encaminhamento de conversas para atendimento humano~\cite{amri2026}. Os resultados apresentados pelos autores indicam diferenças entre as arquiteturas, mas não demonstram vantagem da abordagem multiagente em todos os critérios. Essa constatação reforça a necessidade de comparar as duas alternativas sob as mesmas condições.
+
+\subsection{Comunicação, orquestração e retenção de contexto}
+\label{subsec:comunicacao-contexto}
+
+A orquestração corresponde ao controle do fluxo de execução entre os agentes. Em uma arquitetura multiagente de atendimento, esse mecanismo recebe a mensagem, identifica a função necessária e direciona a conversa para o agente responsável. Quando o assunto muda, uma nova decisão de encaminhamento pode ser necessária.
+
+Yan et al. analisam os sistemas multiagentes a partir da comunicação estabelecida entre seus componentes~\cite{yan2026}. Segundo essa perspectiva, não basta avaliar separadamente a capacidade de cada agente, pois o resultado também depende das mensagens trocadas e das decisões tomadas durante a execução.
+
+Em uma conversa com vários turnos, as informações costumam ser fornecidas aos poucos. O usuário pode informar inicialmente que está sem acesso à Internet e, somente depois, relatar o estado das luzes do equipamento. Se houver troca de agente entre essas mensagens, o novo agente precisa receber os dados já coletados.
+
+Neste trabalho, a retenção de contexto será observada pela capacidade de utilizar corretamente informações apresentadas em mensagens anteriores. Também serão registrados os encaminhamentos realizados ao longo da conversa. Com isso, será possível distinguir um erro na resposta de um erro ocorrido anteriormente na triagem ou na transferência de informações.
+
+Falhas em um componente podem afetar as etapas seguintes de um sistema multiagente. Owotogbe discute esse problema ao investigar a robustez de sistemas formados por agentes baseados em modelos de linguagem~\cite{owotogbe2025}. Embora a injeção deliberada de falhas não faça parte do escopo deste trabalho, a possibilidade de propagação de erros justifica o acompanhamento do fluxo percorrido por cada atendimento.
+
+\subsection{Avaliação de sistemas conversacionais}
+\label{subsec:avaliacao-conversacional}
+
+A avaliação de um sistema conversacional pode considerar tanto a resposta entregue ao usuário quanto o processo utilizado para produzi-la. Uma resposta pode estar correta, mas ter sido obtida após encaminhamentos desnecessários, repetição de perguntas ou uso excessivo de chamadas ao modelo.
+
+A correção indica se a resposta está de acordo com as informações disponíveis. A relevância verifica se ela trata diretamente da solicitação apresentada. A retenção de contexto observa se os dados fornecidos anteriormente foram utilizados de forma adequada. Já a conclusão da tarefa verifica se o objetivo definido para o cenário foi alcançado.
+
+Em uma arquitetura multiagente, também é necessário avaliar a precisão dos encaminhamentos. Essa medida permite verificar se cada mensagem foi direcionada ao agente responsável pelo assunto. As métricas de qualidade podem ser acompanhadas por medidas operacionais, como tempo de resposta, consumo de tokens, número de chamadas ao modelo e quantidade de trocas de agente.
+
+Esses critérios permitem comparar as arquiteturas para além da resposta final. No experimento proposto, os mesmos cenários, o mesmo modelo de linguagem e a mesma base de informações serão empregados nos dois protótipos. Os detalhes das métricas e do procedimento experimental serão apresentados no capítulo de metodologia.
+
+\section{Trabalhos relacionados}
+\label{sec:trabalhos-relacionados}
+
+Os trabalhos analisados abordam diferentes aspectos do uso de modelos de linguagem e sistemas multiagentes. Alguns apresentam aplicações voltadas ao atendimento, enquanto outros tratam do reconhecimento de intenções, da comunicação entre agentes e da robustez dessas arquiteturas.
+
+\textcite{moncada2025} apresentam uma arquitetura multiagente para automação de chamados de suporte. A solução foi implementada com o \textit{framework} CrewAI e distribui as tarefas entre agentes responsáveis pela entrada dos dados, classificação dos chamados e geração das respostas. Os autores relatam resultados de acurácia na classificação e de similaridade semântica entre as respostas produzidas e as respostas esperadas. O trabalho demonstra uma aplicação prática da especialização de agentes, mas não realiza uma comparação controlada com uma arquitetura de agente único nem acompanha conversas com múltiplos turnos.
+
+No contexto das telecomunicações, \textcite{lee2025} propõem uma arquitetura para sistemas de suporte à operação. A organização é composta por um agente principal, responsável pela coordenação, e agentes específicos, encarregados de tarefas relacionadas a diferentes áreas do sistema. Os autores apontam benefícios relacionados à flexibilidade e à divisão de responsabilidades. Entretanto, o estudo concentra-se na descrição da arquitetura e não apresenta uma comparação experimental entre agente único e multiagente utilizando os mesmos cenários e parâmetros.
+
+O reconhecimento de intenções é investigado por \textcite{yang2025}. Os autores propõem uma abordagem em duas etapas: inicialmente, é realizada uma tentativa de classificação utilizando TF-IDF; quando essa etapa não é suficiente, um modelo de linguagem é empregado. A proposta procura equilibrar precisão, latência e custo computacional. O estudo é pertinente ao mecanismo de triagem, mas sua avaliação está concentrada na identificação da intenção, sem abranger a continuidade do atendimento depois do encaminhamento.
+
+\textcite{amri2026} comparam arquiteturas de agente único e multiagente na decisão de encaminhar uma conversa para atendimento humano. Para realizar os testes, os autores utilizam uma base formada por diálogos de atendimento e comparam o desempenho das arquiteturas com diferentes modelos de linguagem. Os resultados indicam melhor desempenho do sistema multiagente em parte das medidas avaliadas. Entretanto, também mostram que a organização em múltiplos agentes pode alterar o momento em que ocorre a transferência. O estudo é próximo da proposta deste trabalho, mas está concentrado na decisão de transferência para humanos.
+
+A comunicação em sistemas multiagentes baseados em modelos de linguagem é analisada por \textcite{yan2026}. Os autores organizam as arquiteturas a partir dos participantes, dos tipos de mensagens, das estruturas de comunicação e das estratégias utilizadas para coordenar as tarefas. A revisão também discute problemas como aumento do custo de comunicação, propagação de erros e dificuldade de manter informações consistentes entre os agentes. Por se tratar de uma revisão, o trabalho não realiza uma comparação experimental própria, mas fornece a base conceitual para analisar a comunicação entre os componentes.
+
+A robustez dos sistemas multiagentes é discutida por \textcite{owotogbe2025}, que propõe o uso de princípios de engenharia do caos para avaliar o comportamento do sistema diante de falhas. O trabalho considera que problemas em um agente ou na comunicação podem afetar o resultado produzido pelos demais componentes. Embora este TCC não inclua a injeção deliberada de falhas, essa discussão mostra a importância de registrar os encaminhamentos e observar em qual etapa ocorre um resultado incorreto.
+
+O \autoref{quadro:trabalhos-relacionados} resume as principais características dos trabalhos analisados e sua relação com a proposta desta pesquisa.
 
 \begin{quadro}[htb]
     \centering
-    \caption{Listagem dos docentes do curso}\label{quadro:docentes}
+    \caption{Síntese dos trabalhos relacionados}
+    \label{quadro:trabalhos-relacionados}
     \footnotesize
-    \begin{tabular}{|l|l|l|}
-    \hline
-    \textbf{Docente} & \textbf{Formação acadêmica}    & \textbf{UCs}                               \\ \hline
-    Fulano de tal    & Engenharia de Telecomunicações & Antenas, Radiotransmissão, Circuitos de RF \\ \hline
-    Nononono         & Ciências da Computação         & Programação, Sistemas Distribuídos         \\ \hline
-    Sicrano          & Engenharia Elétrica            & Análise de Circuitos, Sinais e Sistemas    \\ \hline
-    \end{tabular}
+
+    \begin{tabularx}{\textwidth}{|p{2.4cm}|p{2.8cm}|X|X|}
+        \hline
+        \textbf{Trabalho} &
+        \textbf{Aplicação} &
+        \textbf{Abordagem} &
+        \textbf{Limitação em relação a este TCC} \\ \hline
+
+        Moncada et al.~\cite{moncada2025} &
+        Chamados de suporte &
+        Agentes para entrada dos dados, classificação e geração de respostas &
+        Não compara as duas arquiteturas nem avalia conversas com múltiplos turnos \\ \hline
+
+        Lee, Tseng e Chen~\cite{lee2025} &
+        Operações de telecomunicações &
+        Agente principal coordenando agentes especializados &
+        Não apresenta comparação experimental controlada entre agente único e multiagente \\ \hline
+
+        Yang, Xu e Zhang~\cite{yang2025} &
+        Reconhecimento de intenção &
+        Classificação inicial com TF-IDF e uso de LLM como segunda etapa &
+        Avalia a identificação da intenção, mas não a continuidade do atendimento \\ \hline
+
+        Amri et al.~\cite{amri2026} &
+        Transferência para atendimento humano &
+        Comparação entre agente único e multiagente &
+        Concentra-se na decisão de transferência para atendimento humano \\ \hline
+
+        Yan et al.~\cite{yan2026} &
+        Comunicação entre agentes &
+        Revisão de arquiteturas, mensagens e estratégias de comunicação &
+        Não realiza comparação experimental própria \\ \hline
+
+        Owotogbe~\cite{owotogbe2025} &
+        Robustez de sistemas multiagentes &
+        Aplicação de princípios de engenharia do caos &
+        Possui procedimento e objetivo experimental diferentes \\ \hline
+    \end{tabularx}
+
     \fonteproprioautor
 \end{quadro}
 
+\section{Síntese da revisão e lacuna de pesquisa}
+\label{sec:sintese-revisao}
 
-\section{Tabelas}\label{sec:tabelas}
+Os trabalhos analisados mostram que a divisão de responsabilidades entre agentes pode ser aplicada à classificação de solicitações, ao encaminhamento de conversas e à execução de tarefas especializadas. Também indicam que a comunicação entre os componentes pode aumentar a complexidade do sistema e introduzir problemas relacionados à latência, ao consumo de recursos e à perda de informações.
 
-De acordo com \textcite{ibge1993}, tabelas são ilustrações com dados estatísticos numéricos. A moldura de uma tabela não deve ter traços verticais que a delimitem à esquerda e à direita. Quando houver necessidade de se destacar parte do cabeçalho ou parte dos dados numéricos estes devem ser estruturados com um ou mais traços verticais paralelos adicionais. Linhas horizontais só se admitem no cabeçalho e no rodapé. 
+Entre os estudos selecionados, o trabalho de \textcite{amri2026} é o que mais se aproxima da comparação proposta neste TCC. Entretanto, sua avaliação está direcionada ao encaminhamento para atendimento humano. Os demais estudos analisam aplicações ou aspectos específicos das arquiteturas, sem comparar agente único e multiagente durante conversas que possam envolver diferentes setores.
 
-Tabelas não devem figurar dados em branco. Assim, em um tabela:
+Permanece, portanto, a necessidade de uma comparação na qual as duas arquiteturas utilizem o mesmo modelo de linguagem, a mesma base de informações, parâmetros equivalentes e os mesmos cenários de atendimento. Além da resposta final, essa comparação deve observar a retenção das informações fornecidas ao longo da conversa, as decisões de encaminhamento e os recursos utilizados por cada arquitetura.
 
-\begin{itemize}
-    \item Traço indica dado inexistente;
-    \item Reticências indicam dado desconhecido;
-    \item Zero deve ser usado quando o dado for menor que a metade da unidade adotada para a expressão do dado.
-\end{itemize}
-
-As tabelas devem ser citadas no texto, inseridas o mais próximo possível do trecho a que se referem e padronizadas segundo as Normas de Apresentação Tabular do IBGE. Os números sempre devem ser alinhados à direita, veja um exemplo na \autoref{tab:publicacoes}.
-
-\begin{table}[htb]
-    \ABNTEXfontereduzida
-    \centering
-    \caption{Produção dos docentes do curso}
-    \label{tab:publicacoes}
-    \begin{tabular}{p{3.3cm} r r R{2cm}}\toprule
-        Produto científico & \multicolumn{2}{c}{Período} &  \\ \cmidrule{2-3}
-                   & 2000-2010 & 2010-2020 & Total \\ \midrule
-        Artigo nacional & 10 & 20 & 30 \\ 
-        Artigo internacional & 5 & 5 & 10 \\
-        Orientações de TCC & 30 & 40 & 70 \\ \midrule 
-        Total & 45 & 65 & 110 \\
-
-        \bottomrule
-    \end{tabular}
-
-    % Comando para adicionar a fonte de elaboração do autor
-    \fonteproprioautor
-
-\end{table}
-
-
-
-\section{Figuras}\label{sec:figuras}
-
-As figuras são bastante úteis para ajudar expressar o funcionamento, modelo, etc. de alguma parte de seu trabalho. O \textit{Inkscape}\footnote{\url{https://inkscape.org/pt-br}.} é um \textit{software} livre para criação de desenhos vetoriais e que permite exportar os desenhos para os formatos PDF, PNG etc. O \textit{site} \url{https://diagrams.net} também uma boa opção para criar figuras.
-
-A inclusão de figuras no texto necessita que algumas regras sejam atendidas. São essas:
-
-\begin{itemize}
-	\item As figuras deverão ser de alta qualidade;
-	\begin{itemize}
-		\item Evite colocar fotos e outras figuras complexas;
-		\item Opte por figuras simples e que realmente expressem algo, mesmo quando impressas em preto e branco;
-	\end{itemize}
-	\item Em \LaTeX~as figuras deverão estar nos formatos: \texttt{PDF}, \texttt{JPG} ou \texttt{PNG};
-	\item Toda figura deverá possuir uma legenda;
-	\item Toda figura deverá ser referenciada em alguma parte do texto.
-\end{itemize}
-
-A \autoref{fig:escrita} foi inserida no texto para mostrar como fazer tal inserção em \LaTeX. Vale lembrar que toda figura inserida deverá ser, em algum momento, referenciada no texto. 
-
-\begin{figure}[ht]
-	\centering
-	\caption{Uma pessoa escrevendo sua monografia}\label{fig:escrita}
-	\includegraphics[width=5cm]{figuras/man}
-    \fonte{\textcite{openclipart}}
-\end{figure}
-
-
-\subsection{Mascotes}\label{sec:mascotes}
-
-
-A \autoref{fig:mascotes} ilustra uma forma de incluir duas figuras, lado a lado, usando o pacote \texttt{subcaption}. A \autoref{fig:mascote1} ilustra o mascote do \LaTeX~estudando. Já na \autoref{fig:mascote2} o mascote aparece apresentando algum assunto. 
-
-\begin{figure}[ht]
-	\centering
-	\caption{O mascote do~\LaTeX~em diferentes poses}\label{fig:mascotes}
-
-	\begin{subfigure}[t]{.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figuras/lion.pdf}
-        \caption{O mascote estudando}\label{fig:mascote1}
-    \end{subfigure}
-    \begin{subfigure}[t]{.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figuras/latex_lion.pdf}
-        \caption{O mascote ensinando}\label{fig:mascote2}
-    \end{subfigure}
-\end{figure}
-
-\subsubsection{Seção quaternária}\label{sec:quaternaria}
-
-\lipsum[1]
-
-\subsubsection{Outra seção quaternária}\label{sec:quaternariaoutra}
-
-\lipsum[1]
-
-\subsubsubsection{Seção quinária}\label{sec:quinaria}
-
-\lipsum[1]
+Com base nessa lacuna, este trabalho propõe implementar dois protótipos equivalentes e submetê-los a cenários conversacionais de atendimento de um provedor de Internet. O procedimento de implementação, os cenários e as métricas de avaliação são apresentados no capítulo seguinte.

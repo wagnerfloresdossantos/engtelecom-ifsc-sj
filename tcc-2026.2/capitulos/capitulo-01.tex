@@ -1,37 +1,69 @@
 \chapter{Introdução}\label{cap:introducao}
 
+Os \glspl{LLM} ampliaram as possibilidades de automação de atividades que envolvem compreensão e geração de linguagem natural. Quando integrados a bases de informações, ferramentas e mecanismos de decisão, esses modelos podem formar agentes capazes de interpretar solicitações, manter o contexto de uma conversa e executar tarefas com algum grau de autonomia. No atendimento ao cliente, essa abordagem permite desenvolver soluções mais flexíveis do que os chatbots baseados apenas em regras e fluxos predefinidos.
 
-A introdução abre o trabalho propriamente dito. Tem a finalidade de apresentar os motivos que levaram o autor a realizar a pesquisa, o problema abordado, os objetivos e a justificativa. O objetivo principal da introdução é situar o leitor no contexto da pesquisa. O leitor deverá perceber claramente o que foi analisado, como e por que, as limitações encontradas, o alcance da investigação e suas bases teóricas gerais. Ela tem, acima de tudo, um caráter didático de apresentar o que foi investigado, levando-se em conta o leitor a que se destina e a finalidade do trabalho~\cite{ifsc:manual:normalizacao}. 
+Trabalhos recentes apresentam aplicações de LLMs na classificação de chamados e na geração de respostas de suporte~\cite{moncada2025}, bem como arquiteturas formadas por agentes coordenadores e especializados para atuar em diferentes componentes de sistemas de telecomunicações~\cite{lee2025}. Essas soluções podem ser organizadas em arquiteturas de agente único ou multiagente.
 
-Assim, na introdução contextualize o tema, delimite o assunto, apresente um rápido histórico do problema e das soluções porventura já apresentadas, com breve revisão crítica das investigações anteriores; faça referência às fontes de material, aos métodos seguidos, às teorias ou aos conceitos que embasam o desenvolvimento e a argumentação, às eventuais faltas de informação, ao instrumental utilizado. A introdução deverá conter, ainda:
+Na arquitetura de agente único, um mesmo componente recebe as mensagens, mantém o histórico da conversa, consulta as informações disponíveis, decide o procedimento e produz as respostas. Essa centralização reduz a necessidade de coordenação entre componentes. Em uma arquitetura multiagente, essas responsabilidades são distribuídas entre agentes com funções específicas, como triagem, atendimento comercial, primeiro atendimento, ouvidoria e suporte técnico. A divisão pode facilitar a especialização e reduzir o contexto recebido por cada agente, mas também introduz etapas adicionais de comunicação e novos pontos de falha~\cite{yan2026}.
+
+A comunicação entre os agentes influencia a eficiência, a escalabilidade e a robustez do sistema. Uma decisão incorreta na triagem pode encaminhar a conversa para um agente que não possui as informações necessárias. Também podem ocorrer perdas de contexto, encaminhamentos desnecessários ou propagação de erros entre os componentes. Esses riscos tornam relevante avaliar não apenas a resposta final, mas também o caminho percorrido pelo atendimento~\cite{owotogbe2025}.
+
+A literatura também apresenta estudos sobre o encaminhamento de conversas para atendimento humano e o reconhecimento de intenções em ambientes multiagentes~\cite{amri2026,yang2025}. Os resultados apontam benefícios da especialização, mas também mostram que a vantagem da arquitetura multiagente não ocorre em todas as métricas e pode vir acompanhada de maior latência ou de transferências realizadas mais cedo. Além disso, os trabalhos adotam diferentes modelos, cenários e critérios de avaliação, o que dificulta uma comparação direta entre arquiteturas de agente único e multiagente.
+
+Esses resultados indicam que a adoção de uma arquitetura multiagente não representa, necessariamente, uma melhoria em todas as situações. Ainda são necessárias comparações nas quais as arquiteturas utilizem o mesmo modelo, a mesma base de informações, parâmetros equivalentes e cenários de atendimento comparáveis. Também é necessário observar o comportamento ao longo da conversa, considerando a retenção do contexto, as decisões de encaminhamento e os recursos utilizados até a conclusão da tarefa.
+
+\section{Problema de pesquisa}\label{sec:problema}
+
+A escolha entre uma arquitetura de agente único e uma arquitetura multiagente envolve um compromisso entre qualidade, complexidade e custo operacional. A especialização pode melhorar o tratamento de determinadas solicitações, mas exige coordenação entre agentes e pode aumentar o número de chamadas ao modelo, a latência e o consumo de tokens.
+
+Além disso, uma avaliação baseada somente em perguntas isoladas não representa todo o funcionamento de um chatbot de atendimento. Em uma conversa real, as informações são fornecidas gradualmente, e uma resposta depende das mensagens anteriores. O sistema também pode precisar rever o encaminhamento quando o usuário apresenta uma nova informação ou muda o assunto durante o atendimento.
+
+Diante desse contexto, este trabalho busca responder à seguinte pergunta:
+
+\begin{quote}
+Quais diferenças de desempenho são observadas entre uma arquitetura de agente único e uma arquitetura multiagente, ambas baseadas em modelos de linguagem de grande escala e aplicadas a cenários conversacionais de atendimento, quanto à correção e à relevância das respostas, à retenção do contexto, à conclusão das tarefas, à precisão dos encaminhamentos, ao tempo de resposta e ao consumo de tokens?
+\end{quote}
+
+\section{Justificativa}\label{sec:justificativa}
+
+A escolha da arquitetura influencia tanto a qualidade do atendimento quanto o custo de operação de sistemas baseados em LLMs. Uma solução centralizada pode ser suficiente para tarefas simples e utilizar menos chamadas ao modelo. Por outro lado, a distribuição das responsabilidades entre agentes especializados pode favorecer situações que exigem regras específicas ou mudanças de setor durante uma conversa, embora acrescente etapas de comunicação e novos pontos de falha~\cite{yan2026}.
+
+No atendimento de provedores de Internet, uma mesma conversa pode envolver dúvidas gerais, solicitações comerciais, reclamações e problemas técnicos. Um encaminhamento incorreto pode levar o usuário para uma fila inadequada, prolongar o atendimento ou produzir uma resposta sem as informações necessárias. Estudos anteriores demonstram que a especialização pode melhorar determinadas métricas, mas essa vantagem não ocorre em todas as situações. Também foi observada uma tendência de o sistema multiagente realizar transferências para o atendimento humano mais cedo~\cite{amri2026}.
+
+A contribuição esperada deste trabalho é a implementação de dois protótipos equivalentes e a realização de uma comparação controlada entre as arquiteturas. A avaliação considerará tanto o resultado final quanto a trajetória da conversa, incluindo a retenção do contexto, os encaminhamentos realizados, a quantidade de turnos e os recursos consumidos. Os resultados poderão servir como referência para pesquisadores e desenvolvedores na escolha de uma arquitetura compatível com os requisitos de qualidade, desempenho e custo da aplicação.
+
+\section{Objetivos}\label{sec:objetivos}
+
+\subsection{Objetivo geral}\label{subsec:objetivo-geral}
+
+Comparar experimentalmente o desempenho de uma arquitetura de agente único e de uma arquitetura multiagente, ambas baseadas em modelos de linguagem de grande escala e aplicadas a cenários conversacionais de atendimento textual de um provedor de internet.
+
+\subsection{Objetivos específicos}\label{subsec:objetivos-especificos}
+
+Para alcançar o objetivo geral, foram definidos os seguintes objetivos específicos:
 
 \begin{itemize}
-   \item Justificativa -- trata-se da relevância, o motivo pelo qual tal pesquisa deve ser realizada. Justifica-se aqui a escolha do tema, a delimitação feita e a relação que o pesquisador possui com ele. Procura-se demonstrar a legitimidade, a pertinência, o interesse e a capacidade do pesquisador em lidar com o referido tema. Deve-se fazer o mesmo em relação ao problema e à hipótese, mostrando a relevância científica do tema para o pesquisador. Deve-se fazer, então, nesta parte, a justificativa para o tema, para o problema e para a hipótese, nos termos em que foram formulados na fase de elaboração do projeto de pesquisa;
-   
-   \item Definição do problema -- um problema decorre de um aprofundamento do tema. Ele deve delimitar a pesquisa. Diversos autores sugerem que o problema deve ter algumas características, tais como: a) deve ser formulado como pergunta - isso facilita sua identificação por quem consulta o projeto de pesquisa; b) deve ser claro e preciso; c) deve ser delimitado a uma dimensão variável, pois muitas vezes, o problema é formulado de uma maneira muito ampla, impossível de ser investigado 
-   
-   \item Objetivo geral e objetivos específicos -- detalhado dentro das seções abaixo.
+    \item definir uma base comum de informações e regras de atendimento para as duas arquiteturas;
+
+    \item implementar um protótipo de agente único e um protótipo multiagente composto por um agente de triagem e agentes especializados;
+
+    \item elaborar e validar um conjunto de cenários conversacionais de teste para primeiro atendimento, comercial, ouvidoria e suporte técnico;
+
+    \item avaliar a correção e a relevância das respostas, a retenção do contexto, a conclusão das tarefas e a precisão dos encaminhamentos;
+
+    \item medir o tempo de resposta, o consumo de tokens, o número de chamadas ao modelo, a quantidade de turnos e as trocas de agente realizadas durante cada conversa;
+
+    \item comparar os resultados para identificar as vantagens, limitações e custos de cada arquitetura.
 \end{itemize}
 
-\section{Objetivos}
+\section{Delimitação do trabalho}\label{sec:delimitacao}
 
-Neste item deverá ser indicado claramente o que se deseja fazer, o que se pretende alcançar. É fundamental que estes objetivos sejam possíveis de serem atingidos. Geralmente se formula um objetivo geral articulando-o a outros objetivos mais específicos.
+O estudo será restrito ao atendimento textual e utilizará cenários sintéticos baseados em situações de um provedor de Internet. Os dados empregados serão fictícios ou anonimizados, sem interação com clientes reais.
 
-\subsection{Objetivo geral}
+As duas arquiteturas utilizarão o mesmo modelo de linguagem, os mesmos parâmetros de geração e a mesma base geral de informações. No agente único, todas as regras serão reunidas em um único contexto. No sistema multiagente, o conteúdo será distribuído conforme as responsabilidades de cada agente.
 
-Procura-se determinar\footnote{Atenção! Inicie a frase com um verbo abrangente e no infinitivo, como: compreender, saber, avaliar, verificar, constatar, analisar, desenvolver, conhecer, entender, levantar, mapear, identificar.}, com clareza e objetividade, o seu propósito com a realização da pesquisa. Deve-se estar atento ao fato de que nesta pesquisa, em nível de graduação ou pós-graduação, os propósitos são essencialmente acadêmicos, como mapear, identificar, levantar, diagnosticar, traçar o perfil ou historiar determinado assunto específico dentro de um tema. Um objetivo bem redigido explica o quê, com o quê (quem), por meio de quê, onde, quando sobre a pesquisa.
+Não fazem parte do escopo o atendimento por voz, o processamento de conteúdo multimodal, o treinamento ou ajuste fino de modelos, a comparação entre diferentes LLMs e a implantação do sistema com clientes reais. Também não serão realizados testes de robustez com injeção deliberada de falhas nos agentes ou na comunicação.
 
-\subsection{Objetivos específicos}
+% \section{Organização do texto}\label{sec:organizacao}
 
-Significa aprofundar as intenções expressas no objetivo geral. Propõe-se mapear, identificar, levantar, diagnosticar, traçar o perfil ou historiar determinado assunto específico dentro de um tema. Assim, para elaborar os objetivos específicos deve-se:
-
-\begin{itemize}
-   \item detalhar o objetivo geral mostrando o que se pretende alcançar com a pesquisa;
-   \item tornar operacional o objetivo geral, indicando exatamente o que será realizado na pesquisa;
-   \item usar verbos que admitam poucas interpretações e no infinitivo, como: identificar, caracterizar, comparar, testar, aplicar, observar, medir, localizar, selecionar, distinguir.
-\end{itemize}
-
-
-% \section{Organização do texto}
-
-% O texto está organizado da seguinte forma: No \autoref{cap:revisao} é apresentado um pouco mais de como fazer um outro capítulo, apresentando ainda formas para inserir figuras. No \autoref{cap:proposta} é apresentado uma forma para adicionar uma tabela. Por fim, no \autoref{cap:conclusoes} são apresentadas as conclusões sobre este trabalho.
+% Além deste capítulo introdutório, o trabalho está organizado da seguinte forma: o \autoref{cap:revisao} apresenta os conceitos necessários para a compreensão do tema e os trabalhos relacionados; o \autoref{cap:metodologia} descreve as arquiteturas, os cenários conversacionais, as métricas e o procedimento experimental; e o capítulo de cronograma apresenta as atividades previstas para o desenvolvimento do trabalho no TCC2.
