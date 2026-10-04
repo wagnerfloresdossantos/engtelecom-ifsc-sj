@@ -1,111 +1,86 @@
-\chapter{Proposta}\label{cap:proposta}
+\chapter{Metodologia}\label{cap:metodologia}
 
+Este capítulo apresenta o método proposto para comparar uma arquitetura de agente único e uma arquitetura multiagente em atendimentos textuais de um provedor de Internet. A comparação será realizada em condições controladas, utilizando os mesmos cenários conversacionais, a mesma base de informações e o mesmo modelo de linguagem. Além da resposta final, serão observados o desenvolvimento da conversa, as decisões de encaminhamento e os recursos consumidos durante cada execução.
 
-\section{Incluindo trechos de códigos}\label{sec:codigos}
+\section{Natureza do trabalho}\label{sec:natureza-trabalho}
 
-Em alguns casos é desejado incluir trechos de códigos no documento. O \LaTeX~oferece inúmeras maneiras para isto e o pacote \textbf{listings} é conhecido por apresentar um dos melhores resultados. A \autoref{cod:olamundo} apresenta o código em \textit{shell script} para o complexo problema do ``Olá mundo!''. A \autoref{cod:matlab} apresenta um trecho de código em MatLab e por fim, na \autoref{cod:pessoa} é ilustrado um aluno representado em um documento JSON.
+O trabalho possui natureza aplicada e experimental. A etapa aplicada compreende o desenvolvimento de dois protótipos de atendimento baseados em modelos de linguagem de grande escala. A etapa experimental consiste na execução de um conjunto comum de cenários conversacionais e na comparação dos resultados obtidos pelas duas arquiteturas.
 
-\lstinputlisting[language=csh,caption={Olá mundo em shell script},label=cod:olamundo]{codigos/ola.sh}
+Não se pretende desenvolver um sistema comercial completo. Os protótipos serão utilizados como instrumentos de experimentação, com as funções necessárias para receber mensagens, manter o histórico da conversa, produzir respostas e registrar informações sobre cada execução.
 
-\lstinputlisting[language=matlab,caption={Um pequeno código em MatLab},label=cod:matlab]{codigos/matlab.m}
+\section{Delineamento experimental}\label{sec:delineamento}
 
-\lstinputlisting[language=json,caption={Aluno representado em JSON},label=cod:pessoa]{codigos/pessoa.json}
+O experimento terá como fator de comparação a arquitetura utilizada no atendimento. Serão avaliadas uma arquitetura de agente único e uma arquitetura multiagente. As duas soluções receberão as mesmas entradas e serão submetidas às mesmas condições de execução.
 
+Na arquitetura de agente único, um único componente será responsável por interpretar as mensagens, manter o contexto, consultar as regras disponíveis e produzir as respostas. Na arquitetura multiagente, uma etapa de triagem definirá o primeiro destino da conversa. O agente especializado manterá o atendimento enquanto o assunto permanecer em sua área e solicitará nova decisão de encaminhamento quando identificar uma mudança de assunto.
 
-\section{Como apresentar equações}\label{sec:equacoes}
+Para reduzir interferências externas, serão mantidos iguais entre os protótipos o modelo de linguagem, os parâmetros de geração, a base geral de informações e as regras de atendimento. Os prompts serão diferentes apenas no que for necessário para representar as responsabilidades de cada arquitetura. A versão do modelo, os parâmetros utilizados e as versões das bibliotecas serão registrados juntamente com os resultados.
 
-O \LaTeX é um pacote feito para a preparação de textos impressos de alta qualidade, especialmente
-para textos matemáticos. Ele foi desenvolvido por Leslie Lamport a partir do programa~\TeX~criado por Donald Knuth.
+\subsection{Variáveis do experimento}\label{subsec:variaveis-experimento}
 
-Fórmulas matemáticas são produzidas diretamente no arquivo fonte texto. Isto significa que o~\LaTeX~deve ser informado que o texto que vem a seguir é uma fórmula e também quando ela termina e o texto normal recomeça. As fórmulas podem ocorrer em uma linha de texto como $ ax^2 + bx + c = 0 $, ou destacada do texto principal como os exemplos apresentados na \autoref{e_c2_eq1} e \autoref{e_c2_eq2}.
+A variável independente será a arquitetura de atendimento, com dois níveis: agente único e sistema multiagente. As variáveis dependentes serão as métricas de qualidade, encaminhamento e consumo obtidas em cada conversa.
 
-\begin{equation}
- x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}
-\label{e_c2_eq1}
-\end{equation}
+Serão controlados o modelo de linguagem, os parâmetros de geração, a base de informações, os cenários, a ordem das mensagens e o ambiente de execução. Caso sejam realizadas repetições, a quantidade e as condições de repetição serão definidas após o cenário piloto, considerando a variabilidade observada nas respostas.
 
-\begin{align}
-f(x) &= x^2 \nonumber\\
-g(x) &= \dfrac{1}{\sqrt{x}} \nonumber\\
-F(x) &= \int^a_b \frac{1}{3}x^3
-\label{e_c2_eq2}
-\end{align}
+\section{Etapas do trabalho}\label{sec:etapas-trabalho}
 
+O desenvolvimento será dividido nas seguintes etapas:
 
-\section{Usando siglas, abreviaturas e símbolos}
+\begin{enumerate}
+    \item definir uma base comum de informações e regras de atendimento;
+    \item especificar as arquiteturas de agente único e multiagente;
+    \item elaborar os prompts necessários para cada arquitetura;
+    \item implementar os dois protótipos e o registro das execuções;
+    \item elaborar e revisar os cenários conversacionais de teste;
+    \item realizar um experimento piloto para verificar o funcionamento dos protótipos e das métricas;
+    \item executar o conjunto de testes definido após o piloto;
+    \item consolidar e comparar os resultados obtidos.
+\end{enumerate}
 
-Algumas vezes nos deparamos com textos cheios de siglas ou símbolos. Existem diversos pacotes e formas para gerar glossário, lista de acrônimos, lista de símbolos etc. com \LaTeX. Neste parágrafo é feito uso de comandos definidos no pacote \textit{glossaries-extra}\footnote{\url{https://www.ctan.org/pkg/glossaries-extra}}. A listagem de acrônimos fica dentro do arquivo \texttt{pretextuais/abreviacoes-siglas.tex} e a listagem de símbolos fica dentro do arquivo \texttt{pretextuais/simbolos.tex}.
+\section{Materiais e ferramentas}\label{sec:materiais-ferramentas}
 
-O símbolo \gls{emptyset} representa um conjunto vazio, já o símbolo \gls{pi} representa o número Pi. O protocolo \gls{TLS} deve ser empregado sempre que se deseja garantir a integridade e a confidencialidade das mensagens trocadas pela rede. O \gls{TLS} é hoje utilizado por diversas aplicações. Como faz tempo que eu não falo do \glsxtrfull{TLS} eu chamo o nome completo mais a sigla, ajudando o meu leitor a lembrar da sigla \glsxtrshort{TLS}. Existem as \glsxtrfullpl{AC} que são bem importante. Este documento segue as normas da \gls{ABNT} e para isso faz uso do pacote \gls{abnTeX}.
+Os protótipos serão desenvolvidos em Python. Os cenários de teste e os resultados das execuções serão armazenados em arquivos estruturados no formato JSON. O código-fonte, os prompts e os documentos auxiliares serão versionados com Git.
 
-Abaixo são apresentados os comandos providos pelo pacote \textit{glossaries-extra}:
+A avaliação automatizada será implementada inicialmente com a biblioteca DeepEval. O acesso ao modelo de linguagem será realizado por meio de API. O modelo, o provedor, os parâmetros de geração e as versões das ferramentas serão definidos e registrados antes da execução do experimento. Planilhas ou scripts em Python poderão ser utilizados para consolidar as medições e produzir as tabelas e os gráficos da análise.
+
+O ambiente Orbsofty poderá ser utilizado para inspeção visual e comparação com um fluxo de atendimento em uso. Entretanto, as medições principais serão realizadas nos protótipos controlados, evitando que regras operacionais externas interfiram na comparação entre as arquiteturas.
+
+\section{Cenários conversacionais}\label{sec:cenarios}
+
+Os testes serão formados por conversas com múltiplos turnos, nas quais as informações serão apresentadas gradualmente. Cada cenário conterá as mensagens do usuário, o assunto esperado em cada etapa, o encaminhamento esperado na arquitetura multiagente, as informações que deverão permanecer no contexto e os critérios necessários para considerar a tarefa concluída.
+
+O cenário piloto começará com uma solicitação comercial e, durante a mesma conversa, passará a tratar de uma falha de conexão. Esse caso permitirá observar se o sistema mantém as informações anteriores, identifica a mudança de assunto e, quando aplicável, transfere o atendimento ao agente adequado. Após o piloto, serão elaborados cenários adicionais para as áreas definidas no escopo do trabalho.
+
+\section{Procedimento experimental}\label{sec:procedimento-experimental}
+
+Cada cenário será executado separadamente nas duas arquiteturas. As mensagens do usuário serão enviadas na ordem prevista no arquivo de teste, e a resposta produzida em cada turno será armazenada antes do envio da mensagem seguinte. Também serão registrados o agente responsável, as decisões de encaminhamento, o tempo de resposta, o consumo de tokens e o número de chamadas ao modelo.
+
+As saídas serão avaliadas em relação aos critérios definidos para o cenário. A execução piloto será utilizada para verificar se os registros produzidos são suficientes, se as métricas escolhidas são aplicáveis e se há necessidade de repetir cada cenário. Alterações realizadas após o piloto serão documentadas antes da execução do conjunto definitivo de testes.
+
+\section{Métricas e critérios de avaliação}\label{sec:metricas}
+
+A comparação considerará métricas relacionadas à qualidade da resposta, ao comportamento da conversa e ao consumo de recursos. Inicialmente, serão observados:
 
 \begin{itemize}
-    \item \verb+\gls{rotulo}+ -- Na primeira vez que o acrônimo for chamado será impresso o valor por extenso e o acrônimo. Ex: \verb+\gls{IFSC}+ irá imprimir Instituto Federal de Santa Catarina (IFSC). Nas demais vezes irá imprimir somente o acrônimo;
-    \item \verb+\glspl{rotulo}+ -- Semelhante ao anterior, mas imprime a forma no plural;
-    \item \verb+\glsxtrshort{rotulo}+ -- Para imprimir somente o acrônimo;
-    \item \verb+\glsxtrlong{rotulo}+ -- Para imprimir somente o valor por extenso;
-    \item \verb+\glsxtrfull{rotulo}+ -- Para imprimir o valor por extenso e o acrônimo, mesmo que o acrônimo já tenha sido invocado previamente.
+    \item correção e relevância das respostas;
+    \item retenção das informações fornecidas nos turnos anteriores;
+    \item conclusão da tarefa prevista no cenário;
+    \item correspondência entre o encaminhamento realizado e o encaminhamento esperado;
+    \item quantidade de transferências entre agentes;
+    \item tempo de resposta por turno e tempo total da conversa;
+    \item número de chamadas ao modelo e consumo de tokens.
 \end{itemize}
 
+As métricas baseadas em avaliação por modelo serão complementadas por verificações determinísticas sempre que houver um resultado objetivo, como o agente de destino, a presença de uma informação obrigatória ou a ocorrência de uma transferência. Os limites numéricos e critérios de sucesso serão definidos após a execução piloto, evitando a adoção de valores sem evidência experimental.
 
+\section{Privacidade e proteção dos dados}\label{sec:privacidade}
 
-\section{Referências bibliográficas}\label{sec:referencias}
+Os cenários conversacionais serão produzidos especificamente para o estudo, com base em situações típicas de atendimento de provedores de Internet. Não serão utilizadas conversas, cadastros ou registros de clientes reais.
 
-A formatação das referências bibliográficas conforme as regras da ABNT são um dos principais objetivos do \abnTeX. Consulte os manuais \textcite{abntex2cite} e \textcite{abntex2cite-alf} para obter informações sobre como utilizar as referências bibliográficas.
+Os nomes, documentos, endereços, números de telefone, protocolos e demais informações presentes nos testes serão fictícios. A experiência profissional do autor será utilizada somente como referência para a elaboração das situações de atendimento, sem reprodução de casos que permitam identificar clientes, funcionários ou empresas. Dessa forma, não serão enviados dados pessoais reais aos modelos de linguagem ou às ferramentas utilizadas nos experimentos.
 
+\section{Riscos e limitações}\label{sec:riscos}
 
-O uso de citações ao londo do texto é uma prática desejável. Por exemplo, em \cite{lamport94} é apresentado um documento sobre a preparação de textos usando \LaTeX. Já em \cite{goossens94} é apresentada uma lista de referências rápidas para realizar as mais simples tarefas em \LaTeX.
+Entre os riscos previstos estão a variação das respostas do modelo, alterações ou indisponibilidade da API, custo de execução, diferença excessiva entre os prompts e limitações da avaliação automática de respostas abertas. Também existe o risco de uma métrica baseada em modelo atribuir uma pontuação inadequada mesmo quando o comportamento esperado puder ser verificado objetivamente.
 
-É o caso em que você menciona \emph{explicitamente} o autor da referência na sentença, algo
-do tipo ``Fulano (1900)''. Neste caso o nome do autor é escrito
-normalmente. Para isso use o comando \verb+\textcite+.
-
-A ironia será assim uma \ldots\ proposta  por \textcite{lamport94}. Este documento segue as normas da ABNT e para isso faz uso do pacote abnTeX.
-
-
-% ---
-\section{Citações diretas}
-\label{sec-citacao}
-% ---
-
-\index{citações!diretas}Utilize o ambiente \texttt{citacao} para incluir
-citações diretas com mais de três linhas:
-
-\begin{citacao}
-As citações diretas, no texto, com mais de três linhas, devem ser
-destacadas com recuo de 4 cm da margem esquerda, com letra menor que a do texto
-utilizado e sem as aspas. No caso de documentos datilografados, deve-se
-observar apenas o recuo \cite[5.3]{NBR10520:2002}.
-\end{citacao}
-
-Use o ambiente assim:
-
-\begin{verbatim}
-\begin{citacao}
-As citações diretas, no texto, com mais de três linhas [\ldots] 
-deve-se observar apenas o recuo \cite[5.3]{NBR10520:2002}.
-\end{citacao}
-\end{verbatim}
-
-O ambiente \texttt{citacao} pode receber como parâmetro opcional um nome de
-idioma previamente carregado nas opções da classe. Nesse
-caso, o texto da citação é automaticamente escrito em itálico e a hifenização é
-ajustada para o idioma selecionado na opção do ambiente. Por exemplo:
-
-\begin{verbatim}
-\begin{citacao}[english]
-Text in English language in italic with correct hyphenation.
-\end{citacao}
-\end{verbatim}
-
-Tem como resultado:
-
-\begin{citacao}[english]
-Text in English language in italic with correct hyphenation.
-\end{citacao}
-
-\index{citações!simples}Citações simples, com até três linhas, devem ser
-incluídas com aspas. Observe que em \LaTeX as aspas iniciais são diferentes das
-finais: ``Amor é fogo que arde sem se ver''.
-
+Como medidas de controle, todas as execuções serão registradas, as versões utilizadas serão identificadas e os encaminhamentos serão avaliados por regras determinísticas. Uma amostra das respostas poderá ser revisada manualmente. Caso o DeepEval não represente adequadamente alguma dimensão do experimento, a métrica correspondente será substituída ou complementada por um procedimento documentado. Também será realizada uma revisão dos cenários para impedir a inclusão acidental de dados associados a atendimentos reais.

@@ -1,0 +1,129 @@
+{
+  "scenario_id": "piloto-001",
+  "title": "Mudança de atendimento comercial para suporte técnico",
+  "version": "0.1.0",
+  "status": "pilot",
+  "description": "Conversa iniciada como consulta comercial que passa a tratar de uma falha de conexão.",
+  "data_policy": {
+    "data_type": "synthetic",
+    "contains_real_personal_data": false,
+    "notes": "Todos os dados apresentados no cenário foram criados exclusivamente para o experimento."
+  },
+  "initial_state": {
+    "active_area": null,
+    "conversation_history": []
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "expected_intent": "comercial_planos",
+      "expected_multiagent_destination": "comercial",
+      "required_behavior": [
+        "identificar que a solicitação pertence ao atendimento comercial",
+        "solicitar o CEP para consultar a disponibilidade"
+      ],
+      "required_context_after_turn": [
+        "o usuário deseja conhecer os planos"
+      ],
+      "forbidden_behavior": [
+        "encaminhar para suporte técnico",
+        "informar disponibilidade sem conhecer o CEP",
+        "inventar dados pessoais do usuário"
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Meu CEP é 88110-000.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "expected_multiagent_destination": "comercial",
+      "required_behavior": [
+        "relacionar o CEP à solicitação comercial anterior",
+        "informar que o CEP está na área atendida",
+        "apresentar os planos fictícios de 500, 700 e 900 Mbit/s sem pedir novamente o assunto"
+      ],
+      "required_context_after_turn": [
+        "o usuário deseja conhecer os planos",
+        "o CEP informado é 88110-000"
+      ],
+      "forbidden_behavior": [
+        "tratar o CEP como uma mensagem sem contexto",
+        "transferir para outra área sem motivo"
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_multiagent_destination": "suporte",
+      "required_behavior": [
+        "identificar a mudança do assunto comercial para suporte técnico",
+        "iniciar a coleta das informações necessárias para o atendimento técnico"
+      ],
+      "required_context_after_turn": [
+        "o usuário informou que já é cliente",
+        "o usuário está sem Internet desde ontem"
+      ],
+      "forbidden_behavior": [
+        "continuar oferecendo planos sem considerar a mudança de assunto",
+        "afirmar que o problema foi resolvido"
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "A luz LOS está vermelha.",
+      "expected_intent": "suporte_falha_optica",
+      "expected_multiagent_destination": "suporte",
+      "required_behavior": [
+        "relacionar a luz LOS vermelha à falta de conexão informada anteriormente",
+        "seguir a regra prevista para falha óptica",
+        "orientar o encaminhamento para atendimento técnico humano"
+      ],
+      "required_context_after_turn": [
+        "o usuário já é cliente",
+        "a conexão está indisponível desde ontem",
+        "a luz LOS está vermelha"
+      ],
+      "forbidden_behavior": [
+        "orientar o usuário a acessar ou alterar configurações do roteador",
+        "retornar ao atendimento comercial",
+        "inventar que houve consulta remota ao equipamento"
+      ]
+    }
+  ],
+  "expected_route": {
+    "single_agent": [
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico"
+    ],
+    "multiagent": [
+      "triagem->comercial",
+      "comercial",
+      "comercial->triagem->suporte",
+      "suporte"
+    ]
+  },
+  "task_completion": {
+    "required": true,
+    "criteria": [
+      "a solicitação inicial é tratada como comercial",
+      "o CEP é associado ao contexto da consulta",
+      "a mudança para suporte técnico é identificada",
+      "a falha indicada pela luz LOS vermelha resulta no encaminhamento previsto",
+      "nenhuma orientação de acesso ao roteador é fornecida"
+    ]
+  },
+  "metrics_to_collect": [
+    "answer_relevancy",
+    "context_retention",
+    "task_completion",
+    "routing_accuracy",
+    "response_time_ms",
+    "input_tokens",
+    "output_tokens",
+    "model_calls",
+    "agent_transfers"
+  ]
+}

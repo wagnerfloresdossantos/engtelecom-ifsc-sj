@@ -1,0 +1,153 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "multi",
+  "mode": "mock",
+  "model": "mock",
+  "executed_at_utc": "2026-10-04T13:54:29.014444+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para consultar a disponibilidade, informe seu CEP.",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "triagem",
+          "latency_ms": 0.034,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "commercial",
+            "intent": "comercial_planos",
+            "reason": "A mensagem atual solicita informações sobre planos.",
+            "context_to_forward": [
+              "Quero conhecer os planos de Internet."
+            ]
+          }
+        },
+        {
+          "agent": "commercial",
+          "latency_ms": 0.023,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Para consultar a disponibilidade, informe seu CEP.",
+            "intent": "comercial_planos",
+            "action": "respond",
+            "suggested_destination": null,
+            "context_facts": [
+              "O usuário deseja conhecer os planos."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "O CEP 88110-000 está na área atendida. Estão disponíveis os planos de 500, 700 e 900 Mbit/s.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 0.021,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida. Estão disponíveis os planos de 500, 700 e 900 Mbit/s.",
+            "intent": "comercial_consulta_cobertura",
+            "action": "respond",
+            "suggested_destination": null,
+            "context_facts": [
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Qual é o estado das luzes do equipamento de conexão?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 0.024,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": null,
+            "intent": "suporte_sem_conexao",
+            "action": "request_reroute",
+            "suggested_destination": "support",
+            "context_facts": [
+              "O usuário informou que já é cliente e está sem Internet."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 0.023,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "support",
+            "intent": "suporte_sem_conexao",
+            "reason": "A mensagem atual relata falha de conexão.",
+            "context_to_forward": [
+              "Na verdade, já sou cliente e estou sem Internet desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "support",
+          "latency_ms": 0.024,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Qual é o estado das luzes do equipamento de conexão?",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "suggested_destination": null,
+            "context_facts": [
+              "O usuário já é cliente",
+              "Sem Internet desde ontem"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "A luz LOS está vermelha.",
+      "assistant_response": "A luz LOS vermelha pode indicar perda do sinal óptico. Vou encaminhar o atendimento para análise técnica.",
+      "expected_intent": "suporte_falha_optica",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 0.031,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "A luz LOS vermelha pode indicar perda do sinal óptico. Vou encaminhar o atendimento para análise técnica.",
+            "intent": "suporte_falha_optica",
+            "action": "handoff_human",
+            "suggested_destination": "technical_human",
+            "context_facts": [
+              "Luz LOS vermelha",
+              "Conexão indisponível desde ontem"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

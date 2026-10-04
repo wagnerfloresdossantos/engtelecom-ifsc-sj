@@ -259,5 +259,33 @@ experimento/resultados/cache/
 *.tmp
 *.temp
 
+# ==================================================
+# LaTeX — arquivos adicionais
+# ==================================================
+*.loq
+*.slg
+*.slo
+*.sls
+
+# PDF principal gerado
+/monografia/monografia.pdf
+
+# ==================================================
+# Python
+# ==================================================
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# ==================================================
+# Credenciais
+# ==================================================
+.env
+.env.local
+!.env.example
+
 # End of https://www.gitignore.io/api/latex
 
