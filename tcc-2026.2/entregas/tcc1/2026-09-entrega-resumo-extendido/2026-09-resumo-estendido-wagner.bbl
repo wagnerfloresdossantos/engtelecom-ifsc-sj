@@ -1,0 +1,343 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{m.f.amriOptimizingLLMChatbot2026a}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=54b317e3d7dbe4c5b068d2a7e9f67a2c}{%
+           family={Amri},
+           familyi={A\bibinitperiod},
+           given={M.\bibnamedelimi F.},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=43037e17e6bb66fd3eb714d6071e96b2}{%
+           family={Fajar},
+           familyi={F\bibinitperiod},
+           given={S.\bibnamedelimi P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3d2af6d82cdc714c501ad23e73be210a}{%
+           family={Ramadhan},
+           familyi={R\bibinitperiod},
+           given={M.\bibnamedelimi H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5d41e30231b364b571aec156ddd191ce}{%
+           family={Ishlah},
+           familyi={I\bibinitperiod},
+           given={M.\bibnamedelimi S.\bibnamedelimi N.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d54b5455347a9db2a243aed0a1a5b2c8}{%
+           family={Fikri},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86ad035a03f9438dc9cf319e35d348de}{%
+           family={Widiatmansyah},
+           familyi={W\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{95652d3134f14a9fa6695c073430bfa3}
+      \strng{fullhash}{d1ea88505989d2c0db3fef20fe070a20}
+      \strng{bibnamehash}{95652d3134f14a9fa6695c073430bfa3}
+      \strng{authorbibnamehash}{95652d3134f14a9fa6695c073430bfa3}
+      \strng{authornamehash}{95652d3134f14a9fa6695c073430bfa3}
+      \strng{authorfullhash}{d1ea88505989d2c0db3fef20fe070a20}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2026 International Conference on Advancement in Data Science, E-learning and Information System (ICADEIS)}
+      \field{month}{6}
+      \field{title}{Optimizing LLM Chatbot to Human Handover with Multi-Agent AI Approach}
+      \field{year}{2026}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ICADEIS71120.2026.11644567
+      \endverb
+    \endentry
+    \entry{k.-y.leeEnhancingTelecomOperation2025a}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=ad01cbd17d0789cfe4f1dfd9dfd8b02d}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={K.-Y.},
+           giveni={K\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6602f25d6708b19bfae48339ac58f081}{%
+           family={Tseng},
+           familyi={T\bibinitperiod},
+           given={P.-A.},
+           giveni={P\bibinithyphendelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ade9eab62f2e922009f9205ccd2ee4aa}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={W.-C.},
+           giveni={W\bibinithyphendelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{55f72860c994a9e53ffd1c54d634269b}
+      \strng{fullhash}{55f72860c994a9e53ffd1c54d634269b}
+      \strng{bibnamehash}{55f72860c994a9e53ffd1c54d634269b}
+      \strng{authorbibnamehash}{55f72860c994a9e53ffd1c54d634269b}
+      \strng{authornamehash}{55f72860c994a9e53ffd1c54d634269b}
+      \strng{authorfullhash}{55f72860c994a9e53ffd1c54d634269b}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This study investigates the integration of Large Language Models (LLMs) into Telecom Operation Support Systems (OSS) to enhance network management and user interaction. Adopting a Multi-Agent Architecture realizes significant advancements in AI-driven network management. LLMs enhance user interaction via natural language interfaces, reducing the need for specialized training and improving customer service through automation. This integration addresses OSS challenges by simplifying operations and providing intelligent insights for informed decision-making. The transition from a Single-Agent to a Multi-Agent Architecture enhances scalability and flexibility, allowing Chief and Specific Agents to collaborate in managing complex tasks efficiently. The Chief Agent oversees macro-level integration, while Specific Agents focus on domain-specific tasks and utilize tools for seamless data extraction and task execution. The architecture is designed to support parallel processing and adaptability, ensuring robust performance and scalability. Additionally, integrating large language models and agents enhances intuitive human-computer interaction, promoting accessibility and inclusivity. This comprehensive approach revolutionizes knowledge management and network administration by enabling proactive solutions and strategic decision-making. Integrating the strengths of LLMs and multi-agent systems, this framework provides a robust solution for modern telecommunications management, fostering innovation and efficiency in a rapidly evolving technological landscape. The contributions of this paper are manifold. Firstly, it introduces a novel Multi-Agent Architecture that leverages LLMs to transform OSS, significantly improving scalability and flexibility in network management. Secondly, it demonstrates how natural language interfaces can reduce the need for specialized training, thus enhancing user interaction and customer service. Thirdly, the study provides a detailed framework for the collaboration between Chief and Specific Agents, optimizing complex task management through intelligent insights and automation. Lastly, it highlights the role of LLMs in promoting accessibility and inclusivity, offering a strategic roadmap for future innovations in telecommunications management. These contributions collectively offer a groundbreaking approach to addressing the challenges faced by modern OSS, paving the way for more efficient and proactive network administration.}
+      \field{booktitle}{2025 11th {{International Conference}} on {{Computing}} and {{Artificial Intelligence}} ({{ICCAI}})}
+      \field{month}{3}
+      \field{title}{Enhancing {{Telecom Operation Support Systems}} with {{Multi-Agent Large Language Models}}}
+      \field{year}{2025}
+      \field{pages}{309\bibrangedash 316}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/ICCAI66501.2025.00055
+      \endverb
+      \verb{file}
+      \verb /home/wagner/Zotero/storage/ZFBUBQ8S/K. -Y. Lee et al. - 2025 - Enhancing Telecom Operation Support Systems with Multi-Agent Large Language Models.pdf
+      \endverb
+      \keyw{Agents,Architecture,Autonomous agents,Autonomous networks,Autonomous Networks,Behavioral research,Complex networks,Computer architecture,Decision making,Gen AI,Human computer interaction,incluido,Industrial management,Integration,Intelligent agents,Knowledge management,Language model,Large language model,Large Language Model,Large language models,LLM,Multi agent,Multi agent systems,Multi-Agent,Multiagent architecture,Natural languages,Network architecture,Network management,Operation support system,Operation Support Systems,Scalability,Sustainable development,Technological innovation,Telecom,Telecommunications,Training,User interfaces}
+    \endentry
+    \entry{c.moncadaLargeLanguageModels2025a}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=33030b3165a54649866027fa8548c5b8}{%
+           family={Moncada},
+           familyi={M\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a06030564d6a43e289de8f06f7a31325}{%
+           family={Lemus-Cárdenas},
+           familyi={L\bibinithyphendelim C\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4423bab12320d946f3328334d86bdfc1}{%
+           family={Crespo},
+           familyi={C\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8c8c7d5ee263150bf6c9406f4b5d792b}{%
+           family={Astudillo-León},
+           familyi={A\bibinithyphendelim L\bibinitperiod},
+           given={J.\bibnamedelimi P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6c08cbe798d248bd3931f082436d9221}
+      \strng{fullhash}{ffc78a63cdfa3731c352fa244734b375}
+      \strng{bibnamehash}{6c08cbe798d248bd3931f082436d9221}
+      \strng{authorbibnamehash}{6c08cbe798d248bd3931f082436d9221}
+      \strng{authornamehash}{6c08cbe798d248bd3931f082436d9221}
+      \strng{authorfullhash}{ffc78a63cdfa3731c352fa244734b375}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Customer service operations increasingly struggle to handle the rising volume and complexity of support tickets, exposing the limitations of traditional rule-based workflows and static machine learning models that often lack contextual adaptability. This paper presents a modular architecture that integrates multi-agent systems orchestrated by large language models (LLMs), specifically G PT-4-mini, implemented through the CrewAI framework. The proposed system leverages specialized agents for data ingestion, ticket classification into categories such as incident, request, change, and problem, and the generation of contextually appropriate responses. Experimental evaluations conducted on a dataset of technical support tickets demonstrate an average classification accuracy of 85\% and a mean cosine similarity of \$\textbackslash mathbf\textbraceleft 7 5 \textbackslash\%\textbraceright\$---capturing semantic alignment beyond lexical overlap. These results highlight the effectiveness of combining LLM-driven reasoning with multi-agent coordination to automate customer support workflows, offering a scalable foundation for deploying intelligent systems across diverse operational environments.}
+      \field{booktitle}{2025 {{IEEE Ninth Ecuador Technical Chapters Meeting}} ({{ETCM}})}
+      \field{month}{10}
+      \field{title}{Large {{Language Models}} and {{Multi-Agent Systems}} for {{Customer Support Ticket Automation}}}
+      \field{year}{2025}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ETCM67548.2025.11304425
+      \endverb
+      \verb{file}
+      \verb /home/wagner/Zotero/storage/HNU5SISY/C. Moncada et al. - 2025 - Large Language Models and Multi-Agent Systems for Customer Support Ticket Automation.pdf
+      \endverb
+      \keyw{Automation,Computational linguistics,Crewai,CrewAI,Customer service operations,Customer services,Customer support,Customer support automation,Data ingestion,Diversity reception,incluido,Intelligent agents,Intelligent systems,Language model,Large language model,Large language models,Learning systems,Machine learning,Model agents,Multi agent systems,Multi-agent systems,Multiagent systems (MASs),Sales,Semantic similarity,Semantics,Solid modeling,Work-flows}
+    \endentry
+    \entry{j.owotogbeAssessingEnhancingRobustness2025a}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=16c10854457614a2e87050e4d7dd8b0c}{%
+           family={Owotogbe},
+           familyi={O\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{16c10854457614a2e87050e4d7dd8b0c}
+      \strng{fullhash}{16c10854457614a2e87050e4d7dd8b0c}
+      \strng{bibnamehash}{16c10854457614a2e87050e4d7dd8b0c}
+      \strng{authorbibnamehash}{16c10854457614a2e87050e4d7dd8b0c}
+      \strng{authornamehash}{16c10854457614a2e87050e4d7dd8b0c}
+      \strng{authorfullhash}{16c10854457614a2e87050e4d7dd8b0c}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2025 IEEE/ACM 4th International Conference on AI Engineering -- Software Engineering for AI (CAIN)}
+      \field{month}{4}
+      \field{title}{Assessing and Enhancing the Robustness of LLM-Based Multi-Agent Systems Through Chaos Engineering}
+      \field{year}{2025}
+      \field{pages}{250\bibrangedash 252}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1109/CAIN66642.2025.00039
+      \endverb
+    \endentry
+    \entry{yanSelfTalkCommunicationCentricSurvey2026}{article}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=ba3b5fc1988785cfdedfd9a456275d37}{%
+           family={Yan},
+           familyi={Y\bibinitperiod},
+           given={Bingyu},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=18fe418a746b5f0a4d46e4b7bf1ba460}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Zhibo},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=072eb669a23558de21dd3c33ef80f17f}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Litian},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f52ee379cd43cb8cb57ed8f74862f4b}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Lian},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=44dbb63f99e35275f1da9ca7bc89a5f4}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Ziyi},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8ccb86ae21586d3daf92ae371df79ec1}{%
+           family={Miao},
+           familyi={M\bibinitperiod},
+           given={Dezhuang},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5756883fe146f8c0788104bc4fc41e77}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Zhoujun},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=23613360204cbd208054b04fa0d5e907}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Chaozhuo},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4fa328e9fe84fad65134eca8385a591b}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xiaoming},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{867096d13c7a2bf42dbd3b5cab570cf3}
+      \strng{fullhash}{7f9046a74d5ddc2dd1fd65e2fe44617f}
+      \strng{bibnamehash}{867096d13c7a2bf42dbd3b5cab570cf3}
+      \strng{authorbibnamehash}{867096d13c7a2bf42dbd3b5cab570cf3}
+      \strng{authornamehash}{867096d13c7a2bf42dbd3b5cab570cf3}
+      \strng{authorfullhash}{7f9046a74d5ddc2dd1fd65e2fe44617f}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers of Computer Science}
+      \field{title}{Beyond Self-Talk: A Communication-Centric Survey of LLM-Based Multi-Agent Systems}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1007/s11704-026-50857-y
+      \endverb
+    \endentry
+    \entry{w.yangTwoStageIntentRecognition2025a}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=97f01830168140b20dbd8a6af2e52ccf}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Wangying},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a9f1e89449a8f9e0a4b65ee24d8f421d}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9bda12dd2673e292c69fb6e6c80bba98}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xiaogong},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e2329396cb816ca5403a2ae6285214dd}
+      \strng{fullhash}{e2329396cb816ca5403a2ae6285214dd}
+      \strng{bibnamehash}{e2329396cb816ca5403a2ae6285214dd}
+      \strng{authorbibnamehash}{e2329396cb816ca5403a2ae6285214dd}
+      \strng{authornamehash}{e2329396cb816ca5403a2ae6285214dd}
+      \strng{authorfullhash}{e2329396cb816ca5403a2ae6285214dd}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{With the rapid development of generative artificial intelligence and the rise of AI agent, accurately identifying user intentions through natural language has become a key challenge in multi-agent systems. Traditional rule-based and classification models for intent recognition face limitations in scalability, semantic understanding and data requirements. Although large pre-trained language models improve accuracy, they often suffer from high computational costs and latency. To address these issues, this paper proposes a two-stage intent recognition framework in multi-agent environments. The first stage employs a lightweight TF-IDF-based approach for efficient initial matching, while the second stage leverages a large language model for fallback recognition when necessary. This design effectively balances speed and accuracy, offering a practical solution for intent recognition in complex, dynamic multi-agent systems.}
+      \field{booktitle}{2025 6th {{International Conference}} on {{Computer Engineering}} and {{Application}} ({{ICCEA}})}
+      \field{month}{4}
+      \field{title}{A {{Two-Stage Intent Recognition Framework}} in {{Multi-Agent Environments}}}
+      \field{year}{2025}
+      \field{pages}{1\bibrangedash 5}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/ICCEA65460.2025.11103313
+      \endverb
+      \verb{file}
+      \verb /home/wagner/Zotero/storage/HRT6A24E/W. Yang et al. - 2025 - A Two-Stage Intent Recognition Framework in Multi-Agent Environments.pdf
+      \endverb
+      \keyw{Accuracy,artificial intelligence,Computational efficiency,Computational modeling,incluido,intent recognition,Intent recognition,large language model,Large language models,multi-agent,Multi-agent systems,natural language processing,Real-time systems,Scalability,Semantics,User experience}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
