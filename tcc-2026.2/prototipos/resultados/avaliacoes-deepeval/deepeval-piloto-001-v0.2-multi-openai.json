@@ -1,0 +1,34 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "multi",
+  "evaluated_model": "gpt-4.1-mini",
+  "evaluator_model": "gpt-4.1-mini",
+  "prototype_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "threshold": 0.5,
+  "all_metrics_passed": true,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because there are no irrelevancies found in the assistant messages; all responses are relevant to the user's inputs."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.00 because there are no attritions indicating any forgetfulness or loss of previously established knowledge in the conversation."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because the LLM response fully addresses the user's intentions, including providing information about available Internet plans, checking plan availability based on the user's postal code, acknowledging the user's report of an Internet outage, and considering the technical details provided about the equipment's status. There are no noted gaps or missing elements in the responses."
+    }
+  ],
+  "method_note": "Avaliação semântica LLM-as-a-judge. Os critérios determinísticos de intenção, rota e comportamentos proibidos são avaliados em arquivo separado."
+}

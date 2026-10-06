@@ -3,7 +3,11 @@
   "architecture": "multi",
   "mode": "mock",
   "model": "mock",
-  "executed_at_utc": "2026-10-04T13:54:29.014444+00:00",
+  "prototype_version": "0.2.0",
+  "prompt_version": "0.2.0",
+  "knowledge_base_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "executed_at_utc": "2026-10-06T00:02:20.938885+00:00",
   "turns": [
     {
       "turn_id": 1,
@@ -13,7 +17,7 @@
       "calls": [
         {
           "agent": "triagem",
-          "latency_ms": 0.034,
+          "latency_ms": 0.035,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -28,7 +32,7 @@
         },
         {
           "agent": "commercial",
-          "latency_ms": 0.023,
+          "latency_ms": 0.029,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -52,7 +56,7 @@
       "calls": [
         {
           "agent": "commercial",
-          "latency_ms": 0.021,
+          "latency_ms": 0.05,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -76,7 +80,7 @@
       "calls": [
         {
           "agent": "commercial",
-          "latency_ms": 0.024,
+          "latency_ms": 0.1,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -92,7 +96,7 @@
         },
         {
           "agent": "triagem",
-          "latency_ms": 0.023,
+          "latency_ms": 0.024,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -107,7 +111,7 @@
         },
         {
           "agent": "support",
-          "latency_ms": 0.024,
+          "latency_ms": 0.023,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,
@@ -132,7 +136,7 @@
       "calls": [
         {
           "agent": "support",
-          "latency_ms": 0.031,
+          "latency_ms": 0.021,
           "input_tokens": 0,
           "output_tokens": 0,
           "total_tokens": 0,

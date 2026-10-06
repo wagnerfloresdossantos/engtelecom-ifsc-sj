@@ -6,15 +6,15 @@ from modelos import MedicaoChamada, SaidaAgenteUnico
 
 
 class ArquiteturaAgenteUnico:
-    def __init__(self, cliente: ClienteLLM, base_comum: str) -> None:
+    def __init__(self, cliente: ClienteLLM, base_conhecimento: str) -> None:
         self.cliente = cliente
-        self.base_comum = base_comum
+        self.base_conhecimento = base_conhecimento
         self.historico: list[dict[str, str]] = []
 
     def processar(self, mensagem_usuario: str) -> tuple[str, list[MedicaoChamada]]:
         prompt = renderizar_prompt(
             "agente-unico.md",
-            self.base_comum,
+            self.base_conhecimento,
             self.historico,
             mensagem_usuario,
         )

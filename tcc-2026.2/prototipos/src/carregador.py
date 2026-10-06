@@ -21,14 +21,15 @@ def ler_json(caminho_relativo: str) -> dict[str, Any]:
 
 def renderizar_prompt(
     nome_arquivo: str,
-    base_comum: str,
+    base_conhecimento: str,
     historico: list[dict[str, str]],
     mensagem_usuario: str,
     solicitacao_reencaminhamento: dict[str, Any] | None = None,
 ) -> str:
     prompt = ler_texto(f"prompts/{nome_arquivo}")
     substituicoes = {
-        "{{base_comum}}": base_comum,
+        "{{base_conhecimento}}": base_conhecimento,
+        "{{base_comum}}": base_conhecimento,
         "{{historico}}": json.dumps(historico, ensure_ascii=False, indent=2),
         "{{mensagem_usuario}}": mensagem_usuario,
         "{{solicitacao_reencaminhamento}}": json.dumps(

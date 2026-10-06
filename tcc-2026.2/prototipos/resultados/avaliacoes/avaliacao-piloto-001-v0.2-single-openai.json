@@ -1,0 +1,84 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "deterministic_validation_passed": true,
+  "summary": {
+    "turns": 4,
+    "correct_intents": 4,
+    "correct_routes": 4,
+    "model_calls": 4,
+    "input_tokens": 5216,
+    "output_tokens": 309,
+    "total_tokens": 5525,
+    "accumulated_latency_ms": 14737.418,
+    "final_handoff_correct": true,
+    "forbidden_behaviors_absent": true
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "expected_intent": "comercial_planos",
+      "observed_intent": "comercial_planos",
+      "intent_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "forbidden_behavior_detected": [],
+      "forbidden_behavior_absent": true
+    },
+    {
+      "turn_id": 2,
+      "expected_intent": "comercial_consulta_cobertura",
+      "observed_intent": "comercial_consulta_cobertura",
+      "intent_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "forbidden_behavior_detected": [],
+      "forbidden_behavior_absent": true
+    },
+    {
+      "turn_id": 3,
+      "expected_intent": "suporte_sem_conexao",
+      "observed_intent": "suporte_sem_conexao",
+      "intent_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "forbidden_behavior_detected": [],
+      "forbidden_behavior_absent": true
+    },
+    {
+      "turn_id": 4,
+      "expected_intent": "suporte_falha_optica",
+      "observed_intent": "suporte_falha_optica",
+      "intent_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "forbidden_behavior_detected": [],
+      "forbidden_behavior_absent": true
+    }
+  ],
+  "scope_note": "Esta validação cobre critérios estruturados. Relevância, qualidade e retenção semântica de contexto exigem avaliação complementar."
+}

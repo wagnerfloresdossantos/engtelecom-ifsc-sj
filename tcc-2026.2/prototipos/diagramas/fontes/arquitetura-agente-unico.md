@@ -1,30 +1,27 @@
-# Fluxo do cenário piloto — arquitetura de agente único
-
 ```mermaid
 sequenceDiagram
     autonumber
 
     actor U as Usuário
-    participant A as Agente Único
-    participant R as Registro de Execução
+    participant A as Agente único
+    participant R as Registro da execução
 
-    rect 
+    rect
         Note over U,A: Atendimento comercial
         U->>A: Quero conhecer os planos de Internet
         A->>U: Solicita o CEP
         U->>A: Meu CEP é 88110-000
-        A->>U: Continua o atendimento comercial
+        A->>U: Informa a cobertura e os planos disponíveis
     end
 
     rect
-        Note over U,A: Mudança de assunto
-        U->>A: Já sou cliente e estou sem Internet
-        A->>U: Inicia o atendimento técnico
+        Note over U,A: Mudança para suporte
+        U->>A: Já sou cliente e estou sem Internet desde ontem
+        A->>U: Solicita o estado das luzes do equipamento
         U->>A: A luz LOS está vermelha
-        A->>U: Informa o procedimento previsto
+        A->>U: Encaminha para análise técnica humana
     end
 
-    A-->>R: Registra respostas, tempo e consumo
+    A-->>R: Registra respostas, latência e tokens
 ```
-
-Neste fluxo, o mesmo agente mantém o contexto e trata todas as mensagens da conversa.
+    Nota: Neste fluxo, o mesmo agente mantém o histórico da conversa, identifica a mudança de assunto e executa as etapas comerciais e técnicas sem transferência entre agentes.

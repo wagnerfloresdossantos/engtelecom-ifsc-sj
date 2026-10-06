@@ -1,0 +1,105 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "negative-control",
+  "mode": "synthetic-negative-control",
+  "model": "not-applicable",
+  "prototype_version": "0.2.0",
+  "prompt_version": "not-applicable",
+  "knowledge_base_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "control_purpose": "Verificar se as métricas semânticas detectam perda de contexto, respostas irrelevantes e falta de conclusão da tarefa.",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para consultar a disponibilidade, informe seu CEP.",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "controle_negativo",
+          "latency_ms": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Para consultar a disponibilidade, informe seu CEP.",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "Para verificar os planos disponíveis, informe seu CEP.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "controle_negativo",
+          "latency_ms": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Para verificar os planos disponíveis, informe seu CEP.",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Temos planos de 500, 700 e 900 Mbit/s disponíveis para contratação.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "controle_negativo",
+          "latency_ms": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Temos planos de 500, 700 e 900 Mbit/s disponíveis para contratação.",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "A luz LOS está vermelha.",
+      "assistant_response": "Entendido. Há algo mais em que posso ajudar?",
+      "expected_intent": "suporte_falha_optica",
+      "calls": [
+        {
+          "agent": "controle_negativo",
+          "latency_ms": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Entendido. Há algo mais em que posso ajudar?",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": []
+          }
+        }
+      ]
+    }
+  ]
+}

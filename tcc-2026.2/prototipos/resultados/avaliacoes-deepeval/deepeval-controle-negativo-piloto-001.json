@@ -1,0 +1,34 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "negative-control",
+  "evaluated_model": "not-applicable",
+  "evaluator_model": "gpt-4.1-mini",
+  "prototype_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "threshold": 0.5,
+  "all_metrics_passed": false,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 0.25,
+      "threshold": 0.5,
+      "passed": false,
+      "reason": "The score is 0.25 because in message 2, the assistant redundantly asked for the user's postal code despite it already being provided, which is irrelevant. In message 3, the assistant offered new internet plans despite the user stating they are an existing client with an issue, making the response unhelpful. In message 4, the assistant failed to address the user's reported internet problem and instead gave a generic offer for further help, which does not resolve the user's issue."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 0.75,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 0.75 because the LLM demonstrates partial forgetfulness by asking for the CEP despite it being previously established as '88110-000', indicating some retention but not complete recall."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 0.0,
+      "threshold": 0.5,
+      "passed": false,
+      "reason": "The score is 0.0 because the LLM failed to provide information about Internet plans despite the user's initial request and repeated provision of their postal code (CEP). It did not acknowledge or utilize the CEP to check availability, nor did it address the user's report of being an existing customer without Internet service or the red LOS light issue. Instead, it repeatedly asked for the CEP and gave unrelated responses, thus not meeting any of the user's intentions."
+    }
+  ],
+  "method_note": "Avaliação semântica LLM-as-a-judge. Os critérios determinísticos de intenção, rota e comportamentos proibidos são avaliados em arquivo separado."
+}

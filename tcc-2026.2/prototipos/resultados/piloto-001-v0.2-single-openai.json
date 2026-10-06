@@ -1,0 +1,116 @@
+{
+  "scenario_id": "piloto-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.2.0",
+  "prompt_version": "0.2.0",
+  "knowledge_base_version": "0.2.0",
+  "scenario_version": "0.1.0",
+  "executed_at_utc": "2026-10-05T22:07:53.635132+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para apresentar os planos disponíveis, por favor, informe o seu CEP.",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2802.153,
+          "input_tokens": 1204,
+          "output_tokens": 54,
+          "total_tokens": 1258,
+          "output": {
+            "response": "Para apresentar os planos disponíveis, por favor, informe o seu CEP.",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário solicita informação sobre planos de internet"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "Para o CEP 88110-000, temos os planos de Internet com velocidades de 500, 700 e 900 Mbit/s disponíveis. Gostaria de mais detalhes sobre algum desses planos?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1696.455,
+          "input_tokens": 1261,
+          "output_tokens": 100,
+          "total_tokens": 1361,
+          "output": {
+            "response": "Para o CEP 88110-000, temos os planos de Internet com velocidades de 500, 700 e 900 Mbit/s disponíveis. Gostaria de mais detalhes sobre algum desses planos?",
+            "intent": "comercial_consulta_cobertura",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "CEP informado: 88110-000",
+              "Planos disponíveis: 500, 700 e 900 Mbit/s"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Para ajudar no suporte, por favor, informe o estado das luzes do seu equipamento.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 8907.739,
+          "input_tokens": 1350,
+          "output_tokens": 64,
+          "total_tokens": 1414,
+          "output": {
+            "response": "Para ajudar no suporte, por favor, informe o estado das luzes do seu equipamento.",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Usuário já é cliente",
+              "Usuário está sem Internet desde ontem"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "A luz LOS está vermelha.",
+      "assistant_response": "A luz LOS vermelha indica uma possível falha no sinal óptico. Para resolver essa questão, vou encaminhar seu atendimento para nossa equipe técnica especializada, que irá analisar o problema com mais detalhes.",
+      "expected_intent": "suporte_falha_optica",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1331.071,
+          "input_tokens": 1401,
+          "output_tokens": 91,
+          "total_tokens": 1492,
+          "output": {
+            "response": "A luz LOS vermelha indica uma possível falha no sinal óptico. Para resolver essa questão, vou encaminhar seu atendimento para nossa equipe técnica especializada, que irá analisar o problema com mais detalhes.",
+            "intent": "suporte_falha_optica",
+            "active_area": "support",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "cliente sem Internet",
+              "luz LOS vermelha no equipamento"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
