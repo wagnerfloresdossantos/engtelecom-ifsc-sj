@@ -266,4 +266,4 @@ prototipos/resultados/cache/
 *.sls
 
 # PDF principal gerado
-/monografia/monografia.pdf
+#/monografia/monografia.pdf
