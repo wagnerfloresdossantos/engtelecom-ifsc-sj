@@ -1,19 +1,18 @@
 # Fdb version 4
-["biber 2026-09-resumo-estendido-wagner"] 1791024277.72546 "2026-09-resumo-estendido-wagner.bcf" "2026-09-resumo-estendido-wagner.bbl" "2026-09-resumo-estendido-wagner" 1791024287.62741 0
-  "2026-09-resumo-estendido-wagner.bcf" 1791024287.31165 113505 1d68785320c767841f68fbfe79c01dda "pdflatex"
-  "referencias.bib" 1790330271.99933 9153 bf50614da7e556fafa56c530be525fbb ""
+["biber 2026-09-resumo-estendido-wagner"] 1791501517.05044 "2026-09-resumo-estendido-wagner.bcf" "2026-09-resumo-estendido-wagner.bbl" "2026-09-resumo-estendido-wagner" 1791668687.34928 0
+  "2026-09-resumo-estendido-wagner.bcf" 1791668687.08021 113569 18b86d9fb503ad452f97ab3a091a0bdc "pdflatex"
+  "referencias.bib" 1791501516.52956 11928 fee40605747d819ab010600791440bbd ""
   (generated)
   "2026-09-resumo-estendido-wagner.bbl"
   "2026-09-resumo-estendido-wagner.blg"
   (rewritten before read)
-["pdflatex"] 1791024283.6525 "/home/wagner/Documentos/IFSC/GIT-WAGNER/tcc-2026.2/entregas/tcc1/2026-09-entrega-resumo-extendido/2026-09-resumo-estendido-wagner.tex" "2026-09-resumo-estendido-wagner.pdf" "2026-09-resumo-estendido-wagner" 1791024287.6279 0
+["pdflatex"] 1791668683.60278 "/home/wagner/Documentos/IFSC/GIT-WAGNER/tcc-2026.2/entregas/tcc1/2026-09-entrega-resumo-extendido/2026-09-resumo-estendido-wagner.tex" "2026-09-resumo-estendido-wagner.pdf" "2026-09-resumo-estendido-wagner" 1791668687.3498 0
   "/etc/texmf/web2c/texmf.cnf" 1726680854.72257 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/wagner/Documentos/IFSC/GIT-WAGNER/tcc-2026.2/entregas/tcc1/2026-09-entrega-resumo-extendido/2026-09-resumo-estendido-wagner.tex" 1790328538.75347 21972 eae80d22446a7557f1f6575e830e96ce ""
+  "/home/wagner/Documentos/IFSC/GIT-WAGNER/tcc-2026.2/entregas/tcc1/2026-09-entrega-resumo-extendido/2026-09-resumo-estendido-wagner.tex" 1791668679.71592 21997 b80a4ea6fdd614dcfcea918450493426 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm" 1136768653 4484 b828043cbd581d289d955903c1339981 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvb8t.tfm" 1136768653 6628 34c39492c0adc454c1c199922bba8363 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8c.tfm" 1136768653 1348 c311631dfec4123b7faa7f864709e626 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm" 1136768653 4712 9ef4d7d106579d4b136e1529e1a4533c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm" 1136768653 7040 b2bd27e2bfe6f6948cbc3239cae7444f ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvrc8t.tfm" 1136768653 16152 ab9d47b69dd04cab59fcf780bd0eed36 ""
@@ -36,7 +35,6 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb" 1136849748 44648 23115b2a545ebfe2c526c3ca99db8b95 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb" 1136849748 48169 b4fd9d908b9ee8c65d4305ad39071c5e ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvb8t.vf" 1136768653 2340 0efed6a948c3c37d870e4e7ddb85c7c3 ""
-  "/usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvr8c.vf" 1136768653 3556 570286160ebfdd10d887aaa718e2e64d ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf" 1136768653 2344 44ff28c9ef2fc97180cd884f900fee71 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvrc8t.vf" 1136768653 3612 a448b9c1ed57bed50ea118ae6680e645 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvro8t.vf" 1136768653 2348 717f0e01beff9c30c0df4945e471886f ""
@@ -243,7 +241,6 @@
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty" 1586716065 1499 de0ad166b701b820e03588a29bb30798 ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/pifont.sty" 1586716065 2283 62e73848f29fd8cd37fb7974c7cf2221 ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd" 1586716065 1483 47067fbe7c3ffed1ede7aaa7b8549d7a ""
-  "/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd" 1586716065 1181 ec0c641cd2e0fb69a449534a0279b5ca ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/upsy.fd" 1137110629 148 2da0acd77cba348f34823f44cabf0058 ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/upzd.fd" 1137110629 148 b2a94082cb802f90d3daf6dd0c7188a0 ""
   "/usr/share/texlive/texmf-dist/tex/latex/ragged2e/ragged2e.sty" 1687466457 10085 3dececaeed388e31285c366e124c0c4e ""
@@ -288,8 +285,6 @@
   "/usr/share/texlive/texmf-dist/tex/latex/zref/zref-abspage.sty" 1694723124 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "/usr/share/texlive/texmf-dist/tex/latex/zref/zref-base.sty" 1694723124 20785 f7d1133a287929598a897c93f8f4c44b ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
-  "/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc" 1202520719 2840 216e6e45ad352e2456e1149f28885bee ""
-  "/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc" 1202520719 2327 9d6df24f9c4f7368395224341a95523a ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmex10.tfm" 1148093231 992 ce925c9346c7613270a79afbee98c070 ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmmi10.tfm" 1148093231 1528 6d36b2385e0ca062a654de6ac59cb34f ""
   "/usr/share/texmf/fonts/tfm/public/lm/lmmi5.tfm" 1148093231 1508 198f5b7b99b5769126de3a533f6fc334 ""
@@ -308,8 +303,6 @@
   "/usr/share/texmf/fonts/tfm/public/lm/rm-lmr8.tfm" 1254269338 11864 309fd7f43e4a0ba39f6f7644d76e8edf ""
   "/usr/share/texmf/fonts/tfm/public/lm/rm-lmss10.tfm" 1254269338 10976 59d4d2acacc56ba9abc92645023932ec ""
   "/usr/share/texmf/fonts/tfm/public/lm/rm-lmss8.tfm" 1254269338 10976 d5243dcaf5ba5ee7825c8438c6b7a7ea ""
-  "/usr/share/texmf/fonts/type1/public/lm/lmr10.pfb" 1255129361 119235 f35b44530a1d90eb90fe15d9cba67ea0 ""
-  "/usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb" 1254269338 27863 09ce3735688ffde955e72da27c95b61a ""
   "/usr/share/texmf/tex/latex/lm/lmodern.sty" 1616454256 1608 b00724785a9e9c599e5181bb8729160b ""
   "/usr/share/texmf/tex/latex/lm/omllmm.fd" 1616454256 890 57f5adccd504fb5c98bdf99ed7e7f195 ""
   "/usr/share/texmf/tex/latex/lm/omslmsy.fd" 1616454256 807 3de192f3efa968913bd2f096a7b430d8 ""
@@ -319,10 +312,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1770841800.10497 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1770841944 8215410 f5e9fb27dec19a6d9ec23fa26f315f3b ""
-  "2026-09-resumo-estendido-wagner.aux" 1791024287.29465 7089 0fb202a6399e728334e488cdaf5a0d9b "pdflatex"
-  "2026-09-resumo-estendido-wagner.bbl" 1791024279.28845 20083 80e41540e2bd5079412cdff44c137dbe "biber 2026-09-resumo-estendido-wagner"
-  "2026-09-resumo-estendido-wagner.run.xml" 1791024287.31365 2700 64fbdb7717d5729fb952ca2cedc8245f "pdflatex"
-  "2026-09-resumo-estendido-wagner.tex" 1790328538.75347 21972 eae80d22446a7557f1f6575e830e96ce ""
+  "2026-09-resumo-estendido-wagner.aux" 1791668687.06721 7254 1b6e6ae3d86e8f41bce26c155709ba72 "pdflatex"
+  "2026-09-resumo-estendido-wagner.bbl" 1791501518.66882 21258 c5f452e89d98aca2f6d6104f6dee1ff3 "biber 2026-09-resumo-estendido-wagner"
+  "2026-09-resumo-estendido-wagner.run.xml" 1791668687.08221 2700 64fbdb7717d5729fb952ca2cedc8245f "pdflatex"
+  "2026-09-resumo-estendido-wagner.tex" 1791668679.71592 21997 b80a4ea6fdd614dcfcea918450493426 ""
   "ifscarticle.cls" 1770853254 2004 e4b748809d52623b6deb960a8a1e42cd ""
   "ifscutils.sty" 1770853254 31920 93cc3d87b314649545d90e4e7306afc5 ""
   (generated)

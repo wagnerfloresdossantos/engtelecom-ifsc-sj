@@ -227,22 +227,19 @@ TSWLatexianTemp*
 .env.*
 !.env.example
 
+## Ambientes virtuais
+.venv/
+venv/
+
 ## Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 *.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
-
-## Ambientes virtuais adicionais
-venv/
-experimento/venv/
-experimento/.venv/
 
 ## Jupyter Notebook
 .ipynb_checkpoints/
@@ -252,16 +249,17 @@ experimento/.venv/
 .deepeval-cache/
 
 ## Resultados temporários
-experimento/resultados/temporarios/
-experimento/resultados/cache/
+prototipos/resultados/temporarios/
+prototipos/resultados/cache/
 
 ## Arquivos temporários gerais
 *.tmp
 *.temp
 
-# ==================================================
+# ============================================================
 # LaTeX — arquivos adicionais
-# ==================================================
+# ============================================================
+
 *.loq
 *.slg
 *.slo
@@ -269,23 +267,3 @@ experimento/resultados/cache/
 
 # PDF principal gerado
 /monografia/monografia.pdf
-
-# ==================================================
-# Python
-# ==================================================
-.venv/
-venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.mypy_cache/
-
-# ==================================================
-# Credenciais
-# ==================================================
-.env
-.env.local
-!.env.example
-
-# End of https://www.gitignore.io/api/latex
-

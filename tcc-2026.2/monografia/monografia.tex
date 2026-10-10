@@ -23,7 +23,7 @@
 ]{ifscthesis}
 
 % Para gerar texto de exemplo
-\usepackage{lipsum} 
+%\usepackage{lipsum} 
 
 % Arquivo com as referências bibliográficas
 \addbibresource{referencias.bib}
@@ -49,12 +49,12 @@
 \imprimircapa
 \imprimirfolhaderosto
 
-\input{pretextuais/ficha-catalografica.tex}
-\input{pretextuais/folha-de-aprovacao.tex}
+%\input{pretextuais/ficha-catalografica.tex}
+%\input{pretextuais/folha-de-aprovacao.tex}
 
-\input{pretextuais/dedicatoria.tex}
-\input{pretextuais/agradecimentos.tex}
-\input{pretextuais/epigrafe.tex}
+%\input{pretextuais/dedicatoria.tex}
+%\input{pretextuais/agradecimentos.tex}
+%\input{pretextuais/epigrafe.tex}
 \input{pretextuais/resumo-abstract.tex}
 
 
@@ -62,34 +62,34 @@
 % LISTAS
 %-----------------------------------------------%
 % Lista de ilustrações
-\pdfbookmark[0]{\listfigurename}{lof}
-\listoffigures*
-\cleardoublepage
+% \pdfbookmark[0]{\listfigurename}{lof}
+% \listoffigures*
+% \cleardoublepage
 
 % Lista de quadros
-\pdfbookmark[0]{\listofquadrosname}{loq}
-\listofquadros*
-\cleardoublepage
+ \pdfbookmark[0]{\listofquadrosname}{loq}
+ \listofquadros*
+ \cleardoublepage
 
 % Lista de tabelas
-\pdfbookmark[0]{\listtablename}{lot}
-\listoftables*
-\cleardoublepage
+% \pdfbookmark[0]{\listtablename}{lot}
+% \listoftables*
+% \cleardoublepage
 
 % Lista de códigos
-\pdfbookmark[0]{\lstlistlistingname}{lol}
-\begin{KeepFromToc}
-\lstlistoflistings
-\end{KeepFromToc}
-\cleardoublepage
+%\pdfbookmark[0]{\lstlistlistingname}{lol}
+%\begin{KeepFromToc}
+%\lstlistoflistings
+%\end{KeepFromToc}
+%\cleardoublepage
 
 % Lista de abreviaturas
 \printglossary[type=\acronymtype,nonumberlist,title=Lista de abreviaturas e siglas]
 \cleardoublepage
 
 % Lista de símbolos
-\printglossary[type=symbols,nonumberlist,title=Lista de símbolos]
-\cleardoublepage
+%\printglossary[type=symbols,nonumberlist,title=Lista de símbolos]
+%\cleardoublepage
 
 % Sumário
 
@@ -107,7 +107,7 @@
 \input{capitulos/capitulo-01.tex}
 \input{capitulos/capitulo-02.tex}
 \input{capitulos/capitulo-03.tex}
-\input{capitulos/capitulo-04.tex}
+%\input{capitulos/capitulo-04.tex}
 
 
 
@@ -117,9 +117,9 @@
 %-----------------------------------------------%
 % Apêndices
 %-----------------------------------------------%
-\input{anexos-apendices/apendices.tex}
+%\input{anexos-apendices/apendices.tex}
 % Anexos
-\input{anexos-apendices/anexos.tex}
+%\input{anexos-apendices/anexos.tex}
 
 
 \end{document}

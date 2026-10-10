@@ -22,6 +22,8 @@ Um agente baseado em modelo de linguagem combina o modelo com instruções que d
 
 As instruções fornecidas ao agente delimitam sua atuação. Um agente de suporte técnico, por exemplo, pode receber regras sobre os testes permitidos, os dados que devem ser solicitados e as situações que exigem transferência para atendimento humano. O histórico da conversa permite utilizar informações fornecidas em mensagens anteriores e evitar que o usuário tenha que repeti-las.
 
+Agentes baseados em modelos de linguagem também podem utilizar mecanismos de memória e recuperação de informações. Yan et al. destacam que técnicas de geração aumentada por recuperação podem fornecer ao modelo informações obtidas de fontes externas ou de memórias estruturadas. Nesse tipo de abordagem, os conteúdos relevantes são recuperados dinamicamente e inseridos no contexto utilizado para produzir a resposta~\cite{yan2026}. No presente trabalho, entretanto, não será implementado um mecanismo completo de recuperação, pois as informações serão fornecidas aos agentes por meio de bases previamente definidas e distribuídas conforme suas responsabilidades.
+
 Moncada et al. utilizam agentes especializados para realizar a ingestão de dados, a classificação de chamados e a geração de respostas em uma aplicação de suporte ao cliente~\cite{moncada2025}. O trabalho mostra que uma tarefa de atendimento pode ser dividida entre componentes com responsabilidades distintas. Essa divisão, entretanto, exige que as informações necessárias sejam transmitidas corretamente entre os agentes.
 
 \subsection{Arquiteturas de agente único e multiagente}
@@ -37,6 +39,8 @@ A especialização permite limitar as instruções e informações recebidas por
 
 Amri et al. comparam arquiteturas de agente único e multiagente no encaminhamento de conversas para atendimento humano~\cite{amri2026}. Os resultados apresentados pelos autores indicam diferenças entre as arquiteturas, mas não demonstram vantagem da abordagem multiagente em todos os critérios. Essa constatação reforça a necessidade de comparar as duas alternativas sob as mesmas condições.
 
+Yan et al. classificam as arquiteturas de comunicação de sistemas multiagentes baseados em modelos de linguagem em estruturas planas, hierárquicas, por equipes, de sociedade e híbridas. Na arquitetura hierárquica, agentes de nível superior coordenam ou direcionam a execução de agentes responsáveis por tarefas específicas. Essa organização facilita a divisão de responsabilidades, mas pode introduzir pontos de concentração, aumento da latência e sobrecarga de comunicação~\cite{yan2026}. A arquitetura multiagente proposta neste trabalho aproxima-se desse modelo, pois utiliza um agente de triagem para direcionar as mensagens aos agentes especializados e realizar novo encaminhamento quando ocorre mudança de assunto.
+
 \subsection{Comunicação, orquestração e retenção de contexto}
 \label{subsec:comunicacao-contexto}
 
@@ -48,6 +52,8 @@ Em uma conversa com vários turnos, as informações costumam ser fornecidas aos
 
 Neste trabalho, a retenção de contexto será observada pela capacidade de utilizar corretamente informações apresentadas em mensagens anteriores. Também serão registrados os encaminhamentos realizados ao longo da conversa. Com isso, será possível distinguir um erro na resposta de um erro ocorrido anteriormente na triagem ou na transferência de informações.
 
+A análise de Yan et al. diferencia aspectos de nível sistêmico e aspectos internos da comunicação. No nível sistêmico, são considerados a arquitetura, o objetivo da comunicação e os protocolos utilizados. No nível interno, são observados a sequência das interações, a forma das mensagens, os participantes e o conteúdo transferido~\cite{yan2026}. Essa distinção é pertinente a este trabalho, pois a comparação envolve tanto a organização dos agentes quanto o caminho percorrido pelas mensagens e as informações preservadas durante os encaminhamentos.
+
 Falhas em um componente podem afetar as etapas seguintes de um sistema multiagente. Owotogbe discute esse problema ao investigar a robustez de sistemas formados por agentes baseados em modelos de linguagem~\cite{owotogbe2025}. Embora a injeção deliberada de falhas não faça parte do escopo deste trabalho, a possibilidade de propagação de erros justifica o acompanhamento do fluxo percorrido por cada atendimento.
 
 \subsection{Avaliação de sistemas conversacionais}
@@ -58,6 +64,8 @@ A avaliação de um sistema conversacional pode considerar tanto a resposta entr
 A correção indica se a resposta está de acordo com as informações disponíveis. A relevância verifica se ela trata diretamente da solicitação apresentada. A retenção de contexto observa se os dados fornecidos anteriormente foram utilizados de forma adequada. Já a conclusão da tarefa verifica se o objetivo definido para o cenário foi alcançado.
 
 Em uma arquitetura multiagente, também é necessário avaliar a precisão dos encaminhamentos. Essa medida permite verificar se cada mensagem foi direcionada ao agente responsável pelo assunto. As métricas de qualidade podem ser acompanhadas por medidas operacionais, como tempo de resposta, consumo de tokens, número de chamadas ao modelo e quantidade de trocas de agente.
+
+Ferramentas de avaliação de aplicações baseadas em modelos de linguagem podem combinar verificações objetivas com métricas baseadas em um modelo avaliador. Neste trabalho, será utilizado o DeepEval para examinar aspectos semânticos das conversas, como relevância das respostas, retenção de informações e conclusão do atendimento. Resultados objetivos, como intenção identificada, rota entre agentes e encaminhamento final, serão verificados separadamente por regras determinísticas.
 
 Esses critérios permitem comparar as arquiteturas para além da resposta final. No experimento proposto, os mesmos cenários, o mesmo modelo de linguagem e a mesma base de informações serão empregados nos dois protótipos. Os detalhes das métricas e do procedimento experimental serão apresentados no capítulo de metodologia.
 
