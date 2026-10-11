@@ -4,16 +4,18 @@ Este capítulo apresenta os conceitos utilizados no desenvolvimento do trabalho 
 
 \section{Fundamentação teórica}\label{sec:fundamentacao}
 
-\subsection{Modelos de linguagem de grande escala}
+\subsection{Modelos de linguagem em grande escala}
 \label{subsec:llm}
 
-Os modelos de linguagem de grande escala são capazes de interpretar instruções e produzir textos a partir do contexto fornecido em sua entrada. Em sistemas de atendimento, esses modelos podem ser utilizados para identificar a intenção do usuário, consultar informações e elaborar respostas adequadas à solicitação recebida.
+Os modelos de linguagem em grande escala são capazes de interpretar instruções e produzir textos a partir do contexto fornecido em sua entrada. Em sistemas de atendimento, esses modelos podem ser utilizados para identificar a intenção do usuário, consultar informações e elaborar respostas adequadas à solicitação recebida.
 
 Diferentemente de um fluxo baseado somente em regras fixas, um sistema apoiado em \glspl{LLM} pode tratar diferentes formas de expressar uma mesma intenção. Essa característica é útil em conversas nas quais o usuário não segue um roteiro predefinido ou fornece as informações de maneira incompleta.
 
 O comportamento do modelo depende das instruções, das informações disponíveis e do histórico incluído no contexto. Uma resposta também pode variar entre execuções, mesmo quando a entrada é semelhante. Por esse motivo, a utilização de \glspl{LLM} em processos de atendimento exige critérios que permitam verificar a correção das respostas e o cumprimento das regras definidas para o serviço.
 
-Yang, Xu e Zhang observam que modelos de linguagem podem melhorar o reconhecimento de intenções em comparação com métodos baseados somente em regras ou classificação tradicional. Os autores também destacam o custo computacional e a latência associados ao seu uso~\cite{yang2025}. Esses fatores são relevantes neste trabalho porque as arquiteturas comparadas podem realizar quantidades diferentes de chamadas ao modelo.
+As informações processadas pelo modelo são representadas por tokens, que correspondem a unidades de texto utilizadas na entrada e na saída. A quantidade de tokens depende do tamanho dos prompts, do histórico da conversa, da base de conhecimento fornecida e das respostas produzidas. Como arquiteturas multiagentes podem realizar mais de uma chamada ao modelo para tratar uma mesma mensagem, o número de chamadas e o consumo de tokens são medidas relevantes para a comparação proposta.
+
+Yang, Xu e Zhang observam que modelos de linguagem podem melhorar o reconhecimento de intenções em comparação com métodos baseados somente em regras ou classificação tradicional. Os autores também destacam o custo computacional e a latência associados ao seu uso~\cite{yang2025}. Embora a latência não seja uma variável avaliada neste trabalho, o estudo demonstra que a utilização de LLMs acrescenta custos operacionais que devem ser considerados na escolha da arquitetura.
 
 \subsection{Agentes baseados em modelos de linguagem}
 \label{subsec:agentes-llm}
@@ -22,7 +24,9 @@ Um agente baseado em modelo de linguagem combina o modelo com instruções que d
 
 As instruções fornecidas ao agente delimitam sua atuação. Um agente de suporte técnico, por exemplo, pode receber regras sobre os testes permitidos, os dados que devem ser solicitados e as situações que exigem transferência para atendimento humano. O histórico da conversa permite utilizar informações fornecidas em mensagens anteriores e evitar que o usuário tenha que repeti-las.
 
-Agentes baseados em modelos de linguagem também podem utilizar mecanismos de memória e recuperação de informações. Yan et al. destacam que técnicas de geração aumentada por recuperação podem fornecer ao modelo informações obtidas de fontes externas ou de memórias estruturadas. Nesse tipo de abordagem, os conteúdos relevantes são recuperados dinamicamente e inseridos no contexto utilizado para produzir a resposta~\cite{yan2026}. No presente trabalho, entretanto, não será implementado um mecanismo completo de recuperação, pois as informações serão fornecidas aos agentes por meio de bases previamente definidas e distribuídas conforme suas responsabilidades.
+Agentes baseados em modelos de linguagem também podem utilizar mecanismos de memória e recuperação de informações. \textcite{yan2026} destacam que técnicas de geração aumentada por recuperação podem fornecer ao modelo informações obtidas de fontes externas ou de memórias estruturadas. Nesse tipo de abordagem, os conteúdos relevantes são recuperados dinamicamente e inseridos no contexto utilizado para produzir a resposta.
+
+Neste trabalho não será implementado um mecanismo de geração aumentada por recuperação. A base de conhecimento será formada por documentos previamente definidos, contendo regras, informações e procedimentos fictícios de atendimento. No agente único, todo o conteúdo será disponibilizado em um contexto comum. Na arquitetura multiagente, o mesmo conteúdo será dividido conforme a responsabilidade de cada agente.
 
 Moncada et al. utilizam agentes especializados para realizar a ingestão de dados, a classificação de chamados e a geração de respostas em uma aplicação de suporte ao cliente~\cite{moncada2025}. O trabalho mostra que uma tarefa de atendimento pode ser dividida entre componentes com responsabilidades distintas. Essa divisão, entretanto, exige que as informações necessárias sejam transmitidas corretamente entre os agentes.
 
@@ -39,35 +43,43 @@ A especialização permite limitar as instruções e informações recebidas por
 
 Amri et al. comparam arquiteturas de agente único e multiagente no encaminhamento de conversas para atendimento humano~\cite{amri2026}. Os resultados apresentados pelos autores indicam diferenças entre as arquiteturas, mas não demonstram vantagem da abordagem multiagente em todos os critérios. Essa constatação reforça a necessidade de comparar as duas alternativas sob as mesmas condições.
 
-Yan et al. classificam as arquiteturas de comunicação de sistemas multiagentes baseados em modelos de linguagem em estruturas planas, hierárquicas, por equipes, de sociedade e híbridas. Na arquitetura hierárquica, agentes de nível superior coordenam ou direcionam a execução de agentes responsáveis por tarefas específicas. Essa organização facilita a divisão de responsabilidades, mas pode introduzir pontos de concentração, aumento da latência e sobrecarga de comunicação~\cite{yan2026}. A arquitetura multiagente proposta neste trabalho aproxima-se desse modelo, pois utiliza um agente de triagem para direcionar as mensagens aos agentes especializados e realizar novo encaminhamento quando ocorre mudança de assunto.
+\textcite{yan2026} classificam as arquiteturas de comunicação de sistemas multiagentes baseados em modelos de linguagem em estruturas planas, hierárquicas, por equipes, de sociedade e híbridas. Nas estruturas hierárquicas, componentes de nível superior coordenam ou direcionam a execução de agentes responsáveis por tarefas específicas. Essa organização facilita a divisão das responsabilidades, mas acrescenta etapas de comunicação e pode concentrar decisões em determinados componentes.
+
+A arquitetura multiagente proposta neste trabalho aproxima-se de uma organização hierárquica com coordenação centralizada. Um orquestrador será responsável por manter o estado da conversa e controlar a execução. O agente de triagem selecionará o primeiro agente especializado. Enquanto o assunto permanecer na mesma área, as mensagens serão encaminhadas ao agente ativo. Quando esse agente identificar uma mudança de assunto, solicitará uma nova triagem, sem escolher diretamente o próximo especialista.
 
 \subsection{Comunicação, orquestração e retenção de contexto}
-\label{subsec:comunicacao-contexto}
+\label{subsec:orquestracao}
 
-A orquestração corresponde ao controle do fluxo de execução entre os agentes. Em uma arquitetura multiagente de atendimento, esse mecanismo recebe a mensagem, identifica a função necessária e direciona a conversa para o agente responsável. Quando o assunto muda, uma nova decisão de encaminhamento pode ser necessária.
+A orquestração corresponde ao controle do fluxo de execução entre os componentes do sistema. Em uma arquitetura multiagente de atendimento, o orquestrador recebe a mensagem, recupera o estado da conversa e aciona a triagem ou o agente especializado que se encontra ativo. O orquestrador não produz a resposta de atendimento, mas controla quais componentes serão executados e registra as decisões tomadas.
 
-Yan et al. analisam os sistemas multiagentes a partir da comunicação estabelecida entre seus componentes~\cite{yan2026}. Segundo essa perspectiva, não basta avaliar separadamente a capacidade de cada agente, pois o resultado também depende das mensagens trocadas e das decisões tomadas durante a execução.
+A triagem é responsável por classificar o assunto e indicar o agente adequado. Depois dessa decisão, o agente especializado permanece ativo enquanto as mensagens continuarem relacionadas à sua área. Caso identifique uma mudança de assunto, ele retorna ao orquestrador uma solicitação de nova triagem. Dessa forma, os especialistas não realizam transferências diretas entre si.
 
-Em uma conversa com vários turnos, as informações costumam ser fornecidas aos poucos. O usuário pode informar inicialmente que está sem acesso à Internet e, somente depois, relatar o estado das luzes do equipamento. Se houver troca de agente entre essas mensagens, o novo agente precisa receber os dados já coletados.
+Em uma conversa com vários turnos, as informações costumam ser fornecidas gradualmente. O usuário pode informar inicialmente que está sem acesso à Internet e somente depois relatar o estado das luzes do equipamento. Se houver troca de agente entre essas mensagens, o novo agente precisa receber as informações necessárias para continuar o atendimento.
 
-Neste trabalho, a retenção de contexto será observada pela capacidade de utilizar corretamente informações apresentadas em mensagens anteriores. Também serão registrados os encaminhamentos realizados ao longo da conversa. Com isso, será possível distinguir um erro na resposta de um erro ocorrido anteriormente na triagem ou na transferência de informações.
+Para representar esse comportamento, o sistema deverá manter o histórico das mensagens, os fatos relevantes extraídos da conversa e a identificação do agente ativo. O histórico preservará as mensagens trocadas; os fatos relevantes poderão registrar dados como CEP, condição de cliente e problema relatado; e a identificação do agente ativo indicará qual componente deve receber a mensagem seguinte.
 
-A análise de Yan et al. diferencia aspectos de nível sistêmico e aspectos internos da comunicação. No nível sistêmico, são considerados a arquitetura, o objetivo da comunicação e os protocolos utilizados. No nível interno, são observados a sequência das interações, a forma das mensagens, os participantes e o conteúdo transferido~\cite{yan2026}. Essa distinção é pertinente a este trabalho, pois a comparação envolve tanto a organização dos agentes quanto o caminho percorrido pelas mensagens e as informações preservadas durante os encaminhamentos.
+A comunicação entre os agentes não ocorrerá de maneira livre. As trocas serão intermediadas pelo orquestrador e utilizarão saídas estruturadas, contendo a intenção identificada, o destino indicado, a ação solicitada e os fatos que devem permanecer no contexto. Essa estrutura permitirá registrar o caminho percorrido por cada conversa e verificar em qual etapa ocorreu um possível erro.
 
-Falhas em um componente podem afetar as etapas seguintes de um sistema multiagente. Owotogbe discute esse problema ao investigar a robustez de sistemas formados por agentes baseados em modelos de linguagem~\cite{owotogbe2025}. Embora a injeção deliberada de falhas não faça parte do escopo deste trabalho, a possibilidade de propagação de erros justifica o acompanhamento do fluxo percorrido por cada atendimento.
+\textcite{yan2026} analisam os sistemas multiagentes a partir da comunicação estabelecida entre seus componentes. Segundo essa perspectiva, não basta avaliar separadamente a capacidade de cada agente, pois o resultado também depende das mensagens trocadas, do conteúdo transferido e das decisões tomadas durante a execução.
+
+Falhas em um componente podem afetar as etapas seguintes de um sistema multiagente. \textcite{owotogbe2025} discute esse problema ao investigar a robustez de sistemas formados por agentes baseados em modelos de linguagem. Embora a injeção deliberada de falhas não faça parte do escopo deste trabalho, a possibilidade de propagação de erros justifica o registro do fluxo percorrido por cada atendimento.
 
 \subsection{Avaliação de sistemas conversacionais}
 \label{subsec:avaliacao-conversacional}
 
 A avaliação de um sistema conversacional pode considerar tanto a resposta entregue ao usuário quanto o processo utilizado para produzi-la. Uma resposta pode estar correta, mas ter sido obtida após encaminhamentos desnecessários, repetição de perguntas ou uso excessivo de chamadas ao modelo.
 
-A correção indica se a resposta está de acordo com as informações disponíveis. A relevância verifica se ela trata diretamente da solicitação apresentada. A retenção de contexto observa se os dados fornecidos anteriormente foram utilizados de forma adequada. Já a conclusão da tarefa verifica se o objetivo definido para o cenário foi alcançado.
+A correção indica se a resposta respeita as informações e regras disponíveis. A relevância verifica se o conteúdo produzido trata diretamente da solicitação apresentada. A retenção de conhecimento observa se informações fornecidas em turnos anteriores permanecem disponíveis durante a conversa. A conclusão da tarefa verifica se as necessidades definidas para o cenário foram atendidas.
 
-Em uma arquitetura multiagente, também é necessário avaliar a precisão dos encaminhamentos. Essa medida permite verificar se cada mensagem foi direcionada ao agente responsável pelo assunto. As métricas de qualidade podem ser acompanhadas por medidas operacionais, como tempo de resposta, consumo de tokens, número de chamadas ao modelo e quantidade de trocas de agente.
+Neste trabalho, parte da avaliação será realizada com o DeepEval, uma biblioteca destinada à avaliação de aplicações baseadas em modelos de linguagem~\cite{deepeval}. Para a avaliação de conversas com múltiplos turnos, as mensagens do usuário e do assistente são organizadas como um caso de teste conversacional. Sobre esse caso podem ser aplicadas métricas que utilizam um modelo de linguagem como avaliador.
 
-Ferramentas de avaliação de aplicações baseadas em modelos de linguagem podem combinar verificações objetivas com métricas baseadas em um modelo avaliador. Neste trabalho, será utilizado o DeepEval para examinar aspectos semânticos das conversas, como relevância das respostas, retenção de informações e conclusão do atendimento. Resultados objetivos, como intenção identificada, rota entre agentes e encaminhamento final, serão verificados separadamente por regras determinísticas.
+Entre as métricas inicialmente previstas estão a relevância dos turnos, a retenção de conhecimento e a completude da conversa~\cite{deepeval}. A relevância dos turnos verifica se cada resposta permanece relacionada ao contexto anterior. A retenção de conhecimento observa se o sistema preserva fatos informados pelo usuário. A completude verifica se as intenções apresentadas durante a conversa foram atendidas. O DeepEval fornece, para cada métrica, uma pontuação e uma justificativa produzida pelo modelo avaliador.
 
-Esses critérios permitem comparar as arquiteturas para além da resposta final. No experimento proposto, os mesmos cenários, o mesmo modelo de linguagem e a mesma base de informações serão empregados nos dois protótipos. Os detalhes das métricas e do procedimento experimental serão apresentados no capítulo de metodologia.
+O DeepEval também disponibiliza recursos para apoiar a geração de casos e a simulação de usuários. No entanto, os cenários deste trabalho serão definidos e revisados pelo pesquisador. A ferramenta poderá auxiliar na produção de variações de redação e na execução de conversas, mas nenhum caso gerado automaticamente será incorporado ao experimento sem conferência prévia.
+
+Nem todos os resultados serão avaliados por um modelo. Informações objetivas, como a fila selecionada, o número de chamadas, o consumo de tokens e a ocorrência de uma transferência, serão verificadas diretamente nos registros da execução. Essa combinação reduz a dependência de avaliações subjetivas produzidas por outro LLM.
+
+Como a avaliação baseada em modelo também pode apresentar variações ou interpretações inadequadas, as duas arquiteturas serão analisadas com o mesmo modelo avaliador, as mesmas configurações e os mesmos critérios. Uma amostra das avaliações automáticas também será conferida manualmente.
 
 \section{Trabalhos relacionados}
 \label{sec:trabalhos-relacionados}
@@ -142,6 +154,6 @@ Os trabalhos analisados mostram que a divisão de responsabilidades entre agente
 
 Entre os estudos selecionados, o trabalho de \textcite{amri2026} é o que mais se aproxima da comparação proposta neste TCC. Entretanto, sua avaliação está direcionada ao encaminhamento para atendimento humano. Os demais estudos analisam aplicações ou aspectos específicos das arquiteturas, sem comparar agente único e multiagente durante conversas que possam envolver diferentes setores.
 
-Permanece, portanto, a necessidade de uma comparação na qual as duas arquiteturas utilizem o mesmo modelo de linguagem, a mesma base de informações, parâmetros equivalentes e os mesmos cenários de atendimento. Além da resposta final, essa comparação deve observar a retenção das informações fornecidas ao longo da conversa, as decisões de encaminhamento e os recursos utilizados por cada arquitetura.
+Permanece, portanto, a necessidade de uma comparação na qual as duas arquiteturas utilizem o mesmo modelo de linguagem, a mesma base de conhecimento, parâmetros equivalentes e os mesmos cenários de atendimento. Além da resposta final, essa comparação deve observar a retenção das informações fornecidas ao longo da conversa, as decisões de encaminhamento e os recursos utilizados por cada arquitetura.
 
 Com base nessa lacuna, este trabalho propõe implementar dois protótipos equivalentes e submetê-los a cenários conversacionais de atendimento de um provedor de Internet. O procedimento de implementação, os cenários e as métricas de avaliação são apresentados no capítulo seguinte.

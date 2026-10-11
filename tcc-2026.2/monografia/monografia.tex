@@ -24,6 +24,7 @@
 
 % Para gerar texto de exemplo
 %\usepackage{lipsum} 
+\usepackage{placeins}
 
 % Arquivo com as referências bibliográficas
 \addbibresource{referencias.bib}
@@ -62,9 +63,9 @@
 % LISTAS
 %-----------------------------------------------%
 % Lista de ilustrações
-% \pdfbookmark[0]{\listfigurename}{lof}
-% \listoffigures*
-% \cleardoublepage
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
 
 % Lista de quadros
  \pdfbookmark[0]{\listofquadrosname}{loq}
@@ -72,9 +73,9 @@
  \cleardoublepage
 
 % Lista de tabelas
-% \pdfbookmark[0]{\listtablename}{lot}
-% \listoftables*
-% \cleardoublepage
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
 
 % Lista de códigos
 %\pdfbookmark[0]{\lstlistlistingname}{lol}
@@ -107,7 +108,7 @@
 \input{capitulos/capitulo-01.tex}
 \input{capitulos/capitulo-02.tex}
 \input{capitulos/capitulo-03.tex}
-%\input{capitulos/capitulo-04.tex}
+\input{capitulos/capitulo-04.tex}
 
 
 

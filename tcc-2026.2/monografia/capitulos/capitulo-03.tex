@@ -1,86 +1,464 @@
 \chapter{Metodologia}\label{cap:metodologia}
 
-Este capítulo apresenta o método proposto para comparar uma arquitetura de agente único e uma arquitetura multiagente em atendimentos textuais de um provedor de Internet. A comparação será realizada em condições controladas, utilizando os mesmos cenários conversacionais, a mesma base de informações e o mesmo modelo de linguagem. Além da resposta final, serão observados o desenvolvimento da conversa, as decisões de encaminhamento e os recursos consumidos durante cada execução.
+Este capítulo apresenta o método proposto para comparar uma arquitetura de agente único e uma arquitetura multiagente em atendimentos textuais de um provedor de Internet. A comparação será realizada em condições controladas, utilizando os mesmos cenários conversacionais, o mesmo modelo de linguagem, os mesmos parâmetros de geração e a mesma base de conhecimento. Serão observadas a qualidade das respostas, a conclusão das tarefas, os encaminhamentos realizados e os recursos consumidos durante cada execução.
 
 \section{Natureza do trabalho}\label{sec:natureza-trabalho}
 
-O trabalho possui natureza aplicada e experimental. A etapa aplicada compreende o desenvolvimento de dois protótipos de atendimento baseados em modelos de linguagem de grande escala. A etapa experimental consiste na execução de um conjunto comum de cenários conversacionais e na comparação dos resultados obtidos pelas duas arquiteturas.
+O trabalho possui natureza aplicada, abordagem quantitativa e procedimento experimental. A pesquisa é aplicada porque envolve a especificação e a implementação de dois protótipos destinados a uma situação de atendimento. O procedimento experimental será utilizado para comparar as arquiteturas sob condições controladas.
 
-Não se pretende desenvolver um sistema comercial completo. Os protótipos serão utilizados como instrumentos de experimentação, com as funções necessárias para receber mensagens, manter o histórico da conversa, produzir respostas e registrar informações sobre cada execução.
+Não se pretende desenvolver um sistema comercial completo. Os protótipos serão utilizados como instrumentos de experimentação, com as funções necessárias para receber mensagens, manter o estado da conversa, consultar a base de conhecimento, produzir respostas e registrar informações sobre cada execução.
+
+A etapa de TCC1 compreende a fundamentação teórica, a especificação das arquiteturas, a definição preliminar dos cenários e das métricas e a verificação de viabilidade por meio de um protótipo exploratório. A implementação definitiva, a execução dos casos de teste e a análise dos resultados serão realizadas no TCC2.
 
 \section{Delineamento experimental}\label{sec:delineamento}
 
-O experimento terá como fator de comparação a arquitetura utilizada no atendimento. Serão avaliadas uma arquitetura de agente único e uma arquitetura multiagente. As duas soluções receberão as mesmas entradas e serão submetidas às mesmas condições de execução.
+O fator de comparação será a arquitetura utilizada no atendimento, com dois níveis: agente único e sistema multiagente. As duas soluções receberão cenários equivalentes e serão submetidas às mesmas condições de execução.
 
-Na arquitetura de agente único, um único componente será responsável por interpretar as mensagens, manter o contexto, consultar as regras disponíveis e produzir as respostas. Na arquitetura multiagente, uma etapa de triagem definirá o primeiro destino da conversa. O agente especializado manterá o atendimento enquanto o assunto permanecer em sua área e solicitará nova decisão de encaminhamento quando identificar uma mudança de assunto.
+A variável independente será a arquitetura. As variáveis dependentes serão as medidas de qualidade, encaminhamento e consumo obtidas durante cada conversa. Serão controlados o modelo de linguagem, os parâmetros de geração, a base de conhecimento, as regras de atendimento, os cenários, a ordem das mensagens e o ambiente de execução.
 
-Para reduzir interferências externas, serão mantidos iguais entre os protótipos o modelo de linguagem, os parâmetros de geração, a base geral de informações e as regras de atendimento. Os prompts serão diferentes apenas no que for necessário para representar as responsabilidades de cada arquitetura. A versão do modelo, os parâmetros utilizados e as versões das bibliotecas serão registrados juntamente com os resultados.
+Cada cenário será executado uma vez em cada arquitetura. Não serão realizadas repetições de uma mesma combinação de cenário e arquitetura. As diferentes formas de expressão de uma intenção serão representadas por variações de redação previstas no próprio conjunto de testes.
 
-\subsection{Variáveis do experimento}\label{subsec:variaveis-experimento}
+\subsection{Arquiteturas avaliadas}\label{subsec:arquiteturas-avaliadas}
 
-A variável independente será a arquitetura de atendimento, com dois níveis: agente único e sistema multiagente. As variáveis dependentes serão as métricas de qualidade, encaminhamento e consumo obtidas em cada conversa.
+\subsubsection{Arquitetura de agente único}\label{subsubsec:agente-unico}
 
-Serão controlados o modelo de linguagem, os parâmetros de geração, a base de informações, os cenários, a ordem das mensagens e o ambiente de execução. Caso sejam realizadas repetições, a quantidade e as condições de repetição serão definidas após o cenário piloto, considerando a variabilidade observada nas respostas.
+Na primeira arquitetura, um único agente receberá as instruções e a base de conhecimento referentes às quatro áreas consideradas no estudo: primeiro atendimento, comercial, ouvidoria e suporte técnico. Para cada mensagem, o agente deverá interpretar a solicitação, considerar o histórico da conversa, identificar o assunto e produzir a resposta correspondente.
 
-\section{Etapas do trabalho}\label{sec:etapas-trabalho}
+Um componente externo de orquestração será responsável por receber as mensagens, armazenar o histórico, acionar o agente e registrar os resultados. Esse componente não tomará decisões sobre o conteúdo do atendimento. Todas as decisões de classificação e resposta serão produzidas pelo agente único.
 
-O desenvolvimento será dividido nas seguintes etapas:
+% Inserir após exportar o diagrama Mermaid para PDF:
+%
+\begin{figure}[!htbp]
+    \centering
+    \caption{Arquitetura proposta de agente único}
+    \label{fig:arquitetura-agente-unico}
+    \includegraphics[
+        width=\textwidth,
+        height=.75\textheight,
+        keepaspectratio
+    ]{figuras/arquitetura-agente-unico.png} 
+    \par\smallskip
+    \begin{minipage}{\textwidth}
+        \small
+        \textbf{Nota:} O mesmo agente utiliza o histórico da conversa,
+        identifica as mudanças de assunto e executa as instruções
+        das quatro áreas de atendimento. Não há transferência
+        entre agentes de inteligência artificial.
+    \end{minipage}
+    \par\smallskip
+\fonteproprioautor
+\end{figure}
+\FloatBarrier
 
-\begin{enumerate}
-    \item definir uma base comum de informações e regras de atendimento;
-    \item especificar as arquiteturas de agente único e multiagente;
-    \item elaborar os prompts necessários para cada arquitetura;
-    \item implementar os dois protótipos e o registro das execuções;
-    \item elaborar e revisar os cenários conversacionais de teste;
-    \item realizar um experimento piloto para verificar o funcionamento dos protótipos e das métricas;
-    \item executar o conjunto de testes definido após o piloto;
-    \item consolidar e comparar os resultados obtidos.
-\end{enumerate}
+\subsubsection{Arquitetura multiagente}\label{subsubsec:multiagente}
 
-\section{Materiais e ferramentas}\label{sec:materiais-ferramentas}
+Na segunda arquitetura, as responsabilidades serão divididas entre um agente de triagem e quatro agentes especializados: primeiro atendimento, comercial, ouvidoria e suporte técnico. O agente de triagem será responsável por indicar o destino inicial da conversa ou realizar uma nova classificação quando ocorrer mudança de assunto.
 
-Os protótipos serão desenvolvidos em Python. Os cenários de teste e os resultados das execuções serão armazenados em arquivos estruturados no formato JSON. O código-fonte, os prompts e os documentos auxiliares serão versionados com Git.
+Depois da triagem, o agente especializado permanecerá ativo enquanto as mensagens continuarem relacionadas à sua área. Caso identifique uma mudança de assunto, ele solicitará ao orquestrador uma nova triagem. O especialista não escolherá diretamente o próximo agente.
 
-A avaliação automatizada será implementada inicialmente com a biblioteca DeepEval. O acesso ao modelo de linguagem será realizado por meio de API. O modelo, o provedor, os parâmetros de geração e as versões das ferramentas serão definidos e registrados antes da execução do experimento. Planilhas ou scripts em Python poderão ser utilizados para consolidar as medições e produzir as tabelas e os gráficos da análise.
+O orquestrador manterá o estado da conversa, acionará os componentes na ordem prevista e registrará as chamadas realizadas. O estado incluirá o histórico das mensagens, os fatos relevantes e a identificação do agente ativo.
 
-O ambiente Orbsofty poderá ser utilizado para inspeção visual e comparação com um fluxo de atendimento em uso. Entretanto, as medições principais serão realizadas nos protótipos controlados, evitando que regras operacionais externas interfiram na comparação entre as arquiteturas.
+% Inserir após exportar o diagrama Mermaid para PDF:
+%
+\begin{figure}[!htbp]
+    \centering
+    \caption{Arquitetura multiagente proposta}
+    \label{fig:arquitetura-multiagente}
+    \includegraphics[
+        width=\textwidth,
+        height=.75\textheight,
+        keepaspectratio
+    ]{figuras/arquitetura-multiagente.png}
+    \par\smallskip
+    \begin{minipage}{\textwidth}
+        \small
+        \textbf{Nota:} A triagem seleciona o especialista inicial
+        e é acionada novamente quando o agente ativo solicita
+        uma reclassificação. O especialista não escolhe diretamente
+        o próximo agente. O orquestrador mantém o histórico,
+        controla o agente ativo e registra a execução.
+    \end{minipage}
+    \par\smallskip
+    \fonteproprioautor
+\end{figure}
+\FloatBarrier
 
-\section{Cenários conversacionais}\label{sec:cenarios}
+\subsection{Variáveis controladas}\label{subsec:variaveis-controladas}
 
-Os testes serão formados por conversas com múltiplos turnos, nas quais as informações serão apresentadas gradualmente. Cada cenário conterá as mensagens do usuário, o assunto esperado em cada etapa, o encaminhamento esperado na arquitetura multiagente, as informações que deverão permanecer no contexto e os critérios necessários para considerar a tarefa concluída.
+Para reduzir diferenças que não estejam relacionadas à arquitetura, serão mantidos constantes:
 
-O cenário piloto começará com uma solicitação comercial e, durante a mesma conversa, passará a tratar de uma falha de conexão. Esse caso permitirá observar se o sistema mantém as informações anteriores, identifica a mudança de assunto e, quando aplicável, transfere o atendimento ao agente adequado. Após o piloto, serão elaborados cenários adicionais para as áreas definidas no escopo do trabalho.
+\begin{itemize}
+    \item o modelo de linguagem e sua versão;
+    \item os parâmetros de geração;
+    \item a base total de conhecimento;
+    \item as regras de atendimento;
+    \item os casos de teste;
+    \item a ordem das mensagens em cada cenário;
+    \item o modelo utilizado como avaliador;
+    \item os limiares e as configurações das métricas;
+    \item o ambiente de execução e as versões das bibliotecas.
+\end{itemize}
 
-\section{Procedimento experimental}\label{sec:procedimento-experimental}
+Os prompts serão diferentes somente no que for necessário para representar as responsabilidades de cada arquitetura. No agente único, todas as instruções ficarão reunidas em um mesmo contexto. No sistema multiagente, as instruções serão distribuídas entre a triagem e os agentes especializados.
 
-Cada cenário será executado separadamente nas duas arquiteturas. As mensagens do usuário serão enviadas na ordem prevista no arquivo de teste, e a resposta produzida em cada turno será armazenada antes do envio da mensagem seguinte. Também serão registrados o agente responsável, as decisões de encaminhamento, o tempo de resposta, o consumo de tokens e o número de chamadas ao modelo.
+\subsection{Variáveis avaliadas}\label{subsec:variaveis-avaliadas}
 
-As saídas serão avaliadas em relação aos critérios definidos para o cenário. A execução piloto será utilizada para verificar se os registros produzidos são suficientes, se as métricas escolhidas são aplicáveis e se há necessidade de repetir cada cenário. Alterações realizadas após o piloto serão documentadas antes da execução do conjunto definitivo de testes.
-
-\section{Métricas e critérios de avaliação}\label{sec:metricas}
-
-A comparação considerará métricas relacionadas à qualidade da resposta, ao comportamento da conversa e ao consumo de recursos. Inicialmente, serão observados:
+As variáveis avaliadas serão:
 
 \begin{itemize}
     \item correção e relevância das respostas;
-    \item retenção das informações fornecidas nos turnos anteriores;
-    \item conclusão da tarefa prevista no cenário;
-    \item correspondência entre o encaminhamento realizado e o encaminhamento esperado;
-    \item quantidade de transferências entre agentes;
-    \item tempo de resposta por turno e tempo total da conversa;
-    \item número de chamadas ao modelo e consumo de tokens.
+    \item retenção das informações fornecidas durante a conversa;
+    \item conclusão da tarefa;
+    \item correspondência entre o encaminhamento realizado e o esperado;
+    \item quantidade de trocas entre agentes;
+    \item número de chamadas ao modelo;
+    \item quantidade de tokens de entrada e saída;
+    \item custo estimado de execução.
 \end{itemize}
 
-As métricas baseadas em avaliação por modelo serão complementadas por verificações determinísticas sempre que houver um resultado objetivo, como o agente de destino, a presença de uma informação obrigatória ou a ocorrência de uma transferência. Os limites numéricos e critérios de sucesso serão definidos após a execução piloto, evitando a adoção de valores sem evidência experimental.
+\section{Base de conhecimento e prompts}\label{sec:base-prompts}
+
+A base de conhecimento reunirá informações fictícias sobre serviços, procedimentos de atendimento e condições de encaminhamento. O conteúdo será organizado em uma parte comum e em partes específicas para primeiro atendimento, comercial, ouvidoria e suporte técnico.
+
+As duas arquiteturas terão acesso ao mesmo conteúdo total. No agente único, as partes serão reunidas no mesmo contexto. Na arquitetura multiagente, o conteúdo será distribuído de acordo com a responsabilidade de cada agente. Não será implementado um mecanismo de geração aumentada por recuperação, pois os documentos serão carregados diretamente no contexto dos agentes.
+
+Os prompts definirão a função de cada agente, as informações disponíveis, as ações permitidas e o formato esperado da saída. Sempre que houver uma decisão de encaminhamento, a saída deverá ser estruturada para permitir seu registro e sua verificação automática.
+
+Os prompts serão versionados e permanecerão inalterados durante o experimento principal. Alterações realizadas durante a preparação ou o teste-piloto serão registradas antes da execução dos casos definitivos.
+
+\section{Cenários conversacionais}\label{sec:cenarios}
+
+Os testes serão formados por conversas com múltiplos turnos, nas quais as informações serão apresentadas gradualmente. Cada cenário conterá:
+
+\begin{itemize}
+    \item as mensagens do usuário;
+    \item o assunto esperado em cada etapa;
+    \item o agente ou fila esperada;
+    \item as informações que deverão permanecer no contexto;
+    \item a resposta ou o comportamento esperado;
+    \item os critérios necessários para considerar a tarefa concluída.
+\end{itemize}
+
+Serão preparados 48 cenários sintéticos, distribuídos igualmente entre as quatro áreas de atendimento. Para cada área, serão considerados três tipos de situação, cada um com quatro variações de redação. Dessa forma, cada área possuirá 12 cenários.
+
+\begin{table}[htb]
+    \ABNTEXfontereduzida
+    \centering
+    \caption{Distribuição prevista dos cenários conversacionais}
+    \label{tab:distribuicao-cenarios}
+    \begin{tabular}{l r r r}
+        \toprule
+        Área & Situações & Variações & Total \\
+        \midrule
+        Primeiro atendimento & 3 & 4 & 12 \\
+        Comercial             & 3 & 4 & 12 \\
+        Ouvidoria             & 3 & 4 & 12 \\
+        Suporte técnico       & 3 & 4 & 12 \\
+        \midrule
+        Total & -- & -- & 48 \\
+        \bottomrule
+    \end{tabular}
+    \fonteproprioautor
+\end{table}
+
+Os casos utilizarão nomes, documentos, endereços, números de telefone e protocolos fictícios. Não haverá interação com clientes reais.
+
+O DeepEval poderá ser utilizado como apoio para sugerir variações de redação ou simular turnos de uma conversa~\cite{deepeval}. Entretanto, cada cenário será revisado antes de ser incorporado ao conjunto definitivo. A revisão verificará a clareza das mensagens, o destino esperado, os fatos necessários e a equivalência de aplicação entre as duas arquiteturas.
+
+\subsection{Cenário conversacional de exemplo}\label{subsec:cenario-exemplo}
+
+O cenário inicial começará com uma solicitação comercial e, durante a mesma conversa, passará a tratar de uma falha de conexão e de uma reclamação. Esse caso permitirá observar a preservação do contexto e as decisões de encaminhamento.
+
+\begin{table}[htb]
+    \ABNTEXfontereduzida
+    \centering
+    \caption{Exemplo de cenário conversacional}
+    \label{tab:cenario-exemplo}
+    \begin{tabular}{c p{6.8cm} p{3.5cm}}
+        \toprule
+        Turno & Mensagem do usuário & Agente esperado \\
+        \midrule
+        1 & Quero conhecer os planos de Internet. & Comercial \\
+        2 & Meu CEP é 88110-000. & Comercial \\
+        3 & Na verdade, já sou cliente e estou sem Internet. & Suporte técnico \\
+        4 & A luz LOS está vermelha. & Suporte técnico \\
+        5 & Isso já aconteceu outras vezes e quero reclamar. & Ouvidoria \\
+        \bottomrule
+    \end{tabular}
+    \fonteproprioautor
+\end{table}
+
+% Inserir depois de finalizar o fluxograma:
+%
+\begin{figure}[p]
+    \centering
+    \caption{Fluxo de processamento de uma mensagem}
+    \label{fig:fluxo-processamento}
+    \includegraphics[
+        width=1.0\textwidth,
+        height=1.0\textheight,
+        keepaspectratio,
+        trim={0 12cm 0 0},
+        clip
+    ]{figuras/fluxo-processamento-mensagem.png}
+    \par\smallskip
+    \begin{minipage}{\textwidth}
+        \small
+        \textbf{Nota:} A arquitetura de agente único realiza uma
+        chamada principal ao modelo por mensagem. Na arquitetura
+        multiagente, a triagem é executada quando não existe
+        agente ativo ou quando o especialista solicita nova
+        classificação após identificar uma mudança de assunto.
+    \end{minipage}
+    \par\smallskip
+    \fonteproprioautor
+\end{figure}
+\FloatBarrier
+
+\section{Materiais e ferramentas}\label{sec:materiais-ferramentas}
+
+Os protótipos serão desenvolvidos em Python. Os cenários, as configurações e os resultados serão armazenados em arquivos estruturados no formato \gls{JSON}. O código-fonte, os prompts, a base de conhecimento e os documentos auxiliares serão versionados com Git.
+
+O acesso ao modelo de linguagem será realizado por meio de uma \gls{API}. Será utilizado o modelo GPT-4.1-mini, mantido igual nas duas arquiteturas. Esse modelo foi selecionado por oferecer capacidade de interpretação de instruções e geração de respostas com custo compatível com o volume previsto de execuções~\cite{openai:gpt41mini}. O identificador exato do modelo retornado pela \gls{API}, os parâmetros de geração e a data de execução serão registrados para permitir a reprodução do experimento.
+
+O DeepEval será utilizado na organização dos casos conversacionais e na aplicação de métricas relacionadas à relevância, retenção de conhecimento e conclusão das tarefas~\cite{deepeval}. Verificações objetivas, como fila escolhida, número de chamadas e consumo de tokens, serão realizadas diretamente por scripts desenvolvidos em Python.
+
+Planilhas ou scripts de análise poderão ser utilizados para consolidar os resultados e produzir tabelas, matrizes de confusão e gráficos comparativos.
+
+A implementação e a execução dos scripts serão realizadas em
+computador pessoal, com ambiente Python e acesso à Internet.
+Como o processamento do modelo de linguagem será realizado por
+meio de uma \gls{API}, não será necessária uma unidade de processamento
+gráfico local.
+
+Antes do teste-piloto, serão verificadas a instalação das bibliotecas,
+a configuração das credenciais e a disponibilidade de acesso aos
+modelos utilizados no atendimento e na avaliação. As versões das
+dependências serão registradas junto ao código-fonte.
+
+O orçamento necessário será estimado a partir do consumo observado
+no teste-piloto e do número previsto de execuções. Essa estimativa
+considerará separadamente os custos dos protótipos e os custos
+do modelo avaliador utilizado pelo DeepEval.
+
+\section{Procedimento experimental}\label{sec:procedimento-experimental}
+
+O experimento será realizado de acordo com as seguintes etapas:
+
+\begin{enumerate}
+    \item finalizar e revisar a base de conhecimento;
+    \item finalizar os prompts das duas arquiteturas;
+    \item implementar o agente único, o orquestrador, a triagem e os agentes especializados;
+    \item elaborar e revisar os 48 cenários conversacionais;
+    \item executar um teste-piloto para verificar o formato das entradas, das saídas e dos registros;
+    \item congelar as versões dos prompts, dos cenários, do modelo e das configurações;
+    \item executar cada cenário uma vez em cada arquitetura;
+    \item aplicar as métricas automáticas e as verificações determinísticas;
+    \item revisar manualmente uma amostra das avaliações;
+    \item consolidar e comparar os resultados.
+\end{enumerate}
+
+\begin{quadro}[htb]
+    \centering
+    \caption{Correspondência entre objetivos específicos,
+    etapas e entregas previstas}
+    \label{qua:objetivos-etapas}
+    \small
+    \begin{tabular}{p{0.38\textwidth}p{0.12\textwidth}p{0.38\textwidth}}
+        \hline
+        \textbf{Objetivo específico}
+        & \textbf{Etapas}
+        & \textbf{Entrega prevista} \\
+        \hline
+
+        Definir a base de conhecimento e as regras comuns
+        & 1 e 2
+        & Base de conhecimento e prompts revisados e versionados. \\
+
+        Especificar e implementar os dois protótipos
+        & 3
+        & Protótipos funcionais de agente único e multiagente. \\
+
+        Elaborar e revisar os cenários conversacionais
+        & 4
+        & Conjunto de 48 cenários com comportamentos esperados
+        e critérios de conclusão. \\
+
+        Avaliar respostas, conclusão das tarefas
+        e precisão dos encaminhamentos
+        & 7, 8 e 9
+        & Avaliações automáticas, verificações determinísticas
+        e revisão manual de uma amostra. \\
+
+        Medir tokens e chamadas ao modelo
+        & 7 e 8
+        & Registros de consumo por conversa e arquitetura. \\
+
+        Estimar o custo de execução
+        & 10
+        & Estimativas de custo calculadas a partir
+        do consumo registrado. \\
+
+        Comparar os resultados das arquiteturas
+        & 10
+        & Tabelas, gráficos e análise das diferenças observadas. \\
+
+        \hline
+    \end{tabular}
+    \fonteproprioautor
+\end{quadro}
+
+As etapas 5 e 6 correspondem à validação do procedimento
+no teste-piloto e ao congelamento das configurações.
+Essas etapas apoiam os objetivos de avaliação e comparação,
+assegurando que as duas arquiteturas sejam submetidas
+às condições previamente estabelecidas.
+
+Os 48 cenários serão executados uma vez em cada arquitetura, totalizando 96 execuções. Cada execução corresponderá a uma conversa completa, e não a uma mensagem isolada.
+
+As mensagens serão enviadas na ordem definida no cenário. Antes de cada nova mensagem, a resposta anterior será armazenada no histórico. Ao final da conversa, serão registrados os agentes acionados, as decisões de encaminhamento, as respostas produzidas, os tokens consumidos e o número de chamadas ao modelo.
+
+O teste-piloto será utilizado para verificar o funcionamento
+do procedimento, identificar ambiguidades nos cenários, 
+revisar os critérios e limiares de avaliação e estimar
+o orçamento necessário para o experimento principal.
+Seus resultados não serão incluídos na comparação final.
+
+\section{Métricas e critérios de avaliação}\label{sec:metricas}
+
+A qualidade das conversas será avaliada por métricas automáticas e verificações determinísticas.
+
+As métricas conversacionais do DeepEval inicialmente previstas são:
+
+\begin{itemize}
+    \item relevância dos turnos;
+    \item retenção de conhecimento;
+    \item completude da conversa.
+\end{itemize}
+
+As mesmas configurações, o mesmo modelo avaliador e os mesmos limiares serão utilizados nas duas arquiteturas. Uma amostra das avaliações será revisada manualmente para verificar se as pontuações e justificativas correspondem aos critérios definidos.
+
+A identificação da área de atendimento será avaliada pela comparação
+entre a área indicada pelo sistema e a área esperada em cada turno.
+Na arquitetura de agente único, o agente registrará a área identificada
+em sua saída estruturada, sem realizar uma troca interna de agente.
+Na arquitetura multiagente, será registrada a área correspondente
+ao especialista acionado para responder à mensagem. Serão calculadas
+a acurácia geral e a acurácia por área. Uma matriz de confusão será
+utilizada para identificar quais áreas foram confundidas com maior
+frequência.
+
+As trocas internas entre especialistas serão contabilizadas
+separadamente e somente na arquitetura multiagente. As transferências
+para atendimento humano serão avaliadas nas duas arquiteturas,
+considerando se ocorreram nas situações previstas pelas regras
+e pelos critérios de cada cenário.
+
+O consumo será medido pelo número de chamadas e pelas quantidades de tokens de entrada e saída. O custo de uma execução será estimado conforme os preços vigentes do modelo na data do experimento:
+
+\begin{equation}
+    C = T_e P_e + T_s P_s,
+    \label{eq:custo-execucao}
+\end{equation}
+
+em que $T_e$ representa a quantidade de tokens de entrada, $T_s$ a quantidade de tokens de saída, $P_e$ o preço por token de entrada e $P_s$ o preço por token de saída.
+
+Os preços não serão fixados antecipadamente no texto, pois poderão sofrer alterações. A fonte e a data da consulta serão registradas no momento da execução.
+
+Para cada cenário, serão definidos previamente os comportamentos
+obrigatórios, as informações que deverão ser preservadas e as
+condições necessárias para a conclusão da tarefa. A correção das
+respostas será verificada pela sua conformidade com a base de
+conhecimento e com as regras de atendimento, incluindo a ausência
+de informações inventadas ou de ações não permitidas.
+
+Uma tarefa será considerada concluída quando o sistema cumprir
+as condições previstas no cenário. Nos casos que exigirem
+atendimento humano, o encaminhamento adequado, acompanhado das
+informações necessárias à continuidade do atendimento, poderá
+constituir a conclusão esperada.
+
+Os limiares das métricas automáticas serão definidos e documentados
+durante o teste-piloto, antes da execução do experimento principal,
+e permanecerão iguais para as duas arquiteturas. Esses limiares
+serão utilizados para avaliar o atendimento aos critérios definidos,
+enquanto as pontuações serão mantidas para a análise comparativa.
+
+O sucesso da pesquisa será caracterizado pela realização da
+comparação sob as condições estabelecidas e pela identificação
+das diferenças de qualidade e consumo de recursos observadas
+nos cenários avaliados, independentemente de uma arquitetura
+superar a outra.
+
+\section{Apresentação prevista dos resultados}\label{sec:apresentacao-resultados}
+
+Os resultados serão organizados conforme a estrutura apresentada na \autoref{tab:modelo-resultados}. Os campos serão preenchidos depois da execução do experimento no TCC2.
+
+\begin{table}[htb]
+    \ABNTEXfontereduzida
+    \centering
+    \caption{Estrutura prevista para apresentação dos resultados}
+    \label{tab:modelo-resultados}
+    \begin{tabular}{p{5.2cm} r r}
+        \toprule
+        Métrica & Agente único & Multiagente \\
+        \midrule
+        Relevância dos turnos & -- & -- \\
+        Retenção de conhecimento & -- & -- \\
+        Completude da conversa & -- & -- \\
+        Acurácia da identificação da área & -- & -- \\
+        Adequação das transferências para humanos & -- & -- \\
+        Trocas internas entre especialistas & Não se aplica & -- \\
+        Número de chamadas ao modelo & -- & -- \\
+        Tokens de entrada & -- & -- \\
+        Tokens de saída & -- & -- \\
+        Custo estimado & -- & -- \\
+        \bottomrule
+    \end{tabular}
+    \fonteproprioautor
+\end{table}
+
+A identificação da área de atendimento e a adequação das
+transferências para atendimento humano serão avaliadas nas
+duas arquiteturas. As trocas internas entre especialistas
+serão apresentadas somente para a arquitetura multiagente,
+pois esse mecanismo não se aplica ao agente único.
 
 \section{Privacidade e proteção dos dados}\label{sec:privacidade}
 
-Os cenários conversacionais serão produzidos especificamente para o estudo, com base em situações típicas de atendimento de provedores de Internet. Não serão utilizadas conversas, cadastros ou registros de clientes reais.
+Os cenários serão produzidos especificamente para o estudo, com base em situações típicas de atendimento de provedores de Internet. Não serão utilizadas conversas, cadastros ou registros de clientes reais.
 
-Os nomes, documentos, endereços, números de telefone, protocolos e demais informações presentes nos testes serão fictícios. A experiência profissional do autor será utilizada somente como referência para a elaboração das situações de atendimento, sem reprodução de casos que permitam identificar clientes, funcionários ou empresas. Dessa forma, não serão enviados dados pessoais reais aos modelos de linguagem ou às ferramentas utilizadas nos experimentos.
+Os nomes, documentos, endereços, números de telefone, protocolos e demais informações presentes nos testes serão fictícios. A experiência profissional do autor será utilizada somente como referência para a elaboração das situações, sem reprodução de casos que permitam identificar clientes, funcionários ou empresas.
 
-\section{Riscos e limitações}\label{sec:riscos}
+Dessa forma, não serão enviados dados pessoais reais ao modelo de linguagem ou às ferramentas utilizadas no experimento.
 
-Entre os riscos previstos estão a variação das respostas do modelo, alterações ou indisponibilidade da API, custo de execução, diferença excessiva entre os prompts e limitações da avaliação automática de respostas abertas. Também existe o risco de uma métrica baseada em modelo atribuir uma pontuação inadequada mesmo quando o comportamento esperado puder ser verificado objetivamente.
+\section{Riscos e limitações}\label{sec:riscos-limitacoes}
 
-Como medidas de controle, todas as execuções serão registradas, as versões utilizadas serão identificadas e os encaminhamentos serão avaliados por regras determinísticas. Uma amostra das respostas poderá ser revisada manualmente. Caso o DeepEval não represente adequadamente alguma dimensão do experimento, a métrica correspondente será substituída ou complementada por um procedimento documentado. Também será realizada uma revisão dos cenários para impedir a inclusão acidental de dados associados a atendimentos reais.
+Entre os riscos previstos estão a variação das respostas do modelo, alterações ou indisponibilidade da \gls{API}, mudanças na versão do modelo, diferenças excessivas entre os prompts e limitações da avaliação automática de respostas abertas.
+
+A execução única de cada combinação de cenário e arquitetura não permitirá medir a variação de uma mesma resposta em execuções repetidas. Para reduzir essa limitação, o conjunto de testes utilizará diferentes cenários e variações de redação, aplicados igualmente às duas arquiteturas.
+
+Também existe o risco de uma métrica baseada em modelo atribuir uma pontuação inadequada. Como medidas de controle, as duas arquiteturas serão avaliadas com as mesmas configurações, os encaminhamentos serão verificados por regras determinísticas e uma amostra das respostas será revisada manualmente.
+
+Os resultados ficarão limitados ao modelo, à base de conhecimento, aos prompts e aos cenários definidos neste trabalho. Portanto, não poderão ser generalizados diretamente para todos os modelos de linguagem ou sistemas comerciais de atendimento.
+
+Em caso de indisponibilidade temporária da \gls{API}, as execuções
+afetadas serão interrompidas e reagendadas. Tentativas incompletas
+ou com falhas de comunicação serão registradas e não serão
+consideradas conversas válidas na comparação. Seu consumo,
+quando houver, será contabilizado separadamente.
+
+Se o modelo ou a versão adotada deixar de estar disponível,
+será selecionada uma alternativa compatível com os recursos
+do projeto. Nesse caso, o teste-piloto será refeito e as duas
+arquiteturas serão avaliadas com o mesmo modelo e as mesmas
+configurações. Resultados obtidos com versões diferentes não
+serão reunidos na mesma comparação.
+
+Caso uma métrica automática apresente incompatibilidade técnica
+ou avaliações inconsistentes no teste-piloto, seu procedimento
+será revisado antes do experimento principal. Se necessário,
+essa métrica será substituída por uma avaliação manual baseada
+em critérios previamente documentados e aplicada igualmente
+às duas arquiteturas. A alteração e suas limitações serão
+registradas no trabalho.

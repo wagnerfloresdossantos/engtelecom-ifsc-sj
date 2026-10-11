@@ -1,69 +1,84 @@
 \chapter{Introdução}\label{cap:introducao}
 
-Os \glspl{LLM} ampliaram as possibilidades de automação de atividades que envolvem compreensão e geração de linguagem natural. Quando integrados a bases de informações, ferramentas e mecanismos de decisão, esses modelos podem formar agentes capazes de interpretar solicitações, manter o contexto de uma conversa e executar tarefas com algum grau de autonomia. No atendimento ao cliente, essa abordagem permite desenvolver soluções mais flexíveis do que os chatbots baseados apenas em regras e fluxos predefinidos.
+Os \glspl{LLM} ampliaram as possibilidades de automação de atividades que envolvem compreensão e geração de linguagem natural. Quando integrados a bases de conhecimento, ferramentas e mecanismos de decisão, esses modelos podem formar agentes capazes de interpretar solicitações, manter o contexto de uma conversa e executar tarefas com algum grau de autonomia. No atendimento ao cliente, essa abordagem permite desenvolver soluções mais flexíveis do que os chatbots baseados apenas em regras e fluxos predefinidos.
 
 Trabalhos recentes apresentam aplicações de LLMs na classificação de chamados e na geração de respostas de suporte~\cite{moncada2025}, bem como arquiteturas formadas por agentes coordenadores e especializados para atuar em diferentes componentes de sistemas de telecomunicações~\cite{lee2025}. Essas soluções podem ser organizadas em arquiteturas de agente único ou multiagente.
 
-Na arquitetura de agente único, um mesmo componente recebe as mensagens, mantém o histórico da conversa, consulta as informações disponíveis, decide o procedimento e produz as respostas. Essa centralização reduz a necessidade de coordenação entre componentes. Em uma arquitetura multiagente, essas responsabilidades são distribuídas entre agentes com funções específicas, como triagem, atendimento comercial, primeiro atendimento, ouvidoria e suporte técnico. A divisão pode facilitar a especialização e reduzir o contexto recebido por cada agente, mas também introduz etapas adicionais de comunicação e novos pontos de falha~\cite{yan2026}.
+Na arquitetura de agente único, um mesmo componente interpreta as mensagens, consulta as informações disponíveis, decide o procedimento e produz as respostas. Essa centralização reduz a necessidade de coordenação entre componentes. Na arquitetura multiagente, essas responsabilidades são distribuídas entre agentes com funções específicas, como triagem, primeiro atendimento, comercial, ouvidoria e suporte técnico. A divisão pode facilitar a especialização e reduzir o contexto recebido por cada agente, mas também introduz etapas adicionais de comunicação e novos pontos de falha~\cite{yan2026}.
 
-A comunicação entre os agentes influencia a eficiência, a escalabilidade e a robustez do sistema. Uma decisão incorreta na triagem pode encaminhar a conversa para um agente que não possui as informações necessárias. Também podem ocorrer perdas de contexto, encaminhamentos desnecessários ou propagação de erros entre os componentes. Esses riscos tornam relevante avaliar não apenas a resposta final, mas também o caminho percorrido pelo atendimento~\cite{owotogbe2025}.
+A comunicação entre os agentes influencia a eficiência, a escalabilidade e a robustez do sistema. Uma decisão incorreta na triagem pode encaminhar a conversa para um agente que não possui as informações necessárias. Também podem ocorrer perdas de contexto, encaminhamentos desnecessários ou propagação de erros entre os componentes. Falhas de agentes e interrupções na comunicação também são apontadas como riscos desses sistemas~\cite{owotogbe2025}.
 
-A literatura também apresenta estudos sobre o encaminhamento de conversas para atendimento humano e o reconhecimento de intenções em ambientes multiagentes~\cite{amri2026,yang2025}. Os resultados apontam benefícios da especialização, mas também mostram que a vantagem da arquitetura multiagente não ocorre em todas as métricas e pode vir acompanhada de maior latência ou de transferências realizadas mais cedo. Além disso, os trabalhos adotam diferentes modelos, cenários e critérios de avaliação, o que dificulta uma comparação direta entre arquiteturas de agente único e multiagente.
+Estudos recentes investigam o encaminhamento de conversas para atendimento humano e o reconhecimento de intenções em ambientes multiagentes~\cite{amri2026,yang2025}. Os resultados apontam benefícios da especialização, mas também mostram que a vantagem da arquitetura multiagente não ocorre em todas as métricas. Além disso, os trabalhos adotam diferentes modelos, cenários e critérios de avaliação, o que dificulta uma comparação direta entre arquiteturas de agente único e multiagente.
 
-Esses resultados indicam que a adoção de uma arquitetura multiagente não representa, necessariamente, uma melhoria em todas as situações. Ainda são necessárias comparações nas quais as arquiteturas utilizem o mesmo modelo, a mesma base de informações, parâmetros equivalentes e cenários de atendimento comparáveis. Também é necessário observar o comportamento ao longo da conversa, considerando a retenção do contexto, as decisões de encaminhamento e os recursos utilizados até a conclusão da tarefa.
+Esses resultados indicam que a adoção de uma arquitetura multiagente não representa, necessariamente, uma melhoria em todas as situações. Ainda são necessárias comparações nas quais as arquiteturas utilizem o mesmo modelo, a mesma base de conhecimento, parâmetros equivalentes e cenários de atendimento comparáveis. Também é necessário observar o desenvolvimento da conversa, as decisões de encaminhamento e os recursos utilizados até a conclusão da tarefa.
 
 \section{Problema de pesquisa}\label{sec:problema}
 
-A escolha entre uma arquitetura de agente único e uma arquitetura multiagente envolve um compromisso entre qualidade, complexidade e custo operacional. A especialização pode melhorar o tratamento de determinadas solicitações, mas exige coordenação entre agentes e pode aumentar o número de chamadas ao modelo, a latência e o consumo de tokens.
+A escolha entre uma arquitetura de agente único e uma arquitetura multiagente envolve um compromisso entre qualidade, complexidade e custo operacional. A especialização pode melhorar o tratamento de determinadas solicitações, mas exige coordenação entre agentes e pode aumentar o número de chamadas ao modelo e o consumo de tokens.
 
-Além disso, uma avaliação baseada somente em perguntas isoladas não representa todo o funcionamento de um chatbot de atendimento. Em uma conversa real, as informações são fornecidas gradualmente, e uma resposta depende das mensagens anteriores. O sistema também pode precisar rever o encaminhamento quando o usuário apresenta uma nova informação ou muda o assunto durante o atendimento.
+Uma avaliação baseada somente em perguntas isoladas não representa todo o funcionamento de um chatbot de atendimento. Em uma conversa real, as informações são fornecidas gradualmente, e uma resposta pode depender das mensagens anteriores. O sistema também pode precisar rever o encaminhamento quando o usuário apresenta uma nova informação ou muda de assunto durante o atendimento.
 
 Diante desse contexto, este trabalho busca responder à seguinte pergunta:
 
 \begin{quote}
-Quais diferenças de desempenho são observadas entre uma arquitetura de agente único e uma arquitetura multiagente, ambas baseadas em modelos de linguagem de grande escala e aplicadas a cenários conversacionais de atendimento, quanto à correção e à relevância das respostas, à retenção do contexto, à conclusão das tarefas, à precisão dos encaminhamentos, ao tempo de resposta e ao consumo de tokens?
+Quais diferenças de desempenho são observadas entre uma arquitetura de agente único e uma arquitetura multiagente, ambas baseadas em modelos de linguagem em grande escala e aplicadas a cenários conversacionais de atendimento, quanto à correção e à relevância das respostas, à conclusão das tarefas, à precisão dos encaminhamentos, ao número de chamadas ao modelo e ao consumo de tokens?
 \end{quote}
 
 \section{Justificativa}\label{sec:justificativa}
 
 A escolha da arquitetura influencia tanto a qualidade do atendimento quanto o custo de operação de sistemas baseados em LLMs. Uma solução centralizada pode ser suficiente para tarefas simples e utilizar menos chamadas ao modelo. Por outro lado, a distribuição das responsabilidades entre agentes especializados pode favorecer situações que exigem regras específicas ou mudanças de setor durante uma conversa, embora acrescente etapas de comunicação e novos pontos de falha~\cite{yan2026}.
 
-No atendimento de provedores de Internet, uma mesma conversa pode envolver dúvidas gerais, solicitações comerciais, reclamações e problemas técnicos. Um encaminhamento incorreto pode levar o usuário para uma fila inadequada, prolongar o atendimento ou produzir uma resposta sem as informações necessárias. Estudos anteriores demonstram que a especialização pode melhorar determinadas métricas, mas essa vantagem não ocorre em todas as situações. Também foi observada uma tendência de o sistema multiagente realizar transferências para o atendimento humano mais cedo~\cite{amri2026}.
+No atendimento de provedores de Internet, uma mesma conversa pode envolver dúvidas gerais, solicitações comerciais, reclamações e problemas técnicos. Um encaminhamento incorreto pode levar o usuário para uma fila inadequada ou produzir uma resposta sem as informações necessárias. Estudos anteriores demonstram que a especialização pode melhorar determinadas métricas, mas essa vantagem não ocorre em todas as situações. Também foi observada uma tendência de o sistema multiagente realizar transferências para atendimento humano mais cedo~\cite{amri2026}.
 
-A contribuição esperada deste trabalho é a implementação de dois protótipos equivalentes e a realização de uma comparação controlada entre as arquiteturas. A avaliação considerará tanto o resultado final quanto a trajetória da conversa, incluindo a retenção do contexto, os encaminhamentos realizados, a quantidade de turnos e os recursos consumidos. Os resultados poderão servir como referência para pesquisadores e desenvolvedores na escolha de uma arquitetura compatível com os requisitos de qualidade, desempenho e custo da aplicação.
+A contribuição esperada deste trabalho é a implementação de dois protótipos equivalentes e a realização de uma comparação controlada entre as arquiteturas. A avaliação considerará a qualidade das respostas, a conclusão das tarefas, os encaminhamentos realizados e os recursos consumidos. Os resultados poderão servir como referência para pesquisadores e desenvolvedores na escolha de uma arquitetura compatível com os requisitos de qualidade, organização e custo da aplicação.
 
 \section{Objetivos}\label{sec:objetivos}
 
 \subsection{Objetivo geral}\label{subsec:objetivo-geral}
 
-Comparar experimentalmente o desempenho de uma arquitetura de agente único e de uma arquitetura multiagente, ambas baseadas em modelos de linguagem de grande escala e aplicadas a cenários conversacionais de atendimento textual de um provedor de internet.
+Comparar experimentalmente o desempenho de uma arquitetura de agente único e de uma arquitetura multiagente, ambas baseadas em modelos de linguagem em grande escala e aplicadas a cenários conversacionais de atendimento textual de um provedor de Internet.
 
 \subsection{Objetivos específicos}\label{subsec:objetivos-especificos}
 
 Para alcançar o objetivo geral, foram definidos os seguintes objetivos específicos:
 
 \begin{itemize}
-    \item definir uma base comum de informações e regras de atendimento para as duas arquiteturas;
+    \item definir uma base de conhecimento e regras de atendimento comuns às duas arquiteturas;
 
-    \item implementar um protótipo de agente único e um protótipo multiagente composto por um agente de triagem e agentes especializados;
+    \item especificar e implementar um protótipo de agente único e um protótipo multiagente composto por um agente de triagem e agentes especializados;
 
-    \item elaborar e validar um conjunto de cenários conversacionais de teste para primeiro atendimento, comercial, ouvidoria e suporte técnico;
+    \item elaborar e revisar um conjunto de cenários conversacionais de teste para primeiro atendimento, comercial, ouvidoria e suporte técnico;
 
-    \item avaliar a correção e a relevância das respostas, a retenção do contexto, a conclusão das tarefas e a precisão dos encaminhamentos;
+    \item avaliar a correção e a relevância das respostas, a conclusão das tarefas e a precisão dos encaminhamentos;
 
-    \item medir o tempo de resposta, o consumo de tokens, o número de chamadas ao modelo, a quantidade de turnos e as trocas de agente realizadas durante cada conversa;
+    \item medir o consumo de tokens e o número de chamadas ao modelo durante cada conversa;
+
+    \item estimar o custo de execução de cada arquitetura;
 
     \item comparar os resultados para identificar as vantagens, limitações e custos de cada arquitetura.
 \end{itemize}
 
 \section{Delimitação do trabalho}\label{sec:delimitacao}
 
-O estudo será restrito ao atendimento textual e utilizará cenários sintéticos baseados em situações de um provedor de Internet. Os dados empregados serão fictícios ou anonimizados, sem interação com clientes reais.
+O estudo será restrito ao atendimento textual e utilizará
+cenários sintéticos baseados em situações típicas de atendimento
+de um provedor de Internet. Todos os dados empregados serão
+fictícios, sem utilização de conversas ou cadastros de clientes
+reais e sem interação com clientes durante o experimento.
 
-As duas arquiteturas utilizarão o mesmo modelo de linguagem, os mesmos parâmetros de geração e a mesma base geral de informações. No agente único, todas as regras serão reunidas em um único contexto. No sistema multiagente, o conteúdo será distribuído conforme as responsabilidades de cada agente.
+As duas arquiteturas utilizarão o mesmo modelo de linguagem, os mesmos parâmetros de geração e a mesma base de conhecimento. No agente único, as regras e informações serão reunidas em um único contexto. No sistema multiagente, o conteúdo será distribuído conforme as responsabilidades da triagem e dos agentes especializados.
+
+Serão consideradas quatro áreas de atendimento: primeiro atendimento, comercial, ouvidoria e suporte técnico. Os cenários poderão conter mudanças de assunto durante a conversa, permitindo verificar o comportamento das arquiteturas diante da necessidade de um novo encaminhamento.
 
 Não fazem parte do escopo o atendimento por voz, o processamento de conteúdo multimodal, o treinamento ou ajuste fino de modelos, a comparação entre diferentes LLMs e a implantação do sistema com clientes reais. Também não serão realizados testes de robustez com injeção deliberada de falhas nos agentes ou na comunicação.
 
-% \section{Organização do texto}\label{sec:organizacao}
+\section{Organização do texto}\label{sec:organizacao}
 
-% Além deste capítulo introdutório, o trabalho está organizado da seguinte forma: o \autoref{cap:revisao} apresenta os conceitos necessários para a compreensão do tema e os trabalhos relacionados; o \autoref{cap:metodologia} descreve as arquiteturas, os cenários conversacionais, as métricas e o procedimento experimental; e o capítulo de cronograma apresenta as atividades previstas para o desenvolvimento do trabalho no TCC2.
+Além deste capítulo introdutório, o trabalho está organizado
+da seguinte forma: o \autoref{cap:revisao} apresenta a fundamentação
+teórica, os trabalhos relacionados e a lacuna de pesquisa;
+o \autoref{cap:metodologia} descreve as arquiteturas propostas,
+a base de conhecimento, os cenários conversacionais, as ferramentas,
+o procedimento experimental e os critérios de avaliação;
+e o \autoref{cap:cronograma} apresenta o cronograma das atividades
+previstas para o desenvolvimento do trabalho no TCC2.
