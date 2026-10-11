@@ -1,0 +1,155 @@
+{
+  "execution_id": "f9f95c766e05495e91ff177203d5d56e",
+  "batch_id": "2eb206212b9b4031be3ea188fd3d1b2b",
+  "scenario_id": "piloto-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.0",
+  "scenario_version": "0.3.0",
+  "structured_checks_passed": true,
+  "deterministic_validation_passed": true,
+  "task_completion_assessed": false,
+  "summary": {
+    "turns": 4,
+    "correct_intents": 4,
+    "correct_areas": 4,
+    "area_accuracy": 1.0,
+    "area_accuracy_by_area": {
+      "commercial": {
+        "turns": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "first_contact": {
+        "turns": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      "ombudsman": {
+        "turns": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      "support": {
+        "turns": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      }
+    },
+    "correct_actions": 4,
+    "correct_routes": 4,
+    "correct_human_handoff_decisions": 4,
+    "human_handoff_accuracy": 1.0,
+    "internal_agent_transfers": null,
+    "model_calls": 4,
+    "input_tokens": 22454,
+    "output_tokens": 362,
+    "total_tokens": 22816,
+    "accumulated_latency_ms": 7281.953,
+    "no_flagged_expressions": true
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "expected_intent": "comercial_planos",
+      "observed_intent": "comercial_planos",
+      "intent_correct": true,
+      "expected_area": "commercial",
+      "observed_area": "commercial",
+      "area_correct": true,
+      "expected_action": "respond",
+      "observed_action": "respond",
+      "action_correct": true,
+      "expected_handoff_target": null,
+      "observed_handoff_target": null,
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    },
+    {
+      "turn_id": 2,
+      "expected_intent": "comercial_consulta_cobertura",
+      "observed_intent": "comercial_consulta_cobertura",
+      "intent_correct": true,
+      "expected_area": "commercial",
+      "observed_area": "commercial",
+      "area_correct": true,
+      "expected_action": "respond",
+      "observed_action": "respond",
+      "action_correct": true,
+      "expected_handoff_target": null,
+      "observed_handoff_target": null,
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    },
+    {
+      "turn_id": 3,
+      "expected_intent": "suporte_sem_conexao",
+      "observed_intent": "suporte_sem_conexao",
+      "intent_correct": true,
+      "expected_area": "support",
+      "observed_area": "support",
+      "area_correct": true,
+      "expected_action": "respond",
+      "observed_action": "respond",
+      "action_correct": true,
+      "expected_handoff_target": null,
+      "observed_handoff_target": null,
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    },
+    {
+      "turn_id": 4,
+      "expected_intent": "suporte_falha_optica",
+      "observed_intent": "suporte_falha_optica",
+      "intent_correct": true,
+      "expected_area": "support",
+      "observed_area": "support",
+      "area_correct": true,
+      "expected_action": "handoff_human",
+      "observed_action": "handoff_human",
+      "action_correct": true,
+      "expected_handoff_target": "technical_human",
+      "observed_handoff_target": "technical_human",
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    }
+  ],
+  "scope_note": "Esta avaliação cobre campos estruturados e buscas parciais por expressões. Não verifica integralmente required_behavior, required_context_after_turn, forbidden_behavior ou os critérios de task_completion. A conclusão da tarefa e a qualidade semântica exigem avaliação complementar."
+}

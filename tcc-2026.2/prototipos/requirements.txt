@@ -1,4 +1,11 @@
+# Acesso ao modelo de linguagem
 openai
+
+# Validação das saídas estruturadas
 pydantic
+
+# Carregamento das configurações do arquivo .env
 python-dotenv
+
+# Avaliação das conversas
 deepeval

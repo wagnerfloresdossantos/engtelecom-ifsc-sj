@@ -1,0 +1,52 @@
+{
+  "evaluation_id": "503a9d3b00e3421c815b3cc42e8dceae",
+  "execution_id": "controle-negativo-piloto-001-v0.3.0",
+  "batch_id": null,
+  "scenario_id": "piloto-001",
+  "architecture": "negative_control",
+  "mode": "manual",
+  "evaluated_model": "not_applicable",
+  "evaluator_model": "gpt-4.1-mini",
+  "deepeval_version": "4.2.8",
+  "evaluated_at_utc": "2026-10-11T15:16:45.671949+00:00",
+  "prototype_version": "0.3.0",
+  "scenario_version": "0.3.0",
+  "threshold": 0.5,
+  "threshold_status": "exploratory",
+  "all_metrics_passed": false,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 0.0,
+      "threshold": 0.5,
+      "passed": false,
+      "reason": "The score is 0.0 because in message 1, the assistant talks about cake recipes instead of Internet plans; in message 2, it ignores the user's provided postal code and asks for it again; in message 3, it treats the user as a new customer despite them stating they are already a client with an outage; and in message 4, it dismisses the user's report of a red LOS light by suggesting the internet is fine and ending the conversation. All these responses are completely irrelevant to the user's messages."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 0.0,
+      "threshold": 0.5,
+      "passed": false,
+      "reason": "The score is 0.00 because the LLM completely fails to retain key information: it introduces irrelevant topics, ignores provided data like the CEP '88110-000', incorrectly assumes the user's Internet status, and contradicts established facts about the Internet outage since yesterday."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 0.0,
+      "threshold": 0.5,
+      "passed": false,
+      "reason": "The score is 0.0 because the LLM response completely failed to address the user's intentions: it ignored the user's provided postal code '88110-000', misunderstood the user as a new customer despite them stating they are already a client without Internet, and did not provide any information about Internet plans. Additionally, it dismissed the user's reported connection issue indicated by the red LOS light, incorrectly stating the Internet was functioning normally, thus failing to resolve or acknowledge the user's actual problem."
+    }
+  ],
+  "scenario_completion_criteria": [
+    "a consulta inicial é tratada como comercial",
+    "o CEP é associado ao contexto e os planos disponíveis são apresentados",
+    "a mudança para suporte técnico é identificada",
+    "o estado das luzes é solicitado antes de ser informado",
+    "a luz LOS vermelha resulta na indicação de atendimento técnico humano",
+    "o resumo final preserva o início da indisponibilidade e o estado da luz LOS",
+    "não são inventadas informações ou operações externas",
+    "não são fornecidas orientações de acesso ou alteração das configurações dos equipamentos"
+  ],
+  "scenario_criteria_individually_assessed": false,
+  "method_note": "Avaliação conversacional de relevância, retenção e completude. Passar nas métricas não comprova conformidade integral com a base de conhecimento ou com todos os critérios do cenário. Área, ação, destino humano e rota são verificados pelo script determinístico. Os demais critérios exigem avaliação específica ou revisão manual."
+}

@@ -1,0 +1,52 @@
+{
+  "evaluation_id": "83fdc60e060943df9fd569224b9973f6",
+  "execution_id": "f9f95c766e05495e91ff177203d5d56e",
+  "batch_id": "2eb206212b9b4031be3ea188fd3d1b2b",
+  "scenario_id": "piloto-001",
+  "architecture": "single",
+  "mode": "openai",
+  "evaluated_model": "gpt-4.1-mini",
+  "evaluator_model": "gpt-4.1-mini",
+  "deepeval_version": "4.2.8",
+  "evaluated_at_utc": "2026-10-11T15:12:30.380193+00:00",
+  "prototype_version": "0.3.0",
+  "scenario_version": "0.3.0",
+  "threshold": 0.5,
+  "threshold_status": "exploratory",
+  "all_metrics_passed": true,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because there are no irrelevancies found in the assistant messages; all responses are relevant to the user's inputs."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.00 because there are no attritions indicating any forgetfulness or loss of previously established knowledge in the conversation."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because the LLM response fully addresses the user's intentions by providing information about available Internet plans and offering technical support for the reported outage, with no noted deficiencies."
+    }
+  ],
+  "scenario_completion_criteria": [
+    "a consulta inicial é tratada como comercial",
+    "o CEP é associado ao contexto e os planos disponíveis são apresentados",
+    "a mudança para suporte técnico é identificada",
+    "o estado das luzes é solicitado antes de ser informado",
+    "a luz LOS vermelha resulta na indicação de atendimento técnico humano",
+    "o resumo final preserva o início da indisponibilidade e o estado da luz LOS",
+    "não são inventadas informações ou operações externas",
+    "não são fornecidas orientações de acesso ou alteração das configurações dos equipamentos"
+  ],
+  "scenario_criteria_individually_assessed": false,
+  "method_note": "Avaliação conversacional de relevância, retenção e completude. Passar nas métricas não comprova conformidade integral com a base de conhecimento ou com todos os critérios do cenário. Área, ação, destino humano e rota são verificados pelo script determinístico. Os demais critérios exigem avaliação específica ou revisão manual."
+}

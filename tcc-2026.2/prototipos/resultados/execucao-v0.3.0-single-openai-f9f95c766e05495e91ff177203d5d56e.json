@@ -1,0 +1,122 @@
+{
+  "batch_id": "2eb206212b9b4031be3ea188fd3d1b2b",
+  "execution_id": "f9f95c766e05495e91ff177203d5d56e",
+  "scenario_id": "piloto-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.0",
+  "prompt_version": "0.3.1",
+  "knowledge_base_version": "0.3.1",
+  "scenario_version": "0.3.0",
+  "executed_at_utc": "2026-10-11T15:04:25.160166+00:00",
+  "completed_at_utc": "2026-10-11T15:04:32.443906+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para informar os planos disponíveis, poderia, por favor, fornecer o CEP da sua localidade?",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2008.424,
+          "input_tokens": 5465,
+          "output_tokens": 59,
+          "total_tokens": 5524,
+          "output": {
+            "response": "Para informar os planos disponíveis, poderia, por favor, fornecer o CEP da sua localidade?",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "interesse em conhecer planos de Internet"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "O CEP 88110-000 está na área atendida pelo nosso provedor. Para essa localidade, oferecemos planos de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Gostaria de saber mais sobre algum desses planos?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1414.105,
+          "input_tokens": 5551,
+          "output_tokens": 106,
+          "total_tokens": 5657,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida pelo nosso provedor. Para essa localidade, oferecemos planos de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Gostaria de saber mais sobre algum desses planos?",
+            "intent": "comercial_consulta_cobertura",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "interesse em conhecer planos de Internet",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Lamento pela falta de Internet desde ontem. Para ajudar melhor, você poderia informar o estado das luzes do seu equipamento?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1633.408,
+          "input_tokens": 5679,
+          "output_tokens": 81,
+          "total_tokens": 5760,
+          "output": {
+            "response": "Lamento pela falta de Internet desde ontem. Para ajudar melhor, você poderia informar o estado das luzes do seu equipamento?",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "interesse em conhecer planos de Internet",
+              "CEP informado: 88110-000",
+              "cliente sem Internet desde ontem"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "A luz LOS está vermelha.",
+      "assistant_response": "A luz LOS vermelha indica uma possível perda do sinal óptico, o que pode estar relacionado à indisponibilidade da sua Internet desde ontem. Vou encaminhar seu caso para o atendimento técnico humano para que possam ajudar da melhor forma possível.",
+      "expected_intent": "suporte_falha_optica",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2226.016,
+          "input_tokens": 5759,
+          "output_tokens": 116,
+          "total_tokens": 5875,
+          "output": {
+            "response": "A luz LOS vermelha indica uma possível perda do sinal óptico, o que pode estar relacionado à indisponibilidade da sua Internet desde ontem. Vou encaminhar seu caso para o atendimento técnico humano para que possam ajudar da melhor forma possível.",
+            "intent": "suporte_falha_optica",
+            "active_area": "support",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "interesse em conhecer planos de Internet",
+              "CEP informado: 88110-000",
+              "cliente sem Internet desde ontem",
+              "luz LOS vermelha"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
