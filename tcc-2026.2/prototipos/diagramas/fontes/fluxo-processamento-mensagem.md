@@ -1,38 +1,22 @@
 ```mermaid
-flowchart LR
-    subgraph EN["Entrada"]
-        direction TB
-        A["Receber mensagem"] --> B["Recuperar histórico e estado"]
-        B --> C{"Arquitetura avaliada"}
-    end
+flowchart TD
+    A["Receber mensagem e recuperar contexto"]
+    A --> B{"Arquitetura?"}
 
-    subgraph AU["Agente único"]
-        direction TB
-        D["Enviar mensagem, histórico e base completa"]
-        D --> E["Executar agente único"]
-        E --> F["Registrar resposta e consumo"]
-    end
+    B -- Agente único --> C["Preparar contexto e base completa"]
+    C --> D["Executar agente único"]
+    D --> E["Obter resposta e decisão"]
 
-    subgraph MA["Multiagente"]
-        direction TB
-        G{"Existe agente ativo?"}
-        G -- Não --> H["Executar triagem"]
-        H --> I["Selecionar especialista"]
-        I --> J["Executar especialista"]
-        G -- Sim --> J
-        J --> K{"Solicitou nova triagem?"}
-        K -- Sim --> H
-        K -- Não --> L["Registrar resposta, rota e consumo"]
-    end
+    B -- Multiagente --> F{"Especialista ativo?"}
+    F -- Não --> G["Executar triagem"]
+    G --> H["Selecionar especialista"]
+    F -- Sim --> I["Executar especialista"]
+    H --> I
+    I --> J{"Nova triagem?"}
+    J -- Sim --> G
+    J -- Não --> K["Obter resposta e decisão"]
 
-    subgraph SA["Saída"]
-        direction TB
-        M["Atualizar histórico e estado"]
-        M --> N["Responder ao usuário"]
-    end
-
-    C -- Agente único --> D
-    C -- Multiagente --> G
-    F --> M
-    L --> M
+    E --> L["Registrar decisões e consumo"]
+    K --> L
+    L --> M["Atualizar histórico e responder"]
 ```

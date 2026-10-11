@@ -90,7 +90,10 @@ Os trabalhos analisados abordam diferentes aspectos do uso de modelos de linguag
 
 No contexto das telecomunicações, \textcite{lee2025} propõem uma arquitetura para sistemas de suporte à operação. A organização é composta por um agente principal, responsável pela coordenação, e agentes específicos, encarregados de tarefas relacionadas a diferentes áreas do sistema. Os autores apontam benefícios relacionados à flexibilidade e à divisão de responsabilidades. Entretanto, o estudo concentra-se na descrição da arquitetura e não apresenta uma comparação experimental entre agente único e multiagente utilizando os mesmos cenários e parâmetros.
 
-O reconhecimento de intenções é investigado por \textcite{yang2025}. Os autores propõem uma abordagem em duas etapas: inicialmente, é realizada uma tentativa de classificação utilizando TF-IDF; quando essa etapa não é suficiente, um modelo de linguagem é empregado. A proposta procura equilibrar precisão, latência e custo computacional. O estudo é pertinente ao mecanismo de triagem, mas sua avaliação está concentrada na identificação da intenção, sem abranger a continuidade do atendimento depois do encaminhamento.
+O reconhecimento de intenções é investigado por Yang, Xu e Zhang (2025). Os autores propõem uma abordagem em duas etapas. Na primeira, utilizam TF-IDF (\textit{Term Frequency--Inverse
+Document Frequency}), uma técnica que atribui pesos às palavras conforme sua frequência em um texto e sua raridade no conjunto de documentos. A mensagem do usuário e os nomes e descrições dos agentes são representados por vetores, comparados por similaridade de cosseno para selecionar o agente adequado.
+Quando a similaridade não atinge um limiar predefinido, um modelo de linguagem é acionado para identificar a intenção. A proposta procura equilibrar acurácia, latência e custo
+computacional. O estudo é pertinente ao mecanismo de triagem, mas sua avaliação concentra-se na identificação da intenção, sem avaliar a continuidade do atendimento após o encaminhamento.
 
 \textcite{amri2026} comparam arquiteturas de agente único e multiagente na decisão de encaminhar uma conversa para atendimento humano. Para realizar os testes, os autores utilizam uma base formada por diálogos de atendimento e comparam o desempenho das arquiteturas com diferentes modelos de linguagem. Os resultados indicam melhor desempenho do sistema multiagente em parte das medidas avaliadas. Entretanto, também mostram que a organização em múltiplos agentes pode alterar o momento em que ocorre a transferência. O estudo é próximo da proposta deste trabalho, mas está concentrado na decisão de transferência para humanos.
 
@@ -105,43 +108,63 @@ O \autoref{quadro:trabalhos-relacionados} resume as principais características 
     \caption{Síntese dos trabalhos relacionados}
     \label{quadro:trabalhos-relacionados}
     \footnotesize
+    \renewcommand{\arraystretch}{1.15}
 
-    \begin{tabularx}{\textwidth}{|p{2.4cm}|p{2.8cm}|X|X|}
+    \begin{tabularx}{\textwidth}{
+        |>{\raggedright\arraybackslash}p{3cm}
+        |>{\raggedright\arraybackslash}p{2.6cm}
+        |>{\raggedright\arraybackslash}X
+        |>{\raggedright\arraybackslash}X|
+    }
         \hline
         \textbf{Trabalho} &
         \textbf{Aplicação} &
         \textbf{Abordagem} &
-        \textbf{Limitação em relação a este TCC} \\ \hline
+        \textbf{Limitação em relação a este TCC} \\
+        \hline
 
-        Moncada et al.~\cite{moncada2025} &
+        \textcite{moncada2025} &
         Chamados de suporte &
-        Agentes para entrada dos dados, classificação e geração de respostas &
-        Não compara as duas arquiteturas nem avalia conversas com múltiplos turnos \\ \hline
+        Agentes para entrada dos dados, classificação e geração
+        de respostas &
+        Não compara as duas arquiteturas nem avalia conversas
+        com múltiplos turnos \\
+        \hline
 
-        Lee, Tseng e Chen~\cite{lee2025} &
+        \textcite{lee2025} &
         Operações de telecomunicações &
         Agente principal coordenando agentes especializados &
-        Não apresenta comparação experimental controlada entre agente único e multiagente \\ \hline
+        Não apresenta comparação experimental controlada entre
+        agente único e multiagente \\
+        \hline
 
-        Yang, Xu e Zhang~\cite{yang2025} &
+        \textcite{yang2025} &
         Reconhecimento de intenção &
-        Classificação inicial com TF-IDF e uso de LLM como segunda etapa &
-        Avalia a identificação da intenção, mas não a continuidade do atendimento \\ \hline
+        Classificação inicial com TF-IDF e uso de LLM como
+        segunda etapa &
+        Avalia a identificação da intenção, mas não a continuidade
+        do atendimento \\
+        \hline
 
-        Amri et al.~\cite{amri2026} &
+        \textcite{amri2026} &
         Transferência para atendimento humano &
         Comparação entre agente único e multiagente &
-        Concentra-se na decisão de transferência para atendimento humano \\ \hline
+        Concentra-se na decisão de transferência para
+        atendimento humano \\
+        \hline
 
-        Yan et al.~\cite{yan2026} &
+        \textcite{yan2026} &
         Comunicação entre agentes &
-        Revisão de arquiteturas, mensagens e estratégias de comunicação &
-        Não realiza comparação experimental própria \\ \hline
+        Revisão de arquiteturas, mensagens e estratégias
+        de comunicação &
+        Não realiza comparação experimental própria \\
+        \hline
 
-        Owotogbe~\cite{owotogbe2025} &
+        \textcite{owotogbe2025} &
         Robustez de sistemas multiagentes &
         Aplicação de princípios de engenharia do caos &
-        Possui procedimento e objetivo experimental diferentes \\ \hline
+        Possui procedimento e objetivo experimental diferentes \\
+        \hline
     \end{tabularx}
 
     \fonteproprioautor
