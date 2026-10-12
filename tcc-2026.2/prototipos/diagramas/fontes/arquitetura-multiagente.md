@@ -7,7 +7,7 @@ sequenceDiagram
     participant T as Triagem
     participant C as Comercial
     participant S as Suporte
-    participant H as Histórico
+    participant H as Histórico e estado
     participant R as Registro
 
     rect

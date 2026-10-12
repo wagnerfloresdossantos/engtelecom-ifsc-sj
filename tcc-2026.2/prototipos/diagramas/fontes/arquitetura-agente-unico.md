@@ -5,7 +5,7 @@ sequenceDiagram
     actor U as Usuário
     participant O as Orquestrador
     participant A as Agente único
-    participant H as Histórico
+    participant H as Histórico e estado
     participant R as Registro da execução
 
     rect

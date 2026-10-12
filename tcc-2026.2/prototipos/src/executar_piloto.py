@@ -1,3 +1,10 @@
+# Changelog — protótipo v0.3.1 em relação à v0.3.0
+# - Atualizada a versão do protótipo nos JSONs e nomes dos resultados.
+# - Incluído client_version para identificar o cliente LLM v0.2.1.
+# - Mantidas as versões declaradas dos conjuntos de prompts e bases;
+#   a versão do cenário continua sendo lida do próprio JSON.
+# - Preservada a seleção explícita de cenário por --scenario.
+
 from __future__ import annotations
 
 import argparse
@@ -18,9 +25,11 @@ from multiagente import ArquiteturaMultiagente
 
 # Identificam a nova versão em preparação.
 # Não indicam que o experimento definitivo já foi validado.
-VERSAO_PROTOTIPO = "0.3.0"
-VERSAO_PROMPTS = "0.3.1"
-VERSAO_BASES = "0.3.1"
+VERSAO_PROTOTIPO = "0.3.1"
+# Versão do cliente utilizado; atualizar quando cliente_llm.py mudar.
+VERSAO_CLIENTE = "0.2.1"
+VERSAO_PROMPTS = "0.3.2"
+VERSAO_BASES = "0.3.2"
 
 
 # Ordem fixa para reunir as bases na arquitetura de agente único.
@@ -160,6 +169,7 @@ def executar(
             else "mock"
         ),
         "prototype_version": VERSAO_PROTOTIPO,
+        "client_version": VERSAO_CLIENTE,
         "prompt_version": VERSAO_PROMPTS,
         "knowledge_base_version": VERSAO_BASES,
         "scenario_version": cenario["version"],

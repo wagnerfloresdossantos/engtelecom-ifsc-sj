@@ -258,7 +258,7 @@ As novas execuções realizadas durante a preparação servem para corrigir e ve
 
 ## Limitações e próximos passos
 
-1. Criar o `piloto-002`, incluindo primeiro atendimento e ouvidoria, e ampliar o cliente simulado para essas áreas.
+1. Corrigir as falhas observadas no `piloto-002 e concluir sua avaliação.
 2. Documentar a revisão manual dos comportamentos obrigatórios, informações preservadas e condições de conclusão.
 3. Testar erros mais sutis no procedimento de avaliação, mantendo critérios definidos antes de avaliar.
 4. Definir e registrar os parâmetros de geração de forma igual nas duas arquiteturas. Atualmente, o cliente não os fixa explicitamente.
@@ -270,3 +270,84 @@ As novas execuções realizadas durante a preparação servem para corrigir e ve
 10. Revisar os diagramas para refletir a orquestração e o histórico completo atuais, sem comunicação direta entre agentes.
 
 O estado atual constitui um protótipo exploratório funcional para o piloto comercial e técnico. A implementação definitiva, o conjunto completo de cenários e o procedimento de avaliação ainda serão refinados antes do experimento principal.
+
+
+## Changelog — 12/10/2026
+
+### Versões deste checkpoint
+
+| Componente | Versão |
+|---|---|
+| Protótipo | 0.3.1 |
+| Cliente LLM (`cliente_llm.py`) | 0.2.1 |
+| Conjunto de prompts | 0.3.2 |
+| Conjunto de bases de conhecimento | 0.3.2 |
+| Cenário `piloto-002` | 0.3.0 |
+
+As versões dos conjuntos são declaradas no executor e não significam que todos os documentos tenham a mesma versão individual. Os prompts de agente único, suporte e ouvidoria foram revisados para 0.3.2; os demais documentos conservam suas identificações individuais.
+
+### Alterações realizadas
+
+- Criado o `piloto-002`, com oito turnos: primeiro atendimento, consulta comercial, suporte com luzes verdes, reinicialização da ONT, reclamação e retorno ao comercial para recuperar o CEP anterior.
+- Ampliado o mock para triagem, quatro especialistas e agente único, incluindo mudanças de assunto e decisões de encaminhamento humano.
+- Corrigida, na versão 0.2.1 do cliente, a extração dos fatos enviados como entradas `role="context"` pelo carregador. A versão 0.2.0 não preservava corretamente esses fatos na integração.
+- Incluído o fluxo da base de suporte 0.3.2: desligar a ONT da energia por 30 segundos e indicar atendimento técnico humano quando a conexão continuar indisponível após reinicialização relatada pelo usuário.
+- Atualizado o executor para registrar `prototype_version="0.3.1"` e `client_version="0.2.1"`. Os resultados passam a usar o prefixo `execucao-v0.3.1-`.
+- Reforçados os prompts de agente único, suporte e ouvidoria quanto ao registro de orientações, resumo de encaminhamento, coerência entre resposta e ação e distinção entre reclamação e pedido explícito de humano.
+- Adicionada orientação de diagnóstico para que a exceção de nova triagem mostre agente, mensagem e saída estruturada. A validação de `response=null` e `handoff_target=null` permanece exigida para `request_reroute`.
+
+### Validação em modo mock
+
+As duas execuções corrigidas processaram os oito turnos e corresponderam às intenções, áreas, ações, destinos e rotas esperadas. Os fatos técnicos foram preservados nos turnos 5 a 7 e o CEP foi recuperado no turno 8.
+
+| Medida | Agente único | Multiagente |
+|---|---:|---:|
+| Turnos processados | 8 | 8 |
+| Chamadas ao cliente simulado | 8 | 17 |
+| Trocas entre especialistas | Não se aplica | 4 |
+| Tokens | 0 | 0 |
+
+Arquivos de referência:
+
+- `execucao-v0.3.1-single-mock-c6b8d1277cb5462b9d032b571f572f11.json`
+- `execucao-v0.3.1-multi-mock-7fbbe2ca20ca440f8dccdc248b3cb646.json`
+
+O mock verifica o funcionamento da integração com regras determinísticas. Seus resultados não demonstram interpretação dos prompts por um LLM nem permitem comparar custo ou latência da API.
+
+### Execuções com a API
+
+Foram realizadas execuções exploratórias com `gpt-4.1-mini`. Uma tentativa do multiagente foi interrompida por uma saída incompatível com `request_reroute`. O executor não salvou o resultado parcial dessa tentativa; o traceback disponível deve ser preservado como evidência da preparação, sem pressupor consumo zero ou conversa concluída.
+
+As últimas execuções completas com o conjunto de prompts 0.3.2 são:
+
+- Agente único: `execucao-v0.3.1-single-openai-011b95a3cca3452794be1b2e63373f1c.json`.
+- Multiagente: `execucao-v0.3.1-multi-openai-2fd9e19695014afd86de26915f26e484.json`.
+
+| Medida | Agente único | Multiagente |
+|---|---:|---:|
+| Turnos processados | 8 | 8 |
+| Turnos com intenção, área, ação e destino esperados | 7/8 | 7/8 |
+| Chamadas à API | 8 | 15 |
+| Tokens de entrada | 51.356 | 53.019 |
+| Tokens de saída | 803 | 1.461 |
+| Tokens totais | 52.159 | 54.480 |
+| Soma das latências das chamadas | 16,35 s | 28,66 s |
+
+As execuções pertencem a lotes diferentes, pois o multiagente foi executado separadamente após a interrupção. A soma de latências corresponde às chamadas de atendimento registradas, não a uma avaliação de desempenho geral. O consumo da tentativa interrompida e de avaliadores não está incluído nesta tabela.
+
+### Pendências no ponto de continuidade
+
+O `piloto-002` ainda não está integralmente aprovado com a API:
+
+1. No turno 5, ambas as arquiteturas apresentam a orientação de reinicialização, mas não a registram em `context_facts`.
+2. No turno 7, o agente único pede confirmação adicional e retorna `respond`, em vez do encaminhamento humano de ouvidoria esperado.
+3. No turno 8, o multiagente permanece na ouvidoria apesar da mudança explícita para consulta comercial; não realiza nova triagem nem recupera o CEP nesse turno.
+4. No multiagente, a resposta técnica do turno 6 não explicita a natureza humana da continuidade; o resumo da ouvidoria no turno 7 omite a reinicialização sem restabelecimento.
+
+As regras adicionais propostas após essa análise ainda não foram implementadas ou testadas. A avaliação com DeepEval do piloto-002 também permanece pendente.
+
+Este commit registra um checkpoint de preparação. Os resultados do piloto-001, as tentativas anteriores e seus documentos devem permanecer identificados pelas versões e execuções de origem. Não há evidência de superioridade de uma arquitetura nem validação do experimento principal.
+
+### Retomada do trabalho
+
+Corrigir as pendências acima, versionar o novo conjunto de prompts e repetir o piloto-002. Conferir os comportamentos obrigatórios e proibidos e executar a avaliação determinística e conversacional antes de declarar sua aprovação. Os próximos cenários devem permanecer separados dos resultados deste piloto.

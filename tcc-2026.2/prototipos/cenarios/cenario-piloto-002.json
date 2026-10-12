@@ -1,0 +1,258 @@
+{
+  "scenario_id": "piloto-002",
+  "title": "Integração das quatro áreas e recuperação de informação após mudanças de assunto",
+  "version": "0.3.0",
+  "status": "pilot",
+  "description": "Conversa inicia com necessidade indefinida, passa por comercial e suporte, solicita ouvidoria e retorna ao comercial para recuperar o CEP informado anteriormente.",
+  "data_policy": {
+    "data_type": "synthetic",
+    "contains_real_personal_data": false,
+    "notes": "Provedor, CEP utilizado no atendimento e condições comerciais são tratados conforme a base fictícia do experimento; não há clientes reais."
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Olá, preciso de ajuda.",
+      "expected_intent": "primeiro_atendimento_inicio",
+      "expected_area": "first_contact",
+      "expected_multiagent_destination": "first_contact",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "acolher brevemente e perguntar qual é a necessidade",
+        "fazer somente uma pergunta sem exigir dados cadastrais"
+      ],
+      "required_context_after_turn": [],
+      "forbidden_behavior": [
+        "inventar a necessidade",
+        "apresentar menu obrigatório",
+        "solicitar CPF ou endereço"
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "expected_intent": "comercial_planos",
+      "expected_area": "commercial",
+      "expected_multiagent_destination": "commercial",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "identificar a solicitação comercial",
+        "solicitar o CEP antes de informar disponibilidade"
+      ],
+      "required_context_after_turn": [
+        "o usuário deseja conhecer os planos"
+      ],
+      "forbidden_behavior": [
+        "inventar cobertura ou preços",
+        "permanecer no esclarecimento genérico após a necessidade ser informada"
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Meu CEP é 88110-000.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "expected_area": "commercial",
+      "expected_multiagent_destination": "commercial",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "relacionar o CEP à solicitação anterior",
+        "informar cobertura fictícia para o CEP 88110-000",
+        "apresentar planos de 500, 700 e 900 Mbit/s"
+      ],
+      "required_context_after_turn": [
+        "interesse em planos",
+        "CEP informado: 88110-000"
+      ],
+      "forbidden_behavior": [
+        "solicitar novamente o CEP",
+        "inventar preços",
+        "afirmar contratação concluída"
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_multiagent_destination": "support",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "reconhecer a mudança para suporte",
+        "solicitar o estado das luzes da ONT"
+      ],
+      "required_context_after_turn": [
+        "o usuário já é cliente",
+        "sem Internet desde ontem"
+      ],
+      "forbidden_behavior": [
+        "continuar oferecendo planos",
+        "afirmar resolução ou consulta remota"
+      ]
+    },
+    {
+      "turn_id": 5,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_multiagent_destination": "support",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "orientar desligar a ONT da energia, aguardar 30 segundos e ligar novamente",
+        "perguntar se a conexão voltou após o procedimento",
+        "manter suporte e não antecipar encaminhamento humano somente por esse relato"
+      ],
+      "required_context_after_turn": [
+        "cliente sem Internet desde ontem",
+        "luzes da ONT verdes",
+        "orientação de reinicialização pela energia apresentada"
+      ],
+      "forbidden_behavior": [
+        "orientar botão RESET",
+        "orientar acesso ou alteração de configurações",
+        "afirmar que o sistema reiniciou a ONT",
+        "registrar reinicialização realizada antes da confirmação do usuário"
+      ]
+    },
+    {
+      "turn_id": 6,
+      "user_message": "Já reiniciei a ONT e continuo sem Internet.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_multiagent_destination": "support",
+      "expected_action": "handoff_human",
+      "expected_handoff_target": "technical_human",
+      "required_behavior": [
+        "considerar a reinicialização como realizada segundo o relato do usuário",
+        "indicar continuidade com atendimento técnico humano",
+        "resumir indisponibilidade desde ontem, luzes verdes e reinicialização sem restabelecimento"
+      ],
+      "required_context_after_turn": [
+        "já é cliente",
+        "sem Internet desde ontem",
+        "luzes verdes",
+        "usuário relata reinicialização realizada",
+        "conexão continua indisponível"
+      ],
+      "forbidden_behavior": [
+        "repetir orientação de reinicialização",
+        "afirmar chamado aberto ou transferência operacional concluída",
+        "afirmar resolução"
+      ]
+    },
+    {
+      "turn_id": 7,
+      "user_message": "Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+      "expected_intent": "ouvidoria_reclamacao",
+      "expected_area": "ombudsman",
+      "expected_multiagent_destination": "ombudsman",
+      "expected_action": "handoff_human",
+      "expected_handoff_target": "ombudsman_human",
+      "required_behavior": [
+        "reconhecer o pedido explícito de reclamação",
+        "relacionar a reclamação ao problema técnico anterior",
+        "preservar recorrência de três ocorrências nesta semana",
+        "indicar atendimento humano de ouvidoria com resumo dos fatos já fornecidos"
+      ],
+      "required_context_after_turn": [
+        "pedido de reclamação sobre conexão",
+        "três ocorrências nesta semana",
+        "falha atual desde ontem",
+        "reinicialização sem restabelecimento"
+      ],
+      "forbidden_behavior": [
+        "substituir a reclamação por orientações técnicas",
+        "pedir novamente o motivo já descrito",
+        "afirmar reclamação registrada ou protocolo gerado",
+        "prometer prazo ou compensação"
+      ]
+    },
+    {
+      "turn_id": 8,
+      "user_message": "Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "expected_area": "commercial",
+      "expected_multiagent_destination": "commercial",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "reconhecer o retorno à consulta comercial",
+        "recuperar o CEP 88110-000 informado no turno 3",
+        "apresentar planos de 500, 700 e 900 Mbit/s para esse CEP sem solicitá-lo novamente",
+        "não afirmar que a falha técnica ou a reclamação foi resolvida"
+      ],
+      "required_context_after_turn": [
+        "CEP informado: 88110-000",
+        "retorno à consulta de cobertura e planos"
+      ],
+      "forbidden_behavior": [
+        "pedir novamente o CEP",
+        "inventar outro CEP ou preços",
+        "permanecer na ouvidoria apesar do pedido comercial explícito",
+        "afirmar encerramento da reclamação ou resolução técnica"
+      ]
+    }
+  ],
+  "expected_route": {
+    "single_agent": [
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico",
+      "agente_unico"
+    ],
+    "multiagent": [
+      "triagem->first_contact",
+      "first_contact->triagem->commercial",
+      "commercial",
+      "commercial->triagem->support",
+      "support",
+      "support",
+      "support->triagem->ombudsman",
+      "ombudsman->triagem->commercial"
+    ]
+  },
+  "task_completion": {
+    "required": true,
+    "criteria": [
+      "a necessidade inicial indefinida recebe esclarecimento sem menu obrigatório ou dados cadastrais",
+      "o CEP é relacionado à consulta e os planos previstos são apresentados",
+      "a mudança para suporte é identificada e os fatos técnicos são preservados",
+      "a reinicialização pela energia é orientada sem RESET ou alteração de configurações",
+      "a persistência após reinicialização resulta em decisão de encaminhamento técnico humano",
+      "o pedido explícito de reclamação resulta em atendimento de ouvidoria e decisão de encaminhamento humano adequada",
+      "o retorno ao comercial recupera o CEP informado anteriormente sem nova coleta",
+      "não são inventados operações externas, protocolos, preços, prazos ou resolução técnica"
+    ]
+  },
+  "metrics_to_collect": [
+    "turn_relevancy",
+    "knowledge_retention",
+    "conversation_completeness",
+    "routing_accuracy",
+    "intent_accuracy",
+    "handoff_accuracy",
+    "response_time_ms",
+    "input_tokens",
+    "output_tokens",
+    "model_calls",
+    "agent_transfers"
+  ],
+  "execution_notes": [
+    "Usar o conjunto de bases 0.3.2, incluindo a regra de luzes verdes e falta de conexão.",
+    "O encaminhamento humano é decisão simulada: não encerra automaticamente o processamento das mensagens restantes.",
+    "Os oito turnos são enviados na ordem definida, igualmente às duas arquiteturas.",
+    "A referência ao CEP no turno 8 deve ser resolvida pelo contexto disponibilizado, sem incluir o CEP na mensagem atual.",
+    "Os fatos obrigatórios são avaliados semanticamente; não se exige uma frase literal nem que todos estejam separados em itens.",
+    "A preservação do CEP pode ser comprovada pelo histórico e pelo uso correto no turno 8; sua ausência em um resumo intermediário, isoladamente, não constitui falha.",
+    "O último turno tem action=respond e handoff_target=null. O avaliador não deve exigir encaminhamento técnico humano na última saída como regra fixa.",
+    "Conferir que a triagem utiliza os mesmos identificadores de intenção e área dos prompts."
+  ]
+}

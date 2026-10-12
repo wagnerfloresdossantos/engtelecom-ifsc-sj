@@ -1,0 +1,239 @@
+{
+  "batch_id": "57e11cfd22794ef1aa7389f9adb2483b",
+  "execution_id": "011b95a3cca3452794be1b2e63373f1c",
+  "scenario_id": "piloto-002",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.1",
+  "client_version": "0.2.1",
+  "prompt_version": "0.3.2",
+  "knowledge_base_version": "0.3.2",
+  "scenario_version": "0.3.0",
+  "executed_at_utc": "2026-10-12T14:02:03.445214+00:00",
+  "completed_at_utc": "2026-10-12T14:02:19.801343+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Olá, preciso de ajuda.",
+      "assistant_response": "Olá! Como posso ajudar você hoje? Por favor, descreva sua necessidade para que eu possa oferecer o suporte adequado.",
+      "expected_intent": "primeiro_atendimento_inicio",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 3139.678,
+          "input_tokens": 6083,
+          "output_tokens": 68,
+          "total_tokens": 6151,
+          "output": {
+            "response": "Olá! Como posso ajudar você hoje? Por favor, descreva sua necessidade para que eu possa oferecer o suporte adequado.",
+            "intent": "primeiro_atendimento_inicio",
+            "active_area": "first_contact",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário solicitou ajuda sem especificar a necessidade"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para informar os planos disponíveis, por favor, poderia me informar o CEP onde o serviço será utilizado?",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1396.953,
+          "input_tokens": 6177,
+          "output_tokens": 61,
+          "total_tokens": 6238,
+          "output": {
+            "response": "Para informar os planos disponíveis, por favor, poderia me informar o CEP onde o serviço será utilizado?",
+            "intent": "comercial_planos",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário deseja conhecer os planos de Internet"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "O CEP 88110-000 está na área atendida pelo Provedor Alfa. Para esse CEP, estão disponíveis os planos de Internet de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Gostaria de saber mais detalhes sobre algum desses planos?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1886.052,
+          "input_tokens": 6237,
+          "output_tokens": 110,
+          "total_tokens": 6347,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida pelo Provedor Alfa. Para esse CEP, estão disponíveis os planos de Internet de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Gostaria de saber mais detalhes sobre algum desses planos?",
+            "intent": "comercial_consulta_cobertura",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário deseja conhecer os planos de Internet",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Lamento que você esteja sem Internet desde ontem. Para ajudar melhor, poderia informar como estão as luzes do seu equipamento?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1638.268,
+          "input_tokens": 6368,
+          "output_tokens": 68,
+          "total_tokens": 6436,
+          "output": {
+            "response": "Lamento que você esteja sem Internet desde ontem. Para ajudar melhor, poderia informar como estão as luzes do seu equipamento?",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário é cliente",
+              "sem Internet desde ontem"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 5,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "assistant_response": "Por favor, desligue a ONT da energia, aguarde cerca de 30 segundos e ligue-a novamente. Depois, me informe se a conexão voltou.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1640.145,
+          "input_tokens": 6432,
+          "output_tokens": 90,
+          "total_tokens": 6522,
+          "output": {
+            "response": "Por favor, desligue a ONT da energia, aguarde cerca de 30 segundos e ligue-a novamente. Depois, me informe se a conexão voltou.",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário é cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT estão verdes",
+              "conexão indisponível"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 6,
+      "user_message": "Já reiniciei a ONT e continuo sem Internet.",
+      "assistant_response": "Entendo que você já reiniciou a ONT e ainda está sem Internet desde ontem, com as luzes da ONT verdes. Vou encaminhar seu caso para o atendimento técnico humano para que possam auxiliar da melhor forma.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 1841.544,
+          "input_tokens": 6554,
+          "output_tokens": 119,
+          "total_tokens": 6673,
+          "output": {
+            "response": "Entendo que você já reiniciou a ONT e ainda está sem Internet desde ontem, com as luzes da ONT verdes. Vou encaminhar seu caso para o atendimento técnico humano para que possam auxiliar da melhor forma.",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "usuário é cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT estão verdes",
+              "conexão indisponível",
+              "reinicialização da ONT realizada e não resolveu"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 7,
+      "user_message": "Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+      "assistant_response": "Lamento muito que você tenha enfrentado essa instabilidade três vezes nesta semana. Para registrar sua reclamação e encaminhar ao atendimento adequado, preciso confirmar algumas informações. Você deseja que eu encaminhe sua manifestação para o atendimento humano da ouvidoria?",
+      "expected_intent": "ouvidoria_reclamacao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2563.028,
+          "input_tokens": 6675,
+          "output_tokens": 138,
+          "total_tokens": 6813,
+          "output": {
+            "response": "Lamento muito que você tenha enfrentado essa instabilidade três vezes nesta semana. Para registrar sua reclamação e encaminhar ao atendimento adequado, preciso confirmar algumas informações. Você deseja que eu encaminhe sua manifestação para o atendimento humano da ouvidoria?",
+            "intent": "ouvidoria_reclamacao",
+            "active_area": "ombudsman",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário é cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT estão verdes",
+              "conexão indisponível",
+              "reinicialização da ONT realizada e não resolveu",
+              "instabilidade ocorrendo três vezes nesta semana",
+              "usuário deseja registrar uma reclamação"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 8,
+      "user_message": "Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?",
+      "assistant_response": "Para o CEP 88110-000, que você já informou, os planos disponíveis são de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Posso ajudar com mais alguma informação sobre esses planos?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2246.618,
+          "input_tokens": 6830,
+          "output_tokens": 149,
+          "total_tokens": 6979,
+          "output": {
+            "response": "Para o CEP 88110-000, que você já informou, os planos disponíveis são de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Posso ajudar com mais alguma informação sobre esses planos?",
+            "intent": "comercial_consulta_cobertura",
+            "active_area": "commercial",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "usuário é cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT estão verdes",
+              "conexão indisponível",
+              "reinicialização da ONT realizada e não resolveu",
+              "instabilidade ocorrendo três vezes nesta semana",
+              "usuário deseja registrar uma reclamação",
+              "interesse em planos para o CEP 88110-000"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

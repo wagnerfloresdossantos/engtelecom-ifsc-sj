@@ -1,0 +1,366 @@
+{
+  "batch_id": "d079ee93a18847aa94443f22098d5c73",
+  "execution_id": "2fd9e19695014afd86de26915f26e484",
+  "scenario_id": "piloto-002",
+  "architecture": "multi",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.1",
+  "client_version": "0.2.1",
+  "prompt_version": "0.3.2",
+  "knowledge_base_version": "0.3.2",
+  "scenario_version": "0.3.0",
+  "executed_at_utc": "2026-10-12T14:09:17.716574+00:00",
+  "completed_at_utc": "2026-10-12T14:09:46.379818+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Olá, preciso de ajuda.",
+      "assistant_response": "Olá! Como posso ajudar você hoje? Por favor, me diga qual é a sua necessidade para que eu possa orientar corretamente.",
+      "expected_intent": "primeiro_atendimento_inicio",
+      "calls": [
+        {
+          "agent": "triagem",
+          "latency_ms": 2492.87,
+          "input_tokens": 2663,
+          "output_tokens": 40,
+          "total_tokens": 2703,
+          "output": {
+            "destination": "first_contact",
+            "intent": "necessidade_nao_identificada",
+            "reason": "A solicitação ainda não permite identificar a área.",
+            "context_to_forward": [
+              "Olá, preciso de ajuda."
+            ]
+          }
+        },
+        {
+          "agent": "first_contact",
+          "latency_ms": 1487.525,
+          "input_tokens": 2753,
+          "output_tokens": 62,
+          "total_tokens": 2815,
+          "output": {
+            "response": "Olá! Como posso ajudar você hoje? Por favor, me diga qual é a sua necessidade para que eu possa orientar corretamente.",
+            "intent": "primeiro_atendimento_inicio",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Usuário pediu ajuda sem especificar a necessidade"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Por favor, informe seu CEP para que eu possa verificar os planos disponíveis na sua região.",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "first_contact",
+          "latency_ms": 2147.821,
+          "input_tokens": 2824,
+          "output_tokens": 50,
+          "total_tokens": 2874,
+          "output": {
+            "response": null,
+            "intent": "comercial_planos",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "Usuário pediu ajuda sem especificar a necessidade",
+              "Usuário quer conhecer os planos de Internet"
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 1442.413,
+          "input_tokens": 2823,
+          "output_tokens": 49,
+          "total_tokens": 2872,
+          "output": {
+            "destination": "commercial",
+            "intent": "comercial_planos",
+            "reason": "O usuário manifestou interesse em conhecer os planos de Internet, que é assunto da área comercial.",
+            "context_to_forward": [
+              "Usuário quer conhecer os planos de Internet."
+            ]
+          }
+        },
+        {
+          "agent": "commercial",
+          "latency_ms": 1322.125,
+          "input_tokens": 3248,
+          "output_tokens": 52,
+          "total_tokens": 3300,
+          "output": {
+            "response": "Por favor, informe seu CEP para que eu possa verificar os planos disponíveis na sua região.",
+            "intent": "comercial_planos",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário deseja conhecer os planos."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "O CEP 88110-000 está na área atendida pelo Provedor Alfa. Para esse CEP, temos disponíveis os planos de Internet com velocidades de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Há algo específico que você gostaria de saber sobre esses planos?",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 1535.147,
+          "input_tokens": 3280,
+          "output_tokens": 106,
+          "total_tokens": 3386,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida pelo Provedor Alfa. Para esse CEP, temos disponíveis os planos de Internet com velocidades de 500 Mbit/s, 700 Mbit/s e 900 Mbit/s. Há algo específico que você gostaria de saber sobre esses planos?",
+            "intent": "comercial_consulta_cobertura",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário deseja conhecer os planos.",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Para que eu possa ajudar melhor, por favor, informe qual é o estado das luzes do seu equipamento de conexão.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 1554.111,
+          "input_tokens": 3414,
+          "output_tokens": 71,
+          "total_tokens": 3485,
+          "output": {
+            "response": null,
+            "intent": "suporte_sem_conexao",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário deseja conhecer os planos.",
+              "CEP informado: 88110-000",
+              "O usuário já é cliente e relata estar sem Internet desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 1517.035,
+          "input_tokens": 3027,
+          "output_tokens": 55,
+          "total_tokens": 3082,
+          "output": {
+            "destination": "support",
+            "intent": "suporte_sem_conexao",
+            "reason": "O usuário é cliente e relata falta de conexão desde ontem, indicando necessidade de suporte técnico.",
+            "context_to_forward": [
+              "O usuário já é cliente.",
+              "O usuário relata estar sem Internet desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "support",
+          "latency_ms": 1640.303,
+          "input_tokens": 4073,
+          "output_tokens": 91,
+          "total_tokens": 4164,
+          "output": {
+            "response": "Para que eu possa ajudar melhor, por favor, informe qual é o estado das luzes do seu equipamento de conexão.",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário deseja conhecer os planos.",
+              "CEP informado: 88110-000",
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 5,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "assistant_response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue-a novamente. Após isso, me informe se a conexão voltou.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 1846.939,
+          "input_tokens": 4168,
+          "output_tokens": 99,
+          "total_tokens": 4267,
+          "output": {
+            "response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue-a novamente. Após isso, me informe se a conexão voltou.",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 6,
+      "user_message": "Já reiniciei a ONT e continuo sem Internet.",
+      "assistant_response": "Entendo que você já reiniciou a ONT e o problema persiste. Como sua conexão está indisponível desde ontem, mesmo com as luzes verdes na ONT, será necessário continuar o atendimento com a equipe técnica para uma análise mais detalhada.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 1938.763,
+          "input_tokens": 4242,
+          "output_tokens": 140,
+          "total_tokens": 4382,
+          "output": {
+            "response": "Entendo que você já reiniciou a ONT e o problema persiste. Como sua conexão está indisponível desde ontem, mesmo com as luzes verdes na ONT, será necessário continuar o atendimento com a equipe técnica para uma análise mais detalhada.",
+            "intent": "suporte_sem_conexao",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível.",
+              "O usuário realizou reinicialização da ONT mas o problema persiste."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 7,
+      "user_message": "Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+      "assistant_response": "Entendo a sua insatisfação em relação às três interrupções de conexão ocorridas nesta semana. Para garantir que sua reclamação seja devidamente atendida, vou encaminhar seu caso para o atendimento humano da ouvidoria, que poderá ajudá-lo com mais detalhes.",
+      "expected_intent": "ouvidoria_reclamacao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 1503.672,
+          "input_tokens": 4374,
+          "output_tokens": 122,
+          "total_tokens": 4496,
+          "output": {
+            "response": null,
+            "intent": "ouvidoria_reclamacao",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível.",
+              "O usuário realizou reinicialização da ONT mas o problema persiste.",
+              "O problema de falta de Internet ocorreu três vezes nesta semana.",
+              "O usuário deseja registrar uma reclamação."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 1976.619,
+          "input_tokens": 3431,
+          "output_tokens": 116,
+          "total_tokens": 3547,
+          "output": {
+            "destination": "ombudsman",
+            "intent": "ouvidoria_reclamacao",
+            "reason": "Usuário deseja registrar uma reclamação devido a falhas recorrentes na conexão de Internet.",
+            "context_to_forward": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível.",
+              "O usuário realizou reinicialização da ONT mas o problema persiste.",
+              "O problema de falta de Internet ocorreu três vezes nesta semana.",
+              "O usuário deseja registrar uma reclamação."
+            ]
+          }
+        },
+        {
+          "agent": "ombudsman",
+          "latency_ms": 3789.07,
+          "input_tokens": 4277,
+          "output_tokens": 182,
+          "total_tokens": 4459,
+          "output": {
+            "response": "Entendo a sua insatisfação em relação às três interrupções de conexão ocorridas nesta semana. Para garantir que sua reclamação seja devidamente atendida, vou encaminhar seu caso para o atendimento humano da ouvidoria, que poderá ajudá-lo com mais detalhes.",
+            "intent": "ouvidoria_reclamacao",
+            "action": "handoff_human",
+            "handoff_target": "ombudsman_human",
+            "context_facts": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível.",
+              "O usuário realizou reinicialização da ONT mas o problema persiste.",
+              "O problema de falta de Internet ocorreu três vezes nesta semana.",
+              "O usuário deseja registrar uma reclamação.",
+              "O usuário quer registrar uma reclamação devido a três ocorrências de falta de Internet nesta semana."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 8,
+      "user_message": "Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?",
+      "assistant_response": "Percebo que você está retomando a consulta sobre os planos disponíveis para o seu CEP, mas neste momento estamos tratando de uma reclamação relacionada a repetidas falhas na sua conexão de Internet desde ontem, com três ocorrências nesta semana. Para continuarmos ajudando na reclamação, será necessário encaminhar seu caso para o atendimento humano da ouvidoria, que poderá tratar desse assunto com mais detalhes.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "ombudsman",
+          "latency_ms": 2462.521,
+          "input_tokens": 4422,
+          "output_tokens": 226,
+          "total_tokens": 4648,
+          "output": {
+            "response": "Percebo que você está retomando a consulta sobre os planos disponíveis para o seu CEP, mas neste momento estamos tratando de uma reclamação relacionada a repetidas falhas na sua conexão de Internet desde ontem, com três ocorrências nesta semana. Para continuarmos ajudando na reclamação, será necessário encaminhar seu caso para o atendimento humano da ouvidoria, que poderá tratar desse assunto com mais detalhes.",
+            "intent": "ouvidoria_reclamacao",
+            "action": "handoff_human",
+            "handoff_target": "ombudsman_human",
+            "context_facts": [
+              "O usuário já é cliente.",
+              "O usuário relatou falta de conexão.",
+              "Falta de Internet relatada desde ontem.",
+              "As luzes da ONT estão verdes.",
+              "Conexão indisponível.",
+              "O usuário realizou reinicialização da ONT mas o problema persiste.",
+              "O problema de falta de Internet ocorreu três vezes nesta semana.",
+              "O usuário deseja registrar uma reclamação.",
+              "O usuário quer registrar uma reclamação devido a três ocorrências de falta de Internet nesta semana.",
+              "O usuário retomou a consulta sobre planos de Internet disponíveis para o CEP informado."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -181,10 +181,14 @@ class ArquiteturaMultiagente:
                 saida.response is not None
                 or saida.handoff_target is not None
             ):
+                
                 raise RuntimeError(
-                    "Ao solicitar nova triagem, response e "
-                    "handoff_target devem ser None."
+                    "Saída inconsistente ao solicitar nova triagem. "
+                    f"Agente: {especialista.agente}; "
+                    f"mensagem: {mensagem_usuario!r}; "
+                    f"saída: {saida.model_dump()!r}"
                 )
+            
 
             triagem = self._triar(
                 mensagem_usuario,

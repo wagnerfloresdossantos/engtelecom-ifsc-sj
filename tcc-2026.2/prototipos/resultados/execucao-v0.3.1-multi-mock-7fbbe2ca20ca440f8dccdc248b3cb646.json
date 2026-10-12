@@ -1,0 +1,425 @@
+{
+  "batch_id": "5feb66cecbe04b50b339fc9d88d2d970",
+  "execution_id": "7fbbe2ca20ca440f8dccdc248b3cb646",
+  "scenario_id": "piloto-002",
+  "architecture": "multi",
+  "mode": "mock",
+  "model": "mock",
+  "prototype_version": "0.3.1",
+  "client_version": "0.2.1",
+  "prompt_version": "0.3.1",
+  "knowledge_base_version": "0.3.2",
+  "scenario_version": "0.3.0",
+  "executed_at_utc": "2026-10-12T13:47:48.172029+00:00",
+  "completed_at_utc": "2026-10-12T13:47:48.234297+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Olá, preciso de ajuda.",
+      "assistant_response": "Olá! Como posso ajudar?",
+      "expected_intent": "primeiro_atendimento_inicio",
+      "calls": [
+        {
+          "agent": "triagem",
+          "latency_ms": 6.659,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "first_contact",
+            "intent": "primeiro_atendimento_inicio",
+            "reason": "Regra determinística do mock identificou a área first_contact.",
+            "context_to_forward": []
+          }
+        },
+        {
+          "agent": "first_contact",
+          "latency_ms": 0.215,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Olá! Como posso ajudar?",
+            "intent": "primeiro_atendimento_inicio",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "Quero conhecer os planos de Internet.",
+      "assistant_response": "Para consultar a disponibilidade, informe seu CEP.",
+      "expected_intent": "comercial_planos",
+      "calls": [
+        {
+          "agent": "first_contact",
+          "latency_ms": 0.22,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": null,
+            "intent": "comercial_planos",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 0.205,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "commercial",
+            "intent": "comercial_planos",
+            "reason": "Regra determinística do mock identificou a área commercial.",
+            "context_to_forward": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet."
+            ]
+          }
+        },
+        {
+          "agent": "commercial",
+          "latency_ms": 0.269,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Para consultar a disponibilidade, informe seu CEP.",
+            "intent": "comercial_planos",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Meu CEP é 88110-000.",
+      "assistant_response": "O CEP 88110-000 está na área atendida. Estão disponíveis planos de 500, 700 e 900 Mbit/s.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 8.231,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida. Estão disponíveis planos de 500, 700 e 900 Mbit/s.",
+            "intent": "comercial_consulta_cobertura",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 4,
+      "user_message": "Na verdade, já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Qual é o estado das luzes do equipamento de conexão?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "commercial",
+          "latency_ms": 0.383,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": null,
+            "intent": "suporte_sem_conexao",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "CEP informado: 88110-000",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 0.399,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "support",
+            "intent": "suporte_sem_conexao",
+            "reason": "Regra determinística do mock identificou a área support.",
+            "context_to_forward": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "CEP informado: 88110-000",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "support",
+          "latency_ms": 0.416,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Qual é o estado das luzes do equipamento de conexão?",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 5,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "assistant_response": "Desligue a ONT da energia, aguarde 30 segundos e ligue novamente, sem usar o botão RESET. A conexão voltou após esse procedimento?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 0.496,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Desligue a ONT da energia, aguarde 30 segundos e ligue novamente, sem usar o botão RESET. A conexão voltou após esse procedimento?",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "CEP informado: 88110-000",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 6,
+      "user_message": "Já reiniciei a ONT e continuo sem Internet.",
+      "assistant_response": "A conexão continua indisponível após a reinicialização. É necessário atendimento técnico humano. Resumo: O usuário informou que já é cliente.; O usuário relata conexão indisponível desde ontem.; O usuário relata conexão indisponível.; Estado das luzes: verdes.; Reinicialização realizada pelo usuário.; Conexão continua indisponível após a reinicialização, segundo o usuário.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 0.647,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "A conexão continua indisponível após a reinicialização. É necessário atendimento técnico humano. Resumo: O usuário informou que já é cliente.; O usuário relata conexão indisponível desde ontem.; O usuário relata conexão indisponível.; Estado das luzes: verdes.; Reinicialização realizada pelo usuário.; Conexão continua indisponível após a reinicialização, segundo o usuário.",
+            "intent": "suporte_sem_conexao",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "CEP informado: 88110-000",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 7,
+      "user_message": "Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+      "assistant_response": "Entendo sua manifestação. É necessário continuar com atendimento humano de ouvidoria. Resumo: O usuário informou que já é cliente.; O usuário relata conexão indisponível desde ontem.; O usuário relata conexão indisponível.; Estado das luzes: verdes.; Reinicialização realizada pelo usuário.; Conexão continua indisponível após a reinicialização, segundo o usuário.; Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+      "expected_intent": "ouvidoria_reclamacao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 0.722,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": null,
+            "intent": "ouvidoria_reclamacao",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "CEP informado: 88110-000",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação."
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 0.749,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "ombudsman",
+            "intent": "ouvidoria_reclamacao",
+            "reason": "Regra determinística do mock identificou a área ombudsman.",
+            "context_to_forward": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "CEP informado: 88110-000",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação."
+            ]
+          }
+        },
+        {
+          "agent": "ombudsman",
+          "latency_ms": 0.868,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "Entendo sua manifestação. É necessário continuar com atendimento humano de ouvidoria. Resumo: O usuário informou que já é cliente.; O usuário relata conexão indisponível desde ontem.; O usuário relata conexão indisponível.; Estado das luzes: verdes.; Reinicialização realizada pelo usuário.; Conexão continua indisponível após a reinicialização, segundo o usuário.; Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+            "intent": "ouvidoria_reclamacao",
+            "action": "handoff_human",
+            "handoff_target": "ombudsman_human",
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 8,
+      "user_message": "Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?",
+      "assistant_response": "O CEP 88110-000 está na área atendida. Estão disponíveis planos de 500, 700 e 900 Mbit/s.",
+      "expected_intent": "comercial_consulta_cobertura",
+      "calls": [
+        {
+          "agent": "ombudsman",
+          "latency_ms": 0.921,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": null,
+            "intent": "comercial_consulta_cobertura",
+            "action": "request_reroute",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+              "CEP informado: 88110-000",
+              "Interesse comercial declarado: Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?"
+            ]
+          }
+        },
+        {
+          "agent": "triagem",
+          "latency_ms": 8.377,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "destination": "commercial",
+            "intent": "comercial_consulta_cobertura",
+            "reason": "Regra determinística do mock identificou a área commercial.",
+            "context_to_forward": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+              "CEP informado: 88110-000",
+              "Interesse comercial declarado: Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?"
+            ]
+          }
+        },
+        {
+          "agent": "commercial",
+          "latency_ms": 1.034,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "output": {
+            "response": "O CEP 88110-000 está na área atendida. Estão disponíveis planos de 500, 700 e 900 Mbit/s.",
+            "intent": "comercial_consulta_cobertura",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Interesse comercial declarado: Quero conhecer os planos de Internet.",
+              "O usuário informou que já é cliente.",
+              "O usuário relata conexão indisponível desde ontem.",
+              "O usuário relata conexão indisponível.",
+              "Estado das luzes: verdes.",
+              "Orientação apresentada: desligar a ONT da energia por 30 segundos e verificar se a conexão voltou.",
+              "Reinicialização realizada pelo usuário.",
+              "Conexão continua indisponível após a reinicialização, segundo o usuário.",
+              "Manifestação declarada pelo usuário: Isso já aconteceu três vezes nesta semana e quero registrar uma reclamação.",
+              "Interesse comercial declarado: Retomando a consulta de cobertura: quais planos estão disponíveis para o CEP que informei?",
+              "CEP informado: 88110-000"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# Base de suporte — versão 0.3.0
+# Base de suporte — versão 0.3.2
 
 ## Responsabilidade
 
@@ -36,6 +36,27 @@ pelo próprio agente, que identifica a área e continua o atendimento.
 - Não solicitar acesso ou alteração das configurações do roteador
   ou da unidade óptica.
 - Não afirmar que o problema foi resolvido.
+
+## Luzes verdes com conexão indisponível
+
+- Quando o usuário informar que as luzes da ONT estão verdes,
+  mas continua sem Internet, orientar que desligue a ONT da
+  energia, aguarde 30 segundos e ligue novamente.
+- Não orientar o uso do botão RESET nem alterações nas
+  configurações do equipamento.
+- Se a reinicialização ainda não tiver sido realizada,
+  usar `action="respond"` e `handoff_target=null`.
+- Perguntar se a conexão voltou após o procedimento.
+- Se o usuário informar que já reiniciou a ONT e continua
+  sem Internet, usar `action="handoff_human"` e
+  `handoff_target="technical_human"`.
+- Não repetir a orientação de reinicialização quando sua
+  realização já estiver registrada no contexto.
+- Registrar em `context_facts` os fatos relevantes:
+  luzes verdes, conexão indisponível, reinicialização
+  realizada e resultado informado pelo usuário.
+- Não afirmar que o equipamento foi reiniciado pelo sistema
+  nem que houve teste ou consulta remota.
 
 ## Outras dificuldades técnicas
 
