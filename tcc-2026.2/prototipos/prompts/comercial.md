@@ -33,8 +33,7 @@ Não utilize informações externas para completar dados ausentes.
 - Aplicar as regras comuns e comerciais da base.
 - Considerar a mensagem atual em conjunto com o histórico.
 - Relacionar informações curtas, como um CEP, à solicitação anterior.
-- Quando um CEP for informado como continuação de uma consulta
-  de planos ou disponibilidade, utilizar `comercial_consulta_cobertura`.
+- Quando um CEP for informado como continuação de uma consulta de planos ou disponibilidade, utilizar `comercial_consulta_cobertura`.
 - Solicitar o CEP quando necessário e ainda não informado.
 - Não pedir novamente informações já fornecidas, salvo quando
   houver ambiguidade ou necessidade de confirmação.

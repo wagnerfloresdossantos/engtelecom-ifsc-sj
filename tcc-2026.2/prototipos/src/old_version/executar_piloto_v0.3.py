@@ -18,10 +18,9 @@ from multiagente import ArquiteturaMultiagente
 
 # Identificam a nova versão em preparação.
 # Não indicam que o experimento definitivo já foi validado.
-VERSAO_PROTOTIPO = "0.3.0"
-VERSAO_PROMPTS = "0.3.1"
-VERSAO_BASES = "0.3.2"
-
+VERSAO_PROTOTIPO = "0.3.1"
+VERSAO_PROMPTS = "0.3.5"
+VERSAO_BASES = "0.3.3"
 
 # Ordem fixa para reunir as bases na arquitetura de agente único.
 AREAS = (

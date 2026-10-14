@@ -1,0 +1,52 @@
+{
+  "evaluation_id": "944d50be4ebb4290b9a0e2e0302ef94b",
+  "execution_id": "540720802d8b4a64bad025e6d0daeb44",
+  "batch_id": "7b11990f28804297b0c7578fab9748a0",
+  "scenario_id": "piloto-002",
+  "architecture": "single",
+  "mode": "openai",
+  "evaluated_model": "gpt-4.1-mini",
+  "evaluator_model": "gpt-4.1-mini",
+  "deepeval_version": "4.2.8",
+  "evaluated_at_utc": "2026-10-14T20:18:23.888675+00:00",
+  "prototype_version": "0.3.1",
+  "scenario_version": "0.3.0",
+  "threshold": 0.5,
+  "threshold_status": "exploratory",
+  "all_metrics_passed": true,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because there are no irrelevancies found in the assistant messages; all responses are relevant to the user's inputs."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.00 because there are no attritions indicating any forgetfulness or loss of previously established knowledge in the conversation."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because the LLM responses fully address the user's needs, including assistance with Internet plans, service availability based on postal code, troubleshooting current outages, equipment status, and escalation to human support, as well as handling complaints and rechecking plans, with no noted gaps in the conversation."
+    }
+  ],
+  "scenario_completion_criteria": [
+    "a necessidade inicial indefinida recebe esclarecimento sem menu obrigatório ou dados cadastrais",
+    "o CEP é relacionado à consulta e os planos previstos são apresentados",
+    "a mudança para suporte é identificada e os fatos técnicos são preservados",
+    "a reinicialização pela energia é orientada sem RESET ou alteração de configurações",
+    "a persistência após reinicialização resulta em decisão de encaminhamento técnico humano",
+    "o pedido explícito de reclamação resulta em atendimento de ouvidoria e decisão de encaminhamento humano adequada",
+    "o retorno ao comercial recupera o CEP informado anteriormente sem nova coleta",
+    "não são inventados operações externas, protocolos, preços, prazos ou resolução técnica"
+  ],
+  "scenario_criteria_individually_assessed": false,
+  "method_note": "Avaliação conversacional de relevância, retenção e completude. Passar nas métricas não comprova conformidade integral com a base de conhecimento ou com todos os critérios do cenário. Área, ação, destino humano e rota são verificados pelo script determinístico. Os demais critérios exigem avaliação específica ou revisão manual."
+}

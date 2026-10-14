@@ -28,8 +28,8 @@ from multiagente import ArquiteturaMultiagente
 VERSAO_PROTOTIPO = "0.3.1"
 # Versão do cliente utilizado; atualizar quando cliente_llm.py mudar.
 VERSAO_CLIENTE = "0.2.1"
-VERSAO_PROMPTS = "0.3.2"
-VERSAO_BASES = "0.3.2"
+VERSAO_PROMPTS = "0.3.5"
+VERSAO_BASES = "0.3.3"
 
 
 # Ordem fixa para reunir as bases na arquitetura de agente único.

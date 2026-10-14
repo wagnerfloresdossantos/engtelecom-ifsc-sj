@@ -5,20 +5,25 @@ Este diretório contém os protótipos utilizados para comparar duas arquitetura
 - agente único, responsável pelo atendimento das quatro áreas;
 - sistema multiagente, formado por triagem e especialistas de primeiro atendimento, comercial, ouvidoria e suporte técnico.
 
-A versão `0.3.0` adapta a implementação à metodologia atual do pré-projeto. As bases e os prompts utilizados na última execução estão identificados como `0.3.1`. O cenário piloto está na versão `0.3.0`.
-
 O objetivo desta etapa é verificar a viabilidade da orquestração, do registro das conversas e da avaliação. Os resultados apresentados são exploratórios e não pertencem ao experimento principal do TCC2.
 
-## Estado atual — 11/10/2026
+## Estado atual — 14/10/2026
 
-- Estruturas de saída e orquestração preparadas para quatro áreas.
-- Bases e prompts das quatro áreas elaborados.
-- Piloto comercial → suporte executado em modo simulado e com a API.
-- Falha de mudança de assunto identificada na primeira execução real e corrigida nas instruções comerciais.
-- Última execução aprovada nas verificações determinísticas nas duas arquiteturas.
-- Avaliação conversacional realizada com DeepEval `4.2.8` e avaliador `gpt-4.1-mini`.
-- Controle negativo manual avaliado e reprovado nas três métricas.
-- Primeiro atendimento e ouvidoria ainda não testados.
+- Orquestração implementada para agente único e multiagente
+  com triagem e quatro especialistas.
+- Piloto-001 executado para comercial, suporte e mudança de assunto.
+- Piloto-002 executado com oito turnos envolvendo as quatro áreas
+  e recuperação do CEP após mudanças de assunto.
+- Últimas execuções do piloto-002 aprovadas nas verificações
+  determinísticas nas duas arquiteturas.
+- Relevância, retenção e completude avaliadas com DeepEval `4.2.8`
+  e avaliador `gpt-4.1-mini`, com pontuação 1,00 nas duas conversas.
+- Controle negativo do piloto-001 avaliado e reprovado
+  nas três métricas.
+- Revisão manual identificou pendências nos fatos internos,
+  nos resumos e em uma afirmação produzida pela triagem.
+- Aprovação integral do piloto e procedimento definitivo
+  de avaliação ainda pendentes.
 
 ## Estrutura principal
 
@@ -33,7 +38,8 @@ prototipos/
 │   └── base-suporte.md
 ├── cenarios/
 │   ├── README.md
-│   └── cenario-piloto-001.json
+│   ├── cenario-piloto-001.json
+│   └── cenario-piloto-002.json
 ├── controles/
 │   └── controle-negativo-piloto-001.json
 ├── diagramas/
@@ -91,7 +97,9 @@ Cada especialista recebe o histórico completo, os fatos e a base comum acrescid
 
 O encaminhamento humano é uma decisão registrada. Não existe integração para transferir atendimentos, abrir chamados ou realizar contato externo.
 
-## Cenário piloto
+## Cenários piloto
+
+### Piloto-001 — comercial e suporte
 
 O [piloto-001](cenarios/cenario-piloto-001.json) contém quatro mensagens:
 
@@ -110,6 +118,50 @@ O desfecho esperado é indicar atendimento técnico humano e preservar o início
 | 4 | `support` | `agente_unico` | `support` |
 
 As expectativas não são fornecidas aos agentes. Consulte [cenarios/README.md](cenarios/README.md) para a explicação dos campos.
+
+### Piloto-002 — quatro áreas e recuperação de contexto
+
+O [piloto-002](cenarios/cenario-piloto-002.json), versão `0.3.0`,
+contém oito turnos. A conversa começa com um pedido genérico de ajuda,
+passa por comercial, suporte e ouvidoria e retorna ao comercial.
+
+O cenário verifica mudanças de assunto, preservação de informações,
+distinção entre orientação e procedimento realizado pelo usuário
+e decisões de encaminhamento humano.
+
+| Turno | Solicitação resumida | Área esperada | Ação final esperada |
+|---|---|---|---|
+| 1 | Pedido genérico de ajuda | `first_contact` | Solicitar esclarecimento |
+| 2 | Consulta de planos | `commercial` | Solicitar o CEP |
+| 3 | Informação do CEP | `commercial` | Apresentar cobertura e planos fictícios |
+| 4 | Cliente sem Internet desde ontem | `support` | Perguntar sobre as luzes da ONT |
+| 5 | Luzes verdes e conexão indisponível | `support` | Orientar reinicialização pela energia e perguntar sobre o resultado |
+| 6 | Reinicialização sem restabelecimento | `support` | Indicar atendimento técnico humano |
+| 7 | Três ocorrências na semana e pedido de reclamação | `ombudsman` | Indicar atendimento humano de ouvidoria |
+| 8 | Retorno à consulta comercial | `commercial` | Recuperar o CEP anterior e apresentar os planos |
+
+No agente único, o mesmo agente processa todos os turnos.
+No multiagente, são esperadas as seguintes rotas:
+
+| Turno | Rota esperada |
+|---|---|
+| 1 | `triagem → first_contact` |
+| 2 | `first_contact → triagem → commercial` |
+| 3 | `commercial` |
+| 4 | `commercial → triagem → support` |
+| 5 | `support` |
+| 6 | `support` |
+| 7 | `support → triagem → ombudsman` |
+| 8 | `ombudsman → triagem → commercial` |
+
+Os encaminhamentos humanos são decisões simuladas e não interrompem
+o envio dos turnos seguintes. O retorno ao comercial não significa
+que a falha técnica ou a reclamação tenham sido resolvidas.
+
+A conclusão exige os comportamentos definidos no cenário, incluindo
+a recuperação do CEP `88110-000` no turno 8 sem nova coleta.
+A aprovação dos campos estruturados ou das métricas conversacionais,
+isoladamente, não comprova o cumprimento de todos os critérios.
 
 ## Preparação do ambiente
 
@@ -166,7 +218,20 @@ Esses comandos não chamam o modelo avaliador. Verificam sintaxe e importações
 python src/executar_piloto.py --mode mock --architecture both
 ```
 
-O modo simulado não consome créditos e cobre apenas o piloto comercial e técnico. As respostas fixas não demonstram interpretação dos prompts ou retenção real do contexto e ainda não atendem integralmente ao resumo e aos fatos esperados no cenário.
+O modo simulado não consome créditos e possui respostas programadas
+para os pilotos, incluindo as quatro áreas de atendimento no
+piloto-002. Ele permite verificar a integração, as rotas e o registro
+das saídas, mas não demonstra interpretação dos prompts, qualidade
+das respostas ou retenção real de contexto por um modelo de linguagem.
+
+Para executar o piloto-002 em modo simulado:
+
+```bash
+python src/executar_piloto.py \
+  --mode mock \
+  --architecture both \
+  --scenario cenarios/cenario-piloto-002.json
+```
 
 ## Execução real
 
@@ -176,7 +241,7 @@ python src/executar_piloto.py --mode openai --architecture both
 
 O comando executa uma conversa em cada arquitetura. Também aceita `--architecture single`, `--architecture multi` e seleção de cenário por `--scenario cenarios/cenario-piloto-001.json`.
 
-Os arquivos recebem nomes no formato `execucao-v0.3.0-ARQUITETURA-MODO-UUID.json`, preservando execuções anteriores. Registram lote, execução, versões declaradas, modelo configurado, datas, mensagens, respostas e chamadas.
+Os arquivos recebem nomes no formato `execucao-v0.3.1-ARQUITETURA-MODO-UUID.json`, preservando execuções anteriores. Registram lote, execução, versões declaradas, modelo configurado, datas, mensagens, respostas e chamadas.
 
 ## Avaliação determinística
 
@@ -227,7 +292,7 @@ Na primeira execução real da versão `0.3.0`, o multiagente classificou o turn
 
 Foi reforçada a prioridade de mudança de assunto no prompt comercial e adicionada à base comum a proibição de prometer contato externo. Na execução seguinte, com prompts e bases `0.3.1`, a rota passou a corresponder ao cenário. Os resultados anteriores devem ser preservados como histórico de preparação, separados da comparação definitiva.
 
-### Última execução revisada
+### Piloto-001 — execução histórica revisada
 
 | Verificação | Agente único | Multiagente | Controle negativo |
 |---|---:|---:|---:|
@@ -258,7 +323,7 @@ As novas execuções realizadas durante a preparação servem para corrigir e ve
 
 ## Limitações e próximos passos
 
-1. Corrigir as falhas observadas no `piloto-002 e concluir sua avaliação.
+1. Documentar a ficha de revisão por critério do piloto-002, consolidando as pendências identificadas após a aprovação determinística e conversacional.
 2. Documentar a revisão manual dos comportamentos obrigatórios, informações preservadas e condições de conclusão.
 3. Testar erros mais sutis no procedimento de avaliação, mantendo critérios definidos antes de avaliar.
 4. Definir e registrar os parâmetros de geração de forma igual nas duas arquiteturas. Atualmente, o cliente não os fixa explicitamente.
@@ -269,7 +334,85 @@ As novas execuções realizadas durante a preparação servem para corrigir e ve
 9. Consolidar resultados, matrizes de confusão e comparações por área.
 10. Revisar os diagramas para refletir a orquestração e o histórico completo atuais, sem comunicação direta entre agentes.
 
-O estado atual constitui um protótipo exploratório funcional para o piloto comercial e técnico. A implementação definitiva, o conjunto completo de cenários e o procedimento de avaliação ainda serão refinados antes do experimento principal.
+O estado atual constitui um protótipo exploratório executado
+nas quatro áreas de atendimento. A implementação definitiva,
+o conjunto completo de cenários e o procedimento de avaliação
+ainda serão refinados antes do experimento principal.
+
+
+## Checkpoint — 14/10/2026 — avaliação do piloto-002
+
+### Configuração
+
+- Protótipo: 0.3.1.
+- Cliente LLM: 0.2.1.
+- Conjunto de prompts: 0.3.5.
+- Conjunto de bases: 0.3.3.
+- Cenário piloto-002: 0.3.0.
+- Modelo de atendimento e avaliador: gpt-4.1-mini.
+- DeepEval: 4.2.8; limiar exploratório: 0,5.
+
+### Execuções de referência
+
+- Agente único: 540720802d8b4a64bad025e6d0daeb44.
+- Multiagente: bebc904fd36a4ce1987f986fdc679167.
+
+As execuções pertencem a lotes distintos e constituem evidências
+de preparação, sem integrar o experimento principal.
+
+### Resultados
+
+As duas arquiteturas acertaram intenção, área, ação, destino humano
+e rota nos oito turnos da avaliação determinística.
+
+O multiagente realizou corretamente as mudanças entre primeiro
+atendimento, comercial, suporte, ouvidoria e retorno ao comercial.
+Ambas recuperaram o CEP informado anteriormente.
+
+As três métricas do DeepEval — relevância, retenção e completude —
+atribuíram pontuação 1,00 às duas conversas.
+
+| Medida | Agente único | Multiagente |
+|---|---:|---:|
+| Chamadas ao modelo | 8 | 17 |
+| Tokens de entrada | 57.531 | 67.128 |
+| Tokens de saída | 911 | 1.567 |
+| Tokens totais | 58.442 | 68.695 |
+| Soma das latências das chamadas | 15,22 s | 30,31 s |
+| Trocas entre especialistas | Não se aplica | 4 |
+
+O consumo dos avaliadores e das tentativas anteriores não está
+incluído nessa tabela.
+
+### Pendências da revisão manual
+
+- Ambas omitiram o registro da orientação de reinicialização
+  em context_facts no turno 5.
+- O agente único apresentou resumos incompletos nos turnos 6 e 7.
+- O multiagente preservou a recorrência nos fatos, mas a resumiu
+  de forma genérica na resposta do turno 7.
+- A triagem do multiagente utilizou “reclamação registrada” no
+  turno 8, sem que tivesse ocorrido registro em sistema externo.
+- A triagem inicial utilizou necessidade_nao_identificada,
+  enquanto o especialista retornou primeiro_atendimento_inicio.
+
+### Interpretação e continuidade
+
+O piloto passou nas verificações determinísticas e nas métricas
+conversacionais utilizadas, mas ainda apresenta pendências de
+conformidade com as regras.
+
+O DeepEval recebeu somente as mensagens e respostas finais,
+sem os fatos estruturados ou as saídas internas de triagem.
+Os critérios específicos do cenário não foram avaliados
+individualmente pelas métricas.
+
+O próximo passo é documentar uma ficha de revisão por critério,
+distinguindo resposta ao usuário, fatos internos e orquestração,
+antes de realizar novos ajustes nos prompts.
+
+Este checkpoint não demonstra superioridade de uma arquitetura
+nem aprovação integral do piloto.
 
 
 ## Changelog — 12/10/2026
@@ -285,6 +428,8 @@ O estado atual constitui um protótipo exploratório funcional para o piloto com
 | Cenário `piloto-002` | 0.3.0 |
 
 As versões dos conjuntos são declaradas no executor e não significam que todos os documentos tenham a mesma versão individual. Os prompts de agente único, suporte e ouvidoria foram revisados para 0.3.2; os demais documentos conservam suas identificações individuais.
+
+
 
 ### Alterações realizadas
 

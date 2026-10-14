@@ -1,4 +1,4 @@
-# Base de triagem — versão 0.3.0
+# Base de triagem — versão 0.3.1
 
 ## Responsabilidade
 
@@ -97,8 +97,12 @@ Ela será ampliada e revisada durante a elaboração dos cenários.
 
 - Informar ao orquestrador os fatos necessários à continuidade
   do atendimento pelo especialista selecionado.
-- Utilizar somente informações fornecidas pelo usuário ou sustentadas
-  pela base de conhecimento.
+- Preservar informações fornecidas pelo usuário, informações sustentadas
+  pela base e orientações efetivamente apresentadas pelo assistente.
+- Distinguir orientação apresentada, realização relatada pelo usuário
+  e resultado informado.
+- Não tratar afirmações anteriores de operações externas como
+  comprovação de que essas operações ocorreram.
 - Considerar as correções mais recentes do usuário.
 - Não inventar informações ausentes.
 - Na mudança do comercial para o suporte, preservar a condição

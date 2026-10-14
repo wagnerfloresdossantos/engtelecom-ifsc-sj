@@ -1,4 +1,4 @@
-# Base de suporte — versão 0.3.2
+# Base de suporte — versão 0.3.3
 
 ## Responsabilidade
 
@@ -72,6 +72,18 @@ pelo próprio agente, que identifica a área e continua o atendimento.
 
 ## Mudança de assunto
 
+A identificação da necessidade atual precede a aplicação dos
+procedimentos e das condições de atendimento técnico humano.
+
+Um pedido explícito de reclamação ou revisão exige mudança
+de área, mesmo quando a falha técnica permanece sem solução
+ou já houve indicação de atendimento técnico humano.
+
+Na arquitetura multiagente, solicitar nova triagem com
+`action="request_reroute"`, `response=null` e
+`handoff_target=null`.
+
+Na arquitetura de agente único, aplicar as regras da ouvidoria.
 - Considerar a necessidade atual do usuário.
 - Quando a solicitação passar a tratar exclusivamente de planos,
   preços, cobertura ou contratação, aplicar o procedimento
@@ -92,6 +104,7 @@ Indicar o destino `technical_human` quando:
 - o usuário solicitar atendimento humano para um assunto técnico;
 - houver relato de luz LOS vermelha;
 - o problema descrito não possuir procedimento nesta base.
+- o usuário relatar que reiniciou a ONT e continua sem Internet.
 
 Apresentar um resumo breve das informações relevantes já fornecidas,
 como o problema, quando começou e o estado das luzes.
