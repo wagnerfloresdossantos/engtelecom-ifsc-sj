@@ -1,0 +1,111 @@
+{
+  "scenario_id": "synthesizer-suporte-001",
+  "title": "Luzes verdes e falta de conexão após reinicialização",
+  "version": "0.1.0",
+  "status": "exploratory",
+  "description": "Cliente relata falta de Internet desde ontem, informa luzes verdes na ONT e, após orientação, relata reinicialização pela energia sem restabelecimento. O desfecho esperado é indicar atendimento técnico humano.",
+  "provenance": {
+    "generation_id": "762ffb137f6341629c9e85218fb72cc7",
+    "generation_method": "DeepEval Synthesizer",
+    "revision_note": "Descrição revisada para corrigir a sequência temporal. Mensagens e critérios elaborados posteriormente com apoio de IA, sujeitos à revisão do pesquisador.",
+    "review_status": "reviewed_by_researcher"
+  },
+  "data_policy": {
+    "data_type": "synthetic",
+    "contains_real_personal_data": false,
+    "notes": "Situação fictícia, sem reprodução de atendimento real."
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Já sou cliente e estou sem Internet desde ontem.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "solicitar o estado das luzes da ONT"
+      ],
+      "required_context_after_turn": [
+        "usuário informa que já é cliente",
+        "falta de Internet desde ontem"
+      ],
+      "forbidden_behavior": [
+        "inventar o estado das luzes",
+        "afirmar consulta remota ou diagnóstico confirmado"
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_action": "respond",
+      "expected_handoff_target": null,
+      "required_behavior": [
+        "orientar desligar a ONT da energia, aguardar 30 segundos e ligar novamente",
+        "perguntar se a conexão voltou após o procedimento"
+      ],
+      "required_context_after_turn": [
+        "usuário já é cliente",
+        "falta de Internet desde ontem",
+        "luzes da ONT verdes",
+        "conexão indisponível",
+        "orientação de reinicialização apresentada, sem realização confirmada"
+      ],
+      "forbidden_behavior": [
+        "orientar RESET ou alteração das configurações",
+        "registrar o procedimento como realizado antes do relato do usuário",
+        "afirmar reinicialização executada pelo sistema"
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Desliguei da energia, esperei 30 segundos e liguei novamente. Continuo sem Internet.",
+      "expected_intent": "suporte_sem_conexao",
+      "expected_area": "support",
+      "expected_action": "handoff_human",
+      "expected_handoff_target": "technical_human",
+      "required_behavior": [
+        "indicar necessidade de atendimento técnico humano",
+        "resumir início da falha, luzes verdes e reinicialização sem restabelecimento"
+      ],
+      "required_context_after_turn": [
+        "usuário já é cliente",
+        "falta de Internet desde ontem",
+        "luzes da ONT verdes",
+        "reinicialização pela energia realizada segundo relato do usuário",
+        "conexão permanece indisponível"
+      ],
+      "forbidden_behavior": [
+        "repetir a orientação de reinicialização",
+        "afirmar resolução",
+        "afirmar chamado aberto, protocolo gerado ou transferência operacional concluída",
+        "prometer contato ou prazo de reparo"
+      ]
+    }
+  ],
+  "expected_route": {
+    "single_agent": [
+      "agente_unico",
+      "agente_unico",
+      "agente_unico"
+    ],
+    "multiagent": [
+      "triagem->support",
+      "support",
+      "support"
+    ]
+  },
+  "task_completion": {
+    "required": true,
+    "criteria": [
+      "coletar o estado das luzes antes de orientar o procedimento",
+      "orientar reinicialização pela energia sem RESET ou alteração de configurações",
+      "distinguir orientação apresentada de realização relatada",
+      "indicar atendimento técnico humano após persistência relatada",
+      "resumir os fatos técnicos disponíveis",
+      "não inventar operações externas, diagnóstico ou resolução"
+    ]
+  }
+}

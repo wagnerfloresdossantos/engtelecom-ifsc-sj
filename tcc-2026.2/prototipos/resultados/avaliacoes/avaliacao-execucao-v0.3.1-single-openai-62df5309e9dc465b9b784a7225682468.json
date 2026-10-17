@@ -1,0 +1,130 @@
+{
+  "execution_id": "62df5309e9dc465b9b784a7225682468",
+  "batch_id": "be2fc3067c704848ac397c48aefe343b",
+  "scenario_id": "synthesizer-suporte-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.1",
+  "scenario_version": "0.1.0",
+  "structured_checks_passed": true,
+  "deterministic_validation_passed": true,
+  "task_completion_assessed": false,
+  "summary": {
+    "turns": 3,
+    "correct_intents": 3,
+    "correct_areas": 3,
+    "area_accuracy": 1.0,
+    "area_accuracy_by_area": {
+      "commercial": {
+        "turns": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      "first_contact": {
+        "turns": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      "ombudsman": {
+        "turns": 0,
+        "correct": 0,
+        "accuracy": null
+      },
+      "support": {
+        "turns": 3,
+        "correct": 3,
+        "accuracy": 1.0
+      }
+    },
+    "correct_actions": 3,
+    "correct_routes": 3,
+    "correct_human_handoff_decisions": 3,
+    "human_handoff_accuracy": 1.0,
+    "internal_agent_transfers": null,
+    "model_calls": 3,
+    "input_tokens": 20914,
+    "output_tokens": 342,
+    "total_tokens": 21256,
+    "accumulated_latency_ms": 8561.899,
+    "no_flagged_expressions": true
+  },
+  "turns": [
+    {
+      "turn_id": 1,
+      "expected_intent": "suporte_sem_conexao",
+      "observed_intent": "suporte_sem_conexao",
+      "intent_correct": true,
+      "expected_area": "support",
+      "observed_area": "support",
+      "area_correct": true,
+      "expected_action": "respond",
+      "observed_action": "respond",
+      "action_correct": true,
+      "expected_handoff_target": null,
+      "observed_handoff_target": null,
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    },
+    {
+      "turn_id": 2,
+      "expected_intent": "suporte_sem_conexao",
+      "observed_intent": "suporte_sem_conexao",
+      "intent_correct": true,
+      "expected_area": "support",
+      "observed_area": "support",
+      "area_correct": true,
+      "expected_action": "respond",
+      "observed_action": "respond",
+      "action_correct": true,
+      "expected_handoff_target": null,
+      "observed_handoff_target": null,
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    },
+    {
+      "turn_id": 3,
+      "expected_intent": "suporte_sem_conexao",
+      "observed_intent": "suporte_sem_conexao",
+      "intent_correct": true,
+      "expected_area": "support",
+      "observed_area": "support",
+      "area_correct": true,
+      "expected_action": "handoff_human",
+      "observed_action": "handoff_human",
+      "action_correct": true,
+      "expected_handoff_target": "technical_human",
+      "observed_handoff_target": "technical_human",
+      "human_handoff_correct": true,
+      "expected_route": [
+        "agente_unico"
+      ],
+      "observed_route": [
+        "agente_unico"
+      ],
+      "route_correct": true,
+      "response_consistent": true,
+      "flagged_expression_categories": [],
+      "no_flagged_expressions": true
+    }
+  ],
+  "scope_note": "Esta avaliação cobre campos estruturados e buscas parciais por expressões. Não verifica integralmente required_behavior, required_context_after_turn, forbidden_behavior ou os critérios de task_completion. A conclusão da tarefa e a qualidade semântica exigem avaliação complementar."
+}

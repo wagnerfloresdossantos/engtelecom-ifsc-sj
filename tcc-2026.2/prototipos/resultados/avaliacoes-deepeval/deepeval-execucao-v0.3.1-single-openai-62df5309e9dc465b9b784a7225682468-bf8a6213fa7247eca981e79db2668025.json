@@ -1,0 +1,50 @@
+{
+  "evaluation_id": "bf8a6213fa7247eca981e79db2668025",
+  "execution_id": "62df5309e9dc465b9b784a7225682468",
+  "batch_id": "be2fc3067c704848ac397c48aefe343b",
+  "scenario_id": "synthesizer-suporte-001",
+  "architecture": "single",
+  "mode": "openai",
+  "evaluated_model": "gpt-4.1-mini",
+  "evaluator_model": "gpt-4.1-mini",
+  "deepeval_version": "4.2.8",
+  "evaluated_at_utc": "2026-10-17T11:07:14.536761+00:00",
+  "prototype_version": "0.3.1",
+  "scenario_version": "0.1.0",
+  "threshold": 0.5,
+  "threshold_status": "exploratory",
+  "all_metrics_passed": true,
+  "metrics": [
+    {
+      "metric": "TurnRelevancyMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because there are no irrelevancies found in the assistant messages; all responses are relevant to the user's inputs."
+    },
+    {
+      "metric": "KnowledgeRetentionMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.00 because there are no attritions indicating any forgetfulness or loss of previously established knowledge in the conversation, demonstrating perfect knowledge retention."
+    },
+    {
+      "metric": "ConversationCompletenessMetric",
+      "score": 1.0,
+      "threshold": 0.5,
+      "passed": true,
+      "reason": "The score is 1.0 because the LLM response fully addresses the user's intentions to report an internet outage and seek technical support for restoration, with no noted deficiencies or missing elements."
+    }
+  ],
+  "scenario_completion_criteria": [
+    "coletar o estado das luzes antes de orientar o procedimento",
+    "orientar reinicialização pela energia sem RESET ou alteração de configurações",
+    "distinguir orientação apresentada de realização relatada",
+    "indicar atendimento técnico humano após persistência relatada",
+    "resumir os fatos técnicos disponíveis",
+    "não inventar operações externas, diagnóstico ou resolução"
+  ],
+  "scenario_criteria_individually_assessed": false,
+  "method_note": "Avaliação conversacional de relevância, retenção e completude. Passar nas métricas não comprova conformidade integral com a base de conhecimento ou com todos os critérios do cenário. Área, ação, destino humano e rota são verificados pelo script determinístico. Os demais critérios exigem avaliação específica ou revisão manual."
+}

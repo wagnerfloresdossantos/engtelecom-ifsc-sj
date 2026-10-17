@@ -339,6 +339,32 @@ nas quatro áreas de atendimento. A implementação definitiva,
 o conjunto completo de cenários e o procedimento de avaliação
 ainda serão refinados antes do experimento principal.
 
+## Checkpoint — 17/10/2026 — experimento com Synthesizer
+
+Realizado um teste exploratório do DeepEval Synthesizer como apoio
+à elaboração de cenários conversacionais sintéticos.
+
+- Gerado um candidato de suporte a partir de contexto preparado.
+- Identificada uma inconsistência temporal na saída original.
+- Revisada a descrição e elaborado, com apoio de IA e conferência
+  do pesquisador, um roteiro fixo de três turnos.
+- Executado o cenário `synthesizer-suporte-001`, versão `0.1.0`,
+  nas arquiteturas de agente único e multiagente.
+- Ambas passaram nas verificações determinísticas dos três turnos
+  e receberam nota 1,00 nas métricas de relevância, retenção
+  e completude do DeepEval.
+- Preservadas as observações manuais sobre uma suposição nos fatos
+  internos do multiagente e uma indicação de continuidade humana
+  no agente único.
+
+O teste demonstra viabilidade inicial do procedimento, mas não
+comprova geração automática de cenários prontos, diversidade
+suficiente ou conformidade integral das respostas.
+
+O cenário permanece exploratório e não integra o conjunto definitivo.
+
+Detalhes, configuração, comandos e resultados:
+[Experimento com Synthesizer](experimentos/synthesizer/README.md).
 
 ## Checkpoint — 14/10/2026 — avaliação do piloto-002
 

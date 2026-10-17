@@ -1,0 +1,116 @@
+{
+  "batch_id": "be2fc3067c704848ac397c48aefe343b",
+  "execution_id": "f40be14e27f74feba6a3ab1abc77d59b",
+  "scenario_id": "synthesizer-suporte-001",
+  "architecture": "multi",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.1",
+  "client_version": "0.2.1",
+  "prompt_version": "0.3.5",
+  "knowledge_base_version": "0.3.3",
+  "scenario_version": "0.1.0",
+  "executed_at_utc": "2026-10-17T11:01:30.176846+00:00",
+  "completed_at_utc": "2026-10-17T11:01:37.040955+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Para ajudar a identificar o problema, por favor, informe o estado das luzes do equipamento de conexão (ONT).",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "triagem",
+          "latency_ms": 1938.425,
+          "input_tokens": 2951,
+          "output_tokens": 58,
+          "total_tokens": 3009,
+          "output": {
+            "destination": "support",
+            "intent": "suporte_sem_conexao",
+            "reason": "O usuário relatou estar sem Internet desde ontem, indicando problema técnico de conexão para suporte técnico.",
+            "context_to_forward": [
+              "Usuário é cliente do Provedor Alfa.",
+              "Relata ausência de Internet desde ontem."
+            ]
+          }
+        },
+        {
+          "agent": "support",
+          "latency_ms": 1470.634,
+          "input_tokens": 4404,
+          "output_tokens": 77,
+          "total_tokens": 4481,
+          "output": {
+            "response": "Para ajudar a identificar o problema, por favor, informe o estado das luzes do equipamento de conexão (ONT).",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Usuário é cliente do Provedor Alfa.",
+              "Relata ausência de Internet desde ontem.",
+              "O usuário relatou falta de conexão."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "assistant_response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue novamente. Depois dessa reinicialização, informe se a conexão voltou.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 1596.908,
+          "input_tokens": 4502,
+          "output_tokens": 110,
+          "total_tokens": 4612,
+          "output": {
+            "response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue novamente. Depois dessa reinicialização, informe se a conexão voltou.",
+            "intent": "suporte_sem_conexao",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "Usuário é cliente do Provedor Alfa.",
+              "Relata ausência de Internet desde ontem.",
+              "O usuário relatou falta de conexão.",
+              "As luzes da ONT estão verdes.",
+              "Usuário ainda não realizou a reinicialização da ONT orientada."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Desliguei da energia, esperei 30 segundos e liguei novamente. Continuo sem Internet.",
+      "assistant_response": "Entendo. Como você já reiniciou a ONT e a conexão continua indisponível desde ontem, será necessário continuar com o atendimento técnico humano para melhor suporte. Relatou indisponibilidade de Internet desde ontem, com as luzes do equipamento de conexão (ONT) todas verdes, realizou a reinicialização orientada, mas sem sucesso na restauração da conexão.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "support",
+          "latency_ms": 1848.551,
+          "input_tokens": 4651,
+          "output_tokens": 181,
+          "total_tokens": 4832,
+          "output": {
+            "response": "Entendo. Como você já reiniciou a ONT e a conexão continua indisponível desde ontem, será necessário continuar com o atendimento técnico humano para melhor suporte. Relatou indisponibilidade de Internet desde ontem, com as luzes do equipamento de conexão (ONT) todas verdes, realizou a reinicialização orientada, mas sem sucesso na restauração da conexão.",
+            "intent": "suporte_sem_conexao",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "Usuário é cliente do Provedor Alfa.",
+              "Relata ausência de Internet desde ontem.",
+              "O usuário relatou falta de conexão.",
+              "As luzes da ONT estão verdes.",
+              "Usuário realizou a reinicialização da ONT desligando da energia, aguardando 30 segundos e ligando novamente.",
+              "Após reinicialização, o usuário informou que continua sem Internet."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

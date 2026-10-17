@@ -1,0 +1,103 @@
+{
+  "batch_id": "be2fc3067c704848ac397c48aefe343b",
+  "execution_id": "62df5309e9dc465b9b784a7225682468",
+  "scenario_id": "synthesizer-suporte-001",
+  "architecture": "single",
+  "mode": "openai",
+  "model": "gpt-4.1-mini",
+  "prototype_version": "0.3.1",
+  "client_version": "0.2.1",
+  "prompt_version": "0.3.5",
+  "knowledge_base_version": "0.3.3",
+  "scenario_version": "0.1.0",
+  "executed_at_utc": "2026-10-17T11:01:21.607861+00:00",
+  "completed_at_utc": "2026-10-17T11:01:30.175088+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_message": "Já sou cliente e estou sem Internet desde ontem.",
+      "assistant_response": "Sinto muito pelo inconveniente da falta de Internet desde ontem. Para que eu possa ajudar melhor, por favor, poderia informar o estado das luzes do seu equipamento (ONT)?",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 3395.465,
+          "input_tokens": 6833,
+          "output_tokens": 76,
+          "total_tokens": 6909,
+          "output": {
+            "response": "Sinto muito pelo inconveniente da falta de Internet desde ontem. Para que eu possa ajudar melhor, por favor, poderia informar o estado das luzes do seu equipamento (ONT)?",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "cliente",
+              "sem Internet desde ontem"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 2,
+      "user_message": "As luzes da ONT estão verdes, mas continuo sem conexão.",
+      "assistant_response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue novamente. Após isso, informe se a conexão voltou.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 2095.029,
+          "input_tokens": 6960,
+          "output_tokens": 92,
+          "total_tokens": 7052,
+          "output": {
+            "response": "Por favor, desligue a ONT da energia, aguarde 30 segundos e ligue novamente. Após isso, informe se a conexão voltou.",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "respond",
+            "handoff_target": null,
+            "context_facts": [
+              "cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT verdes",
+              "conexão indisponível",
+              "orientação para reiniciar ONT apresentada"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "turn_id": 3,
+      "user_message": "Desliguei da energia, esperei 30 segundos e liguei novamente. Continuo sem Internet.",
+      "assistant_response": "Lamento que a reinicialização da ONT não tenha restaurado sua conexão. Como as luzes da ONT estão verdes e o problema persiste, será necessário continuar com o atendimento técnico humano para uma análise mais detalhada. Um atendente especializado dará continuidade ao suporte. Até agora, você relatou ser cliente, estar sem Internet desde ontem, com as luzes da ONT verdes, e já realizou a reinicialização conforme orientado.",
+      "expected_intent": "suporte_sem_conexao",
+      "calls": [
+        {
+          "agent": "agente_unico",
+          "latency_ms": 3071.405,
+          "input_tokens": 7121,
+          "output_tokens": 174,
+          "total_tokens": 7295,
+          "output": {
+            "response": "Lamento que a reinicialização da ONT não tenha restaurado sua conexão. Como as luzes da ONT estão verdes e o problema persiste, será necessário continuar com o atendimento técnico humano para uma análise mais detalhada. Um atendente especializado dará continuidade ao suporte. Até agora, você relatou ser cliente, estar sem Internet desde ontem, com as luzes da ONT verdes, e já realizou a reinicialização conforme orientado.",
+            "intent": "suporte_sem_conexao",
+            "active_area": "support",
+            "action": "handoff_human",
+            "handoff_target": "technical_human",
+            "context_facts": [
+              "cliente",
+              "sem Internet desde ontem",
+              "luzes da ONT verdes",
+              "conexão indisponível",
+              "orientação para reiniciar ONT apresentada",
+              "reinicialização realizada pelo usuário",
+              "resultado da reinicialização: sem Internet"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

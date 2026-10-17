@@ -1,0 +1,47 @@
+{
+  "generation_id": "762ffb137f6341629c9e85218fb72cc7",
+  "experiment_id": "geracao-exploratoria-suporte-001",
+  "deepeval_version": "4.2.8",
+  "generator_model": "gpt-4.1-mini",
+  "started_at_utc": "2026-10-17T10:48:42.786718+00:00",
+  "completed_at_utc": "2026-10-17T10:48:53.664745+00:00",
+  "source_file": "experimentos/synthesizer/contextos/suporte-sem-conexao.md",
+  "source_context": "# Contexto de geração — suporte sem conexão\n\n## Ambiente fictício\n\nO Provedor Alfa oferece Internet por fibra óptica.\nNão há acesso a clientes, cadastros, equipamentos ou sistemas reais.\n\n## Situação a explorar\n\nUm usuário já é cliente e está sem Internet.\nAs informações sobre o problema são apresentadas gradualmente.\nAs luzes da ONT estão verdes.\nO usuário realiza uma reinicialização pela energia,\nmas informa que a conexão continua indisponível.\n\n## Regras de atendimento\n\n- Considerar o histórico e não solicitar novamente informações\n  já fornecidas.\n- Perguntar sobre o estado das luzes da ONT quando essa informação\n  ainda não estiver disponível.\n- Diante de luzes verdes e falta de conexão, orientar desligar\n  a ONT da energia, aguardar 30 segundos e ligar novamente.\n- Perguntar se a conexão voltou após o procedimento.\n- Se o usuário relatar reinicialização sem restabelecimento,\n  indicar a necessidade de atendimento técnico humano.\n- Distinguir orientação apresentada de realização relatada\n  pelo usuário.\n- Não orientar RESET ou alteração das configurações.\n- Não afirmar consulta remota, reinicialização pelo sistema,\n  chamado aberto, protocolo gerado ou transferência concluída.\n- Não inventar diagnóstico, prazo ou resolução.\n\n## Limites deste experimento\n\nA situação pertence ao suporte técnico.\nNão incluir contratação, reclamação ou mudança de área.\nNão utilizar informações pessoais reais.\n\n## Desfecho de referência para revisão\n\nApós o usuário relatar reinicialização sem restabelecimento,\no atendimento deve indicar continuidade com suporte técnico humano,\nsem afirmar execução de operações externas.",
+  "styling": {
+    "scenario_context": "Atendimento textual de suporte de um provedor fictício. Utilizar somente a situação e as regras do contexto fornecido.",
+    "conversational_task": "Definir um cenário de avaliação de suporte sem conexão, com informações apresentadas gradualmente e persistência da falha após reinicialização relatada pelo usuário.",
+    "participant_roles": "Usuário fictício, cliente do provedor, e assistente de suporte. O usuário utiliza português brasileiro cotidiano.",
+    "scenario_format": "Descrição em português brasileiro contendo situação inicial, objetivo do usuário e informações a revelar progressivamente. Não escrever diálogo completo nem respostas do assistente.",
+    "expected_outcome_format": "Desfecho esperado em português brasileiro, verificável e compatível com as regras fornecidas. Não afirmar realização de operações externas."
+  },
+  "max_goldens_per_context": 1,
+  "candidate_count": 1,
+  "review_status": "pending",
+  "candidates": [
+    {
+      "scenario": "Durante um atendimento textual em português brasileiro, um cliente do provedor informa ao assistente de suporte que, apesar das luzes verdes na ONT e de ter reiniciado o equipamento pela energia, a conexão à internet não foi restabelecida. O assistente revisa o histórico do atendimento, orienta o cliente a desligar o equipamento por 30 segundos antes de ligar novamente e, constatando que o problema persiste, indica a necessidade de encaminhamento para suporte técnico humano.",
+      "expected_outcome": "Desfecho esperado em português brasileiro, verificável e compatível com as regras fornecidas: o cliente é orientado a desligar a ONT da energia por 30 segundos e ligar novamente; ao confirmar que a conexão não voltou, o atendimento indica a necessidade de suporte técnico humano para continuidade.",
+      "user_description": null,
+      "context": [
+        "# Contexto de geração — suporte sem conexão\n\n## Ambiente fictício\n\nO Provedor Alfa oferece Internet por fibra óptica.\nNão há acesso a clientes, cadastros, equipamentos ou sistemas reais.\n\n## Situação a explorar\n\nUm usuário já é cliente e está sem Internet.\nAs informações sobre o problema são apresentadas gradualmente.\nAs luzes da ONT estão verdes.\nO usuário realiza uma reinicialização pela energia,\nmas informa que a conexão continua indisponível.\n\n## Regras de atendimento\n\n- Considerar o histórico e não solicitar novamente informações\n  já fornecidas.\n- Perguntar sobre o estado das luzes da ONT quando essa informação\n  ainda não estiver disponível.\n- Diante de luzes verdes e falta de conexão, orientar desligar\n  a ONT da energia, aguardar 30 segundos e ligar novamente.\n- Perguntar se a conexão voltou após o procedimento.\n- Se o usuário relatar reinicialização sem restabelecimento,\n  indicar a necessidade de atendimento técnico humano.\n- Distinguir orientação apresentada de realização relatada\n  pelo usuário.\n- Não orientar RESET ou alteração das configurações.\n- Não afirmar consulta remota, reinicialização pelo sistema,\n  chamado aberto, protocolo gerado ou transferência concluída.\n- Não inventar diagnóstico, prazo ou resolução.\n\n## Limites deste experimento\n\nA situação pertence ao suporte técnico.\nNão incluir contratação, reclamação ou mudança de área.\nNão utilizar informações pessoais reais.\n\n## Desfecho de referência para revisão\n\nApós o usuário relatar reinicialização sem restabelecimento,\no atendimento deve indicar continuidade com suporte técnico humano,\nsem afirmar execução de operações externas."
+      ],
+      "additional_metadata": {
+        "evolutions": [
+          "Multi-context"
+        ],
+        "synthetic_scenario_quality": 1.0,
+        "context_quality": null,
+        "source_files": null,
+        "context_source_files": [],
+        "used_source_files": []
+      },
+      "comments": null,
+      "name": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null,
+      "turns": null,
+      "images_mapping": null
+    }
+  ]
+}
