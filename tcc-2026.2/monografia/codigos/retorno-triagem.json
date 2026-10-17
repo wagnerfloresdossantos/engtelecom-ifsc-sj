@@ -1,0 +1,8 @@
+{
+  "destination": "commercial",
+  "intent": "comercial_planos",
+  "reason": "O usuário deseja conhecer os planos de Internet.",
+  "context_to_forward": [
+    "O usuário deseja conhecer os planos."
+  ]
+}

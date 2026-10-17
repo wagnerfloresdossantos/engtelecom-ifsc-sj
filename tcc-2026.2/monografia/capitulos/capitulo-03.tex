@@ -20,14 +20,27 @@ Cada cenário será executado uma vez em cada arquitetura. Não serão realizada
 
 \subsection{Arquiteturas avaliadas}\label{subsec:arquiteturas-avaliadas}
 
-\subsubsection{Arquitetura de agente único}\label{subsubsec:agente-unico}
+\subsubsection{Arquitetura de agente único}
+\label{subsubsec:agente-unico}
 
-Na primeira arquitetura, um único agente receberá as instruções e a base de conhecimento referentes às quatro áreas consideradas no estudo: primeiro atendimento, comercial, ouvidoria e suporte técnico. Para cada mensagem, o agente deverá interpretar a solicitação, considerar o histórico da conversa, identificar o assunto e produzir a resposta correspondente.
+Na primeira arquitetura, um único agente receberá as instruções
+e a base de conhecimento referentes às quatro áreas consideradas
+no estudo: primeiro atendimento, comercial, ouvidoria e suporte
+técnico. Para cada mensagem, o agente deverá interpretar a
+solicitação, considerar o histórico da conversa, identificar
+o assunto e produzir a resposta correspondente.
 
-Um componente externo de orquestração será responsável por receber as mensagens, armazenar o histórico, acionar o agente e registrar os resultados. Esse componente não tomará decisões sobre o conteúdo do atendimento. Todas as decisões de classificação e resposta serão produzidas pelo agente único.
+Um componente externo de orquestração será responsável por
+receber as mensagens, manter o histórico e os fatos relevantes,
+acionar o agente e registrar os resultados. As decisões de
+classificação e de conteúdo das respostas serão produzidas
+pelo agente único. O orquestrador organizará a execução e
+verificará a consistência das saídas estruturadas.
 
-% Inserir após exportar o diagrama Mermaid para PDF:
-%
+A \autoref{fig:arquitetura-agente-unico} apresenta um exemplo
+de atendimento que começa com uma consulta comercial e passa
+para uma solicitação de suporte técnico.
+
 \begin{figure}[!htbp]
     \centering
     \caption{Arquitetura proposta de agente único}
@@ -36,30 +49,94 @@ Um componente externo de orquestração será responsável por receber as mensag
         width=\textwidth,
         height=.75\textheight,
         keepaspectratio
-    ]{figuras/arquitetura-agente-unico.png} 
+    ]{figuras/arquitetura-agente-unico.png}
     \par\smallskip
     \begin{minipage}{\textwidth}
         \small
-        \textbf{Nota:} O mesmo agente utiliza o histórico da conversa,
-        identifica as mudanças de assunto e executa as instruções
-        das quatro áreas de atendimento. Não há transferência
-        entre agentes de inteligência artificial.
+        \textbf{Nota:} O mesmo agente utiliza o histórico
+        da conversa, identifica as mudanças de assunto
+        e aplica as instruções das quatro áreas de atendimento.
+        Não há transferência entre agentes de inteligência
+        artificial.
     \end{minipage}
     \par\smallskip
-\fonteproprioautor
+    \fonteproprioautor
 \end{figure}
 \FloatBarrier
 
-\subsubsection{Arquitetura multiagente}\label{subsubsec:multiagente}
+A cada mensagem, o orquestrador preparará a entrada do agente,
+reunindo as instruções de atendimento, a base de conhecimento
+completa, o histórico e os fatos relevantes disponíveis.
+No primeiro turno, o histórico estará vazio. Nos turnos
+seguintes, conterá as mensagens e respostas anteriores.
+Os fatos relevantes complementarão esse histórico,
+sem substituí-lo.
 
-Na segunda arquitetura, as responsabilidades serão divididas entre um agente de triagem e quatro agentes especializados: primeiro atendimento, comercial, ouvidoria e suporte técnico. O agente de triagem será responsável por indicar o destino inicial da conversa ou realizar uma nova classificação quando ocorrer mudança de assunto.
+No exemplo, a solicitação de planos será identificada como
+comercial e resultará em uma pergunta sobre o CEP.
+A classificação da área não representará a ativação de outro
+agente: o mesmo componente continuará responsável pelo
+atendimento. Quando o usuário relatar falta de Internet,
+o agente deverá reconhecer a nova necessidade e aplicar
+as regras de suporte técnico.
 
-Depois da triagem, o agente especializado permanecerá ativo enquanto as mensagens continuarem relacionadas à sua área. Caso identifique uma mudança de assunto, ele solicitará ao orquestrador uma nova triagem. O especialista não escolherá diretamente o próximo agente.
+O \autoref{cod:retorno-agente-unico} apresenta um exemplo
+ilustrativo da saída estruturada utilizada no protótipo
+exploratório. Os nomes e a organização dos campos poderão
+ser refinados durante a implementação definitiva no TCC2.
 
-O orquestrador manterá o estado da conversa, acionará os componentes na ordem prevista e registrará as chamadas realizadas. O estado incluirá o histórico das mensagens, os fatos relevantes e a identificação do agente ativo.
+\lstinputlisting[
+    caption={Exemplo ilustrativo de retorno do agente único},
+    label={cod:retorno-agente-unico},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+]{codigos/retorno-agente-unico.json}
 
-% Inserir após exportar o diagrama Mermaid para PDF:
-%
+O campo \texttt{response} contém o texto apresentado ao usuário.
+Os campos \texttt{intent} e \texttt{active\_area} registram
+a intenção e a área identificadas. Os campos \texttt{action}
+e \texttt{handoff\_target} representam a ação proposta e
+o eventual destino de atendimento humano. O campo
+\texttt{context\_facts} contém a lista atualizada de fatos
+relevantes para a continuidade da conversa.
+
+Após receber a saída, o orquestrador atualizará o histórico
+e os fatos relevantes, registrará as informações da execução
+e apresentará ao usuário o conteúdo de \texttt{response}.
+A indicação de atendimento humano constituirá uma decisão
+registrada pelo protótipo, sem transferência operacional
+para um sistema externo.
+
+No diagrama, o histórico e o estado são apresentados
+separadamente para explicitar sua função. Essa representação
+não pressupõe a utilização de um serviço ou banco de dados
+independente. Da mesma forma, a seta final de registro sintetiza
+as informações coletadas ao longo das chamadas e reunidas
+no resultado da execução.
+\subsubsection{Arquitetura multiagente}
+\label{subsubsec:multiagente}
+
+Na segunda arquitetura, as responsabilidades serão distribuídas
+entre um agente de triagem e quatro agentes especializados:
+primeiro atendimento, comercial, ouvidoria e suporte técnico.
+Os componentes utilizarão o mesmo modelo de linguagem,
+com instruções e bases de conhecimento organizadas conforme
+suas responsabilidades.
+
+O orquestrador manterá o histórico, os fatos relevantes
+e a identificação do especialista ativo. A triagem será
+acionada no início da conversa e quando o especialista
+solicitar uma nova classificação. Os agentes devolverão
+suas saídas ao orquestrador, sem acionar diretamente
+outros componentes.
+
+A \autoref{fig:arquitetura-multiagente} apresenta um exemplo
+que começa com uma consulta comercial e passa para
+uma solicitação de suporte técnico.
+
 \begin{figure}[!htbp]
     \centering
     \caption{Arquitetura multiagente proposta}
@@ -72,16 +149,103 @@ O orquestrador manterá o estado da conversa, acionará os componentes na ordem 
     \par\smallskip
     \begin{minipage}{\textwidth}
         \small
-        \textbf{Nota:} A triagem seleciona o especialista inicial
-        e é acionada novamente quando o agente ativo solicita
-        uma reclassificação. O especialista não escolhe diretamente
-        o próximo agente. O orquestrador mantém o histórico,
-        controla o agente ativo e registra a execução.
+        \textbf{Nota:} O participante especialista ativo
+        representa o comercial inicialmente e o suporte
+        após a nova triagem. O histórico, o estado e
+        o registro estão agrupados para simplificar
+        a apresentação, sem pressupor um banco de dados
+        ou serviço independente.
     \end{minipage}
     \par\smallskip
     \fonteproprioautor
 \end{figure}
 \FloatBarrier
+
+Na primeira mensagem, ainda não haverá especialista ativo.
+O orquestrador acionará a triagem, fornecendo suas instruções,
+a base comum, as regras de classificação e o contexto
+disponível. A triagem identificará a área responsável
+e devolverá uma saída estruturada com o destino,
+a intenção, a justificativa e as informações pertinentes
+à continuidade do atendimento.
+
+O \autoref{cod:retorno-triagem} apresenta um exemplo
+ilustrativo desse retorno no protótipo exploratório.
+
+\lstinputlisting[
+    caption={Exemplo ilustrativo de retorno da triagem},
+    label={cod:retorno-triagem},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+]{codigos/retorno-triagem.json}
+
+O campo \texttt{destination} indicará o especialista
+a ser acionado pelo orquestrador. O campo
+\texttt{context\_to\_forward} fornecerá informações
+para a continuidade, complementando o histórico completo.
+A justificativa e a classificação serão registros internos,
+sem apresentação direta ao usuário.
+
+Após a seleção, o especialista receberá suas instruções,
+a base comum acrescida da base de sua área, o histórico,
+os fatos relevantes e a mensagem atual. No exemplo,
+o comercial solicitará o CEP e permanecerá ativo
+para processar a mensagem seguinte, sem nova triagem.
+
+Quando o usuário relatar falta de Internet, a mensagem
+será inicialmente processada pelo comercial, pois esse
+ainda será o especialista ativo. Ao identificar
+uma necessidade fora de sua área, ele deverá solicitar
+nova classificação, conforme o exemplo apresentado
+no \autoref{cod:solicitacao-nova-triagem}.
+
+\lstinputlisting[
+    float=htbp,
+    caption={Exemplo ilustrativo de solicitação de nova triagem},
+    label={cod:solicitacao-nova-triagem},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+]{codigos/solicitacao-nova-triagem.json}
+
+A ação \texttt{request\_reroute} solicitará uma nova triagem.
+Nesse caso, \texttt{response} e \texttt{handoff\_target}
+deverão ser nulos, pois o especialista não produzirá
+uma resposta ao usuário nem indicará atendimento humano
+nessa etapa.
+
+O orquestrador fornecerá à triagem a mensagem atual,
+o contexto e a solicitação do especialista anterior.
+Após receber o novo destino, atualizará o especialista
+ativo e acionará o componente selecionado para processar
+a mesma mensagem. No exemplo, o suporte solicitará
+o estado das luzes da ONT.
+
+Ao receber a informação de luz LOS vermelha, o suporte
+aplicará a regra correspondente e indicará a necessidade
+de atendimento técnico humano. Essa decisão será registrada
+como \texttt{handoff\_human}, com destino
+\texttt{technical\_human}. Ela não representará
+uma transferência operacional para um sistema externo.
+
+O exemplo contém quatro turnos do usuário e sete chamadas
+ao modelo: duas no primeiro turno, uma no segundo,
+três na mudança de assunto e uma no último turno.
+Haverá uma troca entre especialistas, do comercial
+para o suporte; a seleção inicial não será contada
+como troca.
+
+O histórico preservará as mensagens do usuário e
+as respostas finais do assistente. As saídas intermediárias
+e as medições de cada chamada serão mantidas nos registros
+da execução. Os formatos apresentados correspondem
+ao protótipo exploratório e poderão ser refinados
+durante a implementação definitiva no TCC2.
 
 \subsection{Variáveis controladas}\label{subsec:variaveis-controladas}
 

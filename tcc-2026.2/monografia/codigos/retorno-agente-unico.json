@@ -1,0 +1,10 @@
+{
+  "response": "Para informar os planos disponíveis, qual é seu CEP?",
+  "intent": "comercial_planos",
+  "active_area": "commercial",
+  "action": "respond",
+  "handoff_target": null,
+  "context_facts": [
+    "O usuário deseja conhecer os planos."
+  ]
+}

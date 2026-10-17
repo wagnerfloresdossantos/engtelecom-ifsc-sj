@@ -1,0 +1,11 @@
+{
+  "response": null,
+  "intent": "suporte_sem_conexao",
+  "action": "request_reroute",
+  "handoff_target": null,
+  "context_facts": [
+    "O usuário informou o CEP 88110-000.",
+    "O usuário informa que já é cliente.",
+    "O usuário relata falta de Internet."
+  ]
+}
