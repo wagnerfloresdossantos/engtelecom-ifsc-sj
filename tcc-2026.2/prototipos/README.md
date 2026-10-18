@@ -339,6 +339,21 @@ nas quatro áreas de atendimento. A implementação definitiva,
 o conjunto completo de cenários e o procedimento de avaliação
 ainda serão refinados antes do experimento principal.
 
+## Checkpoint — 18/10/2026 — geração exploratória do PA-01
+
+Preparados contexto e script para geração de cenário de primeiro
+atendimento com apoio do Synthesizer.
+
+A primeira geração introduziu uma comparação fora do escopo.
+Após configurar `num_evolutions=0`, a segunda produziu uma descrição
+compatível com a situação prevista. Os dois candidatos foram
+preservados e a revisão foi documentada.
+
+As quatro variações de redação estão em preparação.
+O PA-01 ainda não foi executado nas arquiteturas.
+
+Detalhes: [Experimento com Synthesizer](experimentos/synthesizer/README.md).
+
 ## Checkpoint — 17/10/2026 — experimento com Synthesizer
 
 Realizado um teste exploratório do DeepEval Synthesizer como apoio

@@ -1,0 +1,53 @@
+{
+  "generation_id": "c0ccd56a27be4271a97a1c82734aa2d8",
+  "experiment_id": "geracao-exploratoria-pa01-001",
+  "situation_id": "PA-01",
+  "script_version": "0.1.1",
+  "deepeval_version": "4.2.8",
+  "generator_model": "gpt-4.1-mini",
+  "started_at_utc": "2026-10-18T11:16:35.023323+00:00",
+  "completed_at_utc": "2026-10-18T11:16:43.249237+00:00",
+  "source_file": "experimentos/synthesizer/contextos/pa-01-informacoes-gerais.md",
+  "source_context": "# Situação-base PA-01 — esclarecimento e informações gerais\n\n## Objetivo\n\nGerar candidatos de cenário para avaliar um pedido genérico\nde ajuda seguido de uma consulta sobre o tipo de serviço\noferecido pelo provedor.\n\n## Informações disponíveis\n\nO Provedor Alfa é fictício e oferece Internet por fibra óptica.\nO primeiro atendimento pode responder diretamente a essa\npergunta geral.\n\n## Sequência pretendida\n\n1. O usuário inicia com uma saudação ou pedido genérico de ajuda,\n   sem apresentar uma necessidade concreta.\n2. Após o esclarecimento solicitado pelo assistente, o usuário\n   pergunta qual tipo de serviço o provedor oferece.\n\nA conversa possui dois turnos do usuário.\nNão antecipar a pergunta sobre serviços na primeira mensagem.\n\n## Comportamentos esperados\n\n- Acolher brevemente e perguntar qual é a necessidade.\n- Responder à consulta geral utilizando a informação disponível.\n- Permanecer no primeiro atendimento.\n- Não solicitar CEP, CPF ou outros dados cadastrais.\n- Não apresentar menu obrigatório.\n- Não inventar serviços, planos, preços ou benefícios.\n- Não indicar atendimento humano sem necessidade.\n\n## Desfecho de referência\n\nO usuário é informado de que o provedor oferece Internet\npor fibra óptica, sem encaminhamento para outra área.\n\n## Variações pretendidas\n\nProduzir diferenças de redação preservando a sequência,\nos fatos, o objetivo e o desfecho.\nNão acrescentar interesse em contratar ou conhecer planos.",
+  "styling": {
+    "scenario_context": "Atendimento textual do Provedor Alfa, organização fictícia que oferece Internet por fibra óptica. Utilizar somente as informações do contexto fornecido.",
+    "conversational_task": "Propor um cenário PA-01 com dois turnos do usuário: primeiro um pedido genérico de ajuda; depois uma pergunta sobre o tipo de serviço oferecido pelo provedor.",
+    "participant_roles": "Usuário fictício e assistente de primeiro atendimento. Utilizar português brasileiro cotidiano.",
+    "scenario_format": "Descrever a situação inicial e a informação revelada em cada um dos dois turnos. Não escrever respostas do assistente nem diálogo completo. Não antecipar a pergunta sobre serviços no primeiro turno.",
+    "expected_outcome_format": "Descrever em português brasileiro um desfecho verificável: o usuário recebe informação sobre Internet por fibra óptica, sem coleta de dados cadastrais ou encaminhamento desnecessário. Não copiar estas instruções como introdução do desfecho."
+  },
+  "generation_settings": {
+    "async_mode": false,
+    "max_concurrent": 1,
+    "num_evolutions": 0,
+    "include_expected_outcome": true,
+    "max_goldens_per_context": 1
+  },
+  "candidate_count": 1,
+  "review_status": "pending",
+  "candidates": [
+    {
+      "scenario": "Um usuário fictício inicia um atendimento textual com o assistente de primeiro atendimento do Provedor Alfa, cumprimentando e pedindo ajuda de forma genérica. O assistente responde acolhendo e perguntando qual é a necessidade do usuário. Em seguida, o usuário pergunta qual tipo de serviço o Provedor Alfa oferece, e o assistente informa que o provedor oferece Internet por fibra óptica, mantendo o atendimento no primeiro contato e sem solicitar dados pessoais.",
+      "expected_outcome": "O usuário recebe informação clara de que o Provedor Alfa oferece Internet por fibra óptica, sem necessidade de fornecer dados pessoais ou ser encaminhado para outro atendimento.",
+      "user_description": null,
+      "context": [
+        "# Situação-base PA-01 — esclarecimento e informações gerais\n\n## Objetivo\n\nGerar candidatos de cenário para avaliar um pedido genérico\nde ajuda seguido de uma consulta sobre o tipo de serviço\noferecido pelo provedor.\n\n## Informações disponíveis\n\nO Provedor Alfa é fictício e oferece Internet por fibra óptica.\nO primeiro atendimento pode responder diretamente a essa\npergunta geral.\n\n## Sequência pretendida\n\n1. O usuário inicia com uma saudação ou pedido genérico de ajuda,\n   sem apresentar uma necessidade concreta.\n2. Após o esclarecimento solicitado pelo assistente, o usuário\n   pergunta qual tipo de serviço o provedor oferece.\n\nA conversa possui dois turnos do usuário.\nNão antecipar a pergunta sobre serviços na primeira mensagem.\n\n## Comportamentos esperados\n\n- Acolher brevemente e perguntar qual é a necessidade.\n- Responder à consulta geral utilizando a informação disponível.\n- Permanecer no primeiro atendimento.\n- Não solicitar CEP, CPF ou outros dados cadastrais.\n- Não apresentar menu obrigatório.\n- Não inventar serviços, planos, preços ou benefícios.\n- Não indicar atendimento humano sem necessidade.\n\n## Desfecho de referência\n\nO usuário é informado de que o provedor oferece Internet\npor fibra óptica, sem encaminhamento para outra área.\n\n## Variações pretendidas\n\nProduzir diferenças de redação preservando a sequência,\nos fatos, o objetivo e o desfecho.\nNão acrescentar interesse em contratar ou conhecer planos."
+      ],
+      "additional_metadata": {
+        "evolutions": [],
+        "synthetic_scenario_quality": 0.9,
+        "context_quality": null,
+        "source_files": null,
+        "context_source_files": [],
+        "used_source_files": []
+      },
+      "comments": null,
+      "name": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null,
+      "turns": null,
+      "images_mapping": null
+    }
+  ]
+}

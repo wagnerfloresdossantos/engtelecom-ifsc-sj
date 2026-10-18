@@ -188,3 +188,63 @@ Próximas atividades:
 - [Geração a partir de contextos](https://deepeval.com/docs/synthesizer-generate-from-contexts)
 
 As assinaturas utilizadas foram conferidas no ambiente local com DeepEval 4.2.8. A documentação online pode descrever versões posteriores.
+
+
+## Checkpoint — 18/10/2026 — preparação do PA-01
+
+### Objetivo
+
+Avaliar a geração de uma descrição de cenário de primeiro atendimento,
+com dois turnos: pedido genérico de ajuda seguido de pergunta sobre
+o serviço oferecido pelo Provedor Alfa.
+
+### Arquivos preparados
+
+- Contexto: `contextos/pa-01-informacoes-gerais.md`.
+- Script: `gerar_pa01.py`.
+- Registro de revisão: `revisados/revisao-pa01-001.md`.
+
+### Primeira geração
+
+- Identificador: `91b26f70442e45f8bb0921cc9862d283`.
+- Script: 0.1.0.
+- Evoluções: configuração padrão; a saída registrou `Comparative`.
+- Resultado: candidato fora do escopo delimitado, pois acrescentou
+  comparação entre tecnologias e explicação de vantagens da fibra.
+
+O candidato original foi preservado. A inconsistência foi documentada
+na revisão.
+
+### Segunda geração
+
+- Identificador: `c0ccd56a27be4271a97a1c82734aa2d8`.
+- Script: 0.1.1.
+- Configuração explícita: `num_evolutions=0`.
+- A saída registrou `evolutions=[]`.
+- Resultado da análise: descrição e desfecho compatíveis com o contexto,
+  sem comparação entre tecnologias.
+
+As duas gerações utilizaram DeepEval 4.2.8 e gpt-4.1-mini.
+O resultado de uma tentativa não comprova que a configuração
+elimine desvios em gerações futuras.
+
+### Preparação das variações
+
+Foram propostas, na conversa de apoio com IA, quatro variações
+de redação com dois turnos cada. Essas mensagens foram elaboradas
+posteriormente à geração do Synthesizer.
+
+A conferência final pelo pesquisador, a criação dos JSONs executáveis
+e a execução das variações permanecem pendentes.
+
+### Ponto de continuidade
+
+1. Conferir a equivalência das quatro variações de redação.
+2. Registrar as mensagens aprovadas e sua origem.
+3. Preparar os quatro JSONs com critérios comuns e identificadores próprios.
+4. Verificar sua sintaxe e coerência antes da execução.
+5. Decidir quais casos permanecem exploratórios e quais poderão integrar
+   o conjunto definitivo, antes de utilizar resultados para ajustes.
+
+Nenhuma execução do PA-01 nas arquiteturas ou avaliação de suas
+respostas foi realizada neste checkpoint.
