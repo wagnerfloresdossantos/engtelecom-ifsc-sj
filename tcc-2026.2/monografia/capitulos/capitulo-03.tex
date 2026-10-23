@@ -80,7 +80,7 @@ sem transferência operacional para um sistema externo.
 As trocas entre especialistas e os encaminhamentos para humanos
 serão contabilizados separadamente.
 
-A Figura~\ref{fig:fluxo-processamento} sintetiza o processamento
+A Figura~\ref{fig:arquiteturas-propostas} sintetiza o processamento
 previsto para uma mensagem nas duas arquiteturas, destacando
 a seleção do especialista e a possibilidade de nova triagem
 no sistema multiagente.
@@ -88,18 +88,214 @@ no sistema multiagente.
 \begin{figure}[!htbp]
     \centering
     \caption{Organização conceitual das arquiteturas propostas}
-    \label{fig:fluxo-processamento}
-    \includegraphics[
-        width=\textwidth
-    ]{figuras/fluxo-processamento-mensagem.png}
+    \label{fig:arquiteturas-propostas}
+
+    \begin{tikzpicture}[
+        font=\small,
+        bloco/.style={
+            draw,
+            rounded corners=3pt,
+            align=center,
+            fill=blue!6,
+            minimum height=11mm,
+            text width=24mm
+        },
+        auxiliar/.style={
+            bloco,
+            fill=gray!8,
+            text width=22mm
+        },
+        agente/.style={
+            bloco,
+            fill=blue!12,
+            text width=21mm,
+            minimum height=16mm
+        },
+        troca/.style={
+            <->,
+            >=Latex,
+            thick
+        },
+        registro/.style={
+            ->,
+            >=Latex,
+            thick
+        },
+        base/.style={
+            ->,
+            >=Latex,
+            dashed,
+            gray!80
+        }
+    ]
+
+    % Robô simplificado.
+    \newcommand{\robo}{%
+        \begin{tikzpicture}[
+            x=1mm,
+            y=1mm,
+            baseline=-0.5mm,
+            line width=0.5pt
+        ]
+            \draw[fill=blue!15,rounded corners=1pt]
+                (-3,-2) rectangle (3,2);
+
+            \fill (-1.2,0.4) circle (0.35);
+            \fill (1.2,0.4) circle (0.35);
+
+            \draw (-1,-0.9) -- (1,-0.9);
+            \draw (0,2) -- (0,3);
+            \fill (0,3) circle (0.35);
+
+            \draw (-3,-0.7) -- (-3.8,-0.7)
+                  -- (-3.8,0.7) -- (-3,0.7);
+
+            \draw (3,-0.7) -- (3.8,-0.7)
+                  -- (3.8,0.7) -- (3,0.7);
+        \end{tikzpicture}%
+    }
+
+    % =====================================================
+    % Painel A: agente único
+    % =====================================================
+
+    \node[font=\bfseries] at (0,0)
+        {(a) Arquitetura de agente único};
+
+    \node[bloco] (u1) at (-5,-1.2)
+        {Usuário};
+
+    \node[bloco] (o1) at (-1.5,-1.2)
+        {Orquestrador\\[-1pt]
+         \scriptsize Controle em Python};
+
+    \node[agente] (a1) at (2,-1.2)
+        {\robo\\Agente único};
+
+    \node[auxiliar] (b1) at (5.2,-1.2)
+        {Base completa\\[-1pt]
+         \scriptsize Quatro áreas};
+
+    \node[auxiliar] (h1) at (-3.2,-3.5)
+        {Histórico e fatos};
+
+    \node[auxiliar] (r1) at (0.2,-3.5)
+        {Registro da execução};
+
+    % Comunicação principal.
+    \draw[troca] (u1) -- (o1);
+    \draw[troca] (o1) -- (a1);
+
+    % Informações da base.
+    \draw[base] (b1) -- (a1);
+
+    % Histórico e registro.
+    \draw[troca]
+        (o1.south) -- ++(0,-0.45)
+        -| (h1.north);
+
+    \draw[registro]
+        (o1.south) -- ++(0,-0.45)
+        -| (r1.north);
+
+    % Separação entre os painéis.
+    \draw[gray!40] (-6.5,-4.3) -- (6.7,-4.3);
+
+    % =====================================================
+    % Painel B: multiagente
+    % =====================================================
+
+    \node[font=\bfseries] at (0,-4.6)
+        {(b) Arquitetura multiagente};
+
+    % Desloca o conteúdo sem deslocar o título.
+    \begin{scope}[yshift=-10mm]
+
+        \node[bloco] (u2) at (-5,-5.4)
+            {Usuário};
+
+        \node[bloco] (o2) at (-1.5,-5.4)
+            {Orquestrador\\[-1pt]
+             \scriptsize Controle em Python};
+
+        \node[auxiliar] (h2) at (2,-5.4)
+            {Histórico e fatos};
+
+        \node[auxiliar] (r2) at (5.2,-5.4)
+            {Registro da execução};
+
+        % Comunicação com usuário e histórico.
+        \draw[troca] (u2) -- (o2);
+        \draw[troca] (o2) -- (h2);
+
+        % Registro ligado ao orquestrador por cima dos blocos.
+        \draw[registro]
+            (o2.north) -- ++(0,0.45)
+            -| (r2.north);
+
+        % Agentes.
+        \node[agente] (t) at (-5.1,-8.2)
+            {\robo\\Triagem};
+
+        \node[agente] (p) at (-2.2,-8.2)
+            {\robo\\Primeiro\\atendimento};
+
+        \node[agente] (c) at (0.7,-8.2)
+            {\robo\\Comercial};
+
+        \node[agente] (v) at (3.6,-8.2)
+            {\robo\\Ouvidoria};
+
+        \node[agente] (s) at (6.5,-8.2)
+            {\robo\\Suporte\\técnico};
+
+        % Barramento de comunicação do orquestrador.
+        \coordinate (centro) at (-1.5,-6.8);
+
+        \draw[thick] (o2.south) -- (centro);
+
+        \draw[thick]
+            (-5.1,-6.8) -- (6.5,-6.8);
+
+        \foreach \n in {t,p,c,v,s}{
+            \draw[troca]
+                (\n.north |- centro) -- (\n.north);
+        }
+
+        % Base de conhecimento.
+        \node[
+            auxiliar,
+            text width=55mm
+        ] (b2) at (0.7,-10.7)
+            {Base comum e bases por área};
+
+        \coordinate (bases) at (0.7,-9.7);
+
+        \draw[dashed,gray!80]
+            (b2.north) -- (bases);
+
+        \draw[dashed,gray!80]
+            (-5.1,-9.7) -- (6.5,-9.7);
+
+        \foreach \n in {t,p,c,v,s}{
+            \draw[base]
+                (\n.south |- bases) -- (\n.south);
+        }
+
+    \end{scope}
+    \end{tikzpicture}
+
     \par\smallskip
     \begin{minipage}{\textwidth}
         \small
-        \textbf{Nota:} O orquestrador controla o fluxo de execução,
-        enquanto os agentes utilizam o modelo de linguagem.
-        Na arquitetura multiagente, os especialistas são acionados
-        conforme a necessidade, sem comunicação direta entre eles.
+        \textbf{Nota:} As conexões representam possibilidades
+        de comunicação, sem execução simultânea obrigatória
+        dos agentes. O orquestrador controla os acionamentos
+        e recebe as respostas e decisões. As linhas tracejadas
+        representam as informações disponibilizadas aos agentes,
+        conforme suas responsabilidades.
     \end{minipage}
+
     \par\smallskip
     \fonteproprioautor
 \end{figure}
