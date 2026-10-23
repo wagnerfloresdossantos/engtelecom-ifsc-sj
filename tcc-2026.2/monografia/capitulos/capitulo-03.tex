@@ -85,30 +85,24 @@ previsto para uma mensagem nas duas arquiteturas, destacando
 a seleção do especialista e a possibilidade de nova triagem
 no sistema multiagente.
 
-\begin{figure}[p]
+\begin{figure}[!htbp]
     \centering
-    \caption{Fluxo de processamento de uma mensagem}
+    \caption{Organização conceitual das arquiteturas propostas}
     \label{fig:fluxo-processamento}
     \includegraphics[
-        width=\textwidth,
-        height=0.7\textheight,
-        keepaspectratio,
-        trim={0 0 10cm 0},
-        clip
+        width=\textwidth
     ]{figuras/fluxo-processamento-mensagem.png}
     \par\smallskip
     \begin{minipage}{\textwidth}
         \small
-        \textbf{Nota:} A arquitetura de agente único realiza uma
-        chamada principal ao modelo por mensagem. Na arquitetura
-        multiagente, a triagem é executada quando não existe
-        agente ativo ou quando o especialista solicita nova
-        classificação após identificar uma mudança de assunto.
+        \textbf{Nota:} O orquestrador controla o fluxo de execução,
+        enquanto os agentes utilizam o modelo de linguagem.
+        Na arquitetura multiagente, os especialistas são acionados
+        conforme a necessidade, sem comunicação direta entre eles.
     \end{minipage}
     \par\smallskip
     \fonteproprioautor
 \end{figure}
-\FloatBarrier
 
 \subsection{Variáveis controladas}\label{subsec:variaveis-controladas}
 
