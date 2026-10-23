@@ -16,7 +16,12 @@ O fator de comparação será a arquitetura utilizada no atendimento, com dois n
 
 A variável independente será a arquitetura. As variáveis dependentes serão as medidas de qualidade, encaminhamento e consumo obtidas durante cada conversa. Serão controlados o modelo de linguagem, os parâmetros de geração, a base de conhecimento, as regras de atendimento, os cenários, a ordem das mensagens e o ambiente de execução.
 
-Cada cenário será executado uma vez em cada arquitetura. Não serão realizadas repetições de uma mesma combinação de cenário e arquitetura. As diferentes formas de expressão de uma intenção serão representadas por variações de redação previstas no próprio conjunto de testes.
+A etapa de TCC1 compreende a fundamentação teórica,
+a especificação preliminar das arquiteturas e o planejamento
+dos cenários e dos critérios de avaliação. A implementação
+dos protótipos, a preparação definitiva dos casos de teste,
+a execução do experimento e a análise dos resultados serão
+realizadas no TCC2.
 
 \subsection{Arquiteturas avaliadas}\label{subsec:arquiteturas-avaliadas}
 
@@ -24,228 +29,86 @@ Cada cenário será executado uma vez em cada arquitetura. Não serão realizada
 \label{subsubsec:agente-unico}
 
 Na primeira arquitetura, um único agente receberá as instruções
-e a base de conhecimento referentes às quatro áreas consideradas
+e a base de conhecimento referentes às quatro áreas consideradas 
 no estudo: primeiro atendimento, comercial, ouvidoria e suporte
-técnico. Para cada mensagem, o agente deverá interpretar a
-solicitação, considerar o histórico da conversa, identificar
-o assunto e produzir a resposta correspondente.
+técnico. Para cada mensagem, deverá interpretar a solicitação,
+considerar o histórico da conversa, identificar a área responsável
+e produzir a resposta correspondente.
 
-Um componente externo de orquestração será responsável por
-receber as mensagens, manter o histórico e os fatos relevantes,
-acionar o agente e registrar os resultados. As decisões de
-classificação e de conteúdo das respostas serão produzidas
-pelo agente único. O orquestrador organizará a execução e
-verificará a consistência das saídas estruturadas.
+Um componente externo de orquestração será responsável por receber
+as mensagens, disponibilizar o contexto ao agente, atualizar o
+histórico e registrar as respostas, as decisões e o consumo de
+recursos. As decisões de atendimento serão produzidas pelo agente
+único, sem transferência entre agentes de inteligência artificial.
 
-A \autoref{fig:arquitetura-agente-unico} apresenta um exemplo
-de atendimento que começa com uma consulta comercial e passa
-para uma solicitação de suporte técnico.
+Quando houver mudança de assunto, o mesmo agente deverá reconhecer
+a nova necessidade e aplicar as regras da área correspondente.
+Nos casos previstos pelas regras de atendimento, poderá indicar
+a necessidade de continuidade por um atendente humano. Essa
+indicação será registrada para avaliação, sem transferência
+operacional para um sistema externo.
 
-\begin{figure}[!htbp]
-    \centering
-    \caption{Arquitetura proposta de agente único}
-    \label{fig:arquitetura-agente-unico}
-    \includegraphics[
-        width=\textwidth,
-        height=.75\textheight,
-        keepaspectratio
-    ]{figuras/arquitetura-agente-unico.png}
-    \par\smallskip
-    \begin{minipage}{\textwidth}
-        \small
-        \textbf{Nota:} O mesmo agente utiliza o histórico
-        da conversa, identifica as mudanças de assunto
-        e aplica as instruções das quatro áreas de atendimento.
-        Não há transferência entre agentes de inteligência
-        artificial.
-    \end{minipage}
-    \par\smallskip
-    \fonteproprioautor
-\end{figure}
-\FloatBarrier
-
-A cada mensagem, o orquestrador preparará a entrada do agente,
-reunindo as instruções de atendimento, a base de conhecimento
-completa, o histórico e os fatos relevantes disponíveis.
-No primeiro turno, o histórico estará vazio. Nos turnos
-seguintes, conterá as mensagens e respostas anteriores.
-Os fatos relevantes complementarão esse histórico,
-sem substituí-lo.
-
-No exemplo, a solicitação de planos será identificada como
-comercial e resultará em uma pergunta sobre o CEP.
-A classificação da área não representará a ativação de outro
-agente: o mesmo componente continuará responsável pelo
-atendimento. Quando o usuário relatar falta de Internet,
-o agente deverá reconhecer a nova necessidade e aplicar
-as regras de suporte técnico.
-
-O \autoref{cod:retorno-agente-unico} apresenta um exemplo
-ilustrativo da saída estruturada utilizada no protótipo
-exploratório. Os nomes e a organização dos campos poderão
-ser refinados durante a implementação definitiva no TCC2.
-
-\lstinputlisting[
-    caption={Exemplo ilustrativo de retorno do agente único},
-    label={cod:retorno-agente-unico},
-    basicstyle=\ttfamily\footnotesize,
-    breaklines=true,
-    columns=fullflexible,
-    keepspaces=true,
-    showstringspaces=false
-]{codigos/retorno-agente-unico.json}
-
-O campo \texttt{response} contém o texto apresentado ao usuário.
-Os campos \texttt{intent} e \texttt{active\_area} registram
-a intenção e a área identificadas. Os campos \texttt{action}
-e \texttt{handoff\_target} representam a ação proposta e
-o eventual destino de atendimento humano. O campo
-\texttt{context\_facts} contém a lista atualizada de fatos
-relevantes para a continuidade da conversa.
-
-Após receber a saída, o orquestrador atualizará o histórico
-e os fatos relevantes, registrará as informações da execução
-e apresentará ao usuário o conteúdo de \texttt{response}.
-A indicação de atendimento humano constituirá uma decisão
-registrada pelo protótipo, sem transferência operacional
-para um sistema externo.
-
-No diagrama, o histórico e o estado são apresentados
-separadamente para explicitar sua função. Essa representação
-não pressupõe a utilização de um serviço ou banco de dados
-independente. Da mesma forma, a seta final de registro sintetiza
-as informações coletadas ao longo das chamadas e reunidas
-no resultado da execução.
 \subsubsection{Arquitetura multiagente}
 \label{subsubsec:multiagente}
 
 Na segunda arquitetura, as responsabilidades serão distribuídas
 entre um agente de triagem e quatro agentes especializados:
 primeiro atendimento, comercial, ouvidoria e suporte técnico.
-Os componentes utilizarão o mesmo modelo de linguagem,
-com instruções e bases de conhecimento organizadas conforme
-suas responsabilidades.
+Todos utilizarão o mesmo modelo de linguagem, com instruções
+e informações organizadas conforme suas responsabilidades.
 
-O orquestrador manterá o histórico, os fatos relevantes
-e a identificação do especialista ativo. A triagem será
-acionada no início da conversa e quando o especialista
-solicitar uma nova classificação. Os agentes devolverão
-suas saídas ao orquestrador, sem acionar diretamente
-outros componentes.
+O orquestrador manterá o histórico, os fatos relevantes e a
+identificação do especialista ativo. No início da conversa,
+acionará a triagem para identificar a área responsável e,
+em seguida, encaminhará a mensagem ao especialista indicado.
 
-A \autoref{fig:arquitetura-multiagente} apresenta um exemplo
-que começa com uma consulta comercial e passa para
-uma solicitação de suporte técnico.
+Enquanto o assunto permanecer na mesma área, as mensagens
+seguintes serão encaminhadas ao especialista ativo. Quando
+esse agente identificar uma necessidade fora de sua área,
+solicitará uma nova triagem. O orquestrador acionará novamente
+a classificação e encaminhará a mensagem ao especialista
+selecionado, preservando o contexto da conversa.
 
-\begin{figure}[!htbp]
+Os agentes devolverão suas respostas e decisões ao orquestrador,
+sem comunicação direta entre especialistas. As decisões de
+encaminhamento, as respostas e o consumo de recursos serão
+registrados para avaliação.
+
+Assim como na arquitetura de agente único, a indicação de
+atendimento humano será uma decisão registrada pelo protótipo,
+sem transferência operacional para um sistema externo.
+As trocas entre especialistas e os encaminhamentos para humanos
+serão contabilizados separadamente.
+
+A Figura~\ref{fig:fluxo-processamento} sintetiza o processamento
+previsto para uma mensagem nas duas arquiteturas, destacando
+a seleção do especialista e a possibilidade de nova triagem
+no sistema multiagente.
+
+\begin{figure}[p]
     \centering
-    \caption{Arquitetura multiagente proposta}
-    \label{fig:arquitetura-multiagente}
+    \caption{Fluxo de processamento de uma mensagem}
+    \label{fig:fluxo-processamento}
     \includegraphics[
         width=\textwidth,
-        height=.75\textheight,
-        keepaspectratio
-    ]{figuras/arquitetura-multiagente.png}
+        height=0.7\textheight,
+        keepaspectratio,
+        trim={0 0 10cm 0},
+        clip
+    ]{figuras/fluxo-processamento-mensagem.png}
     \par\smallskip
     \begin{minipage}{\textwidth}
         \small
-        \textbf{Nota:} O participante especialista ativo
-        representa o comercial inicialmente e o suporte
-        após a nova triagem. O histórico, o estado e
-        o registro estão agrupados para simplificar
-        a apresentação, sem pressupor um banco de dados
-        ou serviço independente.
+        \textbf{Nota:} A arquitetura de agente único realiza uma
+        chamada principal ao modelo por mensagem. Na arquitetura
+        multiagente, a triagem é executada quando não existe
+        agente ativo ou quando o especialista solicita nova
+        classificação após identificar uma mudança de assunto.
     \end{minipage}
     \par\smallskip
     \fonteproprioautor
 \end{figure}
 \FloatBarrier
-
-Na primeira mensagem, ainda não haverá especialista ativo.
-O orquestrador acionará a triagem, fornecendo suas instruções,
-a base comum, as regras de classificação e o contexto
-disponível. A triagem identificará a área responsável
-e devolverá uma saída estruturada com o destino,
-a intenção, a justificativa e as informações pertinentes
-à continuidade do atendimento.
-
-O \autoref{cod:retorno-triagem} apresenta um exemplo
-ilustrativo desse retorno no protótipo exploratório.
-
-\lstinputlisting[
-    caption={Exemplo ilustrativo de retorno da triagem},
-    label={cod:retorno-triagem},
-    basicstyle=\ttfamily\footnotesize,
-    breaklines=true,
-    columns=fullflexible,
-    keepspaces=true,
-    showstringspaces=false
-]{codigos/retorno-triagem.json}
-
-O campo \texttt{destination} indicará o especialista
-a ser acionado pelo orquestrador. O campo
-\texttt{context\_to\_forward} fornecerá informações
-para a continuidade, complementando o histórico completo.
-A justificativa e a classificação serão registros internos,
-sem apresentação direta ao usuário.
-
-Após a seleção, o especialista receberá suas instruções,
-a base comum acrescida da base de sua área, o histórico,
-os fatos relevantes e a mensagem atual. No exemplo,
-o comercial solicitará o CEP e permanecerá ativo
-para processar a mensagem seguinte, sem nova triagem.
-
-Quando o usuário relatar falta de Internet, a mensagem
-será inicialmente processada pelo comercial, pois esse
-ainda será o especialista ativo. Ao identificar
-uma necessidade fora de sua área, ele deverá solicitar
-nova classificação, conforme o exemplo apresentado
-no \autoref{cod:solicitacao-nova-triagem}.
-
-\lstinputlisting[
-    float=htbp,
-    caption={Exemplo ilustrativo de solicitação de nova triagem},
-    label={cod:solicitacao-nova-triagem},
-    basicstyle=\ttfamily\footnotesize,
-    breaklines=true,
-    columns=fullflexible,
-    keepspaces=true,
-    showstringspaces=false
-]{codigos/solicitacao-nova-triagem.json}
-
-A ação \texttt{request\_reroute} solicitará uma nova triagem.
-Nesse caso, \texttt{response} e \texttt{handoff\_target}
-deverão ser nulos, pois o especialista não produzirá
-uma resposta ao usuário nem indicará atendimento humano
-nessa etapa.
-
-O orquestrador fornecerá à triagem a mensagem atual,
-o contexto e a solicitação do especialista anterior.
-Após receber o novo destino, atualizará o especialista
-ativo e acionará o componente selecionado para processar
-a mesma mensagem. No exemplo, o suporte solicitará
-o estado das luzes da ONT.
-
-Ao receber a informação de luz LOS vermelha, o suporte
-aplicará a regra correspondente e indicará a necessidade
-de atendimento técnico humano. Essa decisão será registrada
-como \texttt{handoff\_human}, com destino
-\texttt{technical\_human}. Ela não representará
-uma transferência operacional para um sistema externo.
-
-O exemplo contém quatro turnos do usuário e sete chamadas
-ao modelo: duas no primeiro turno, uma no segundo,
-três na mudança de assunto e uma no último turno.
-Haverá uma troca entre especialistas, do comercial
-para o suporte; a seleção inicial não será contada
-como troca.
-
-O histórico preservará as mensagens do usuário e
-as respostas finais do assistente. As saídas intermediárias
-e as medições de cada chamada serão mantidas nos registros
-da execução. Os formatos apresentados correspondem
-ao protótipo exploratório e poderão ser refinados
-durante a implementação definitiva no TCC2.
 
 \subsection{Variáveis controladas}\label{subsec:variaveis-controladas}
 
@@ -325,13 +188,40 @@ Serão preparados 48 cenários sintéticos, distribuídos igualmente entre as qu
     \fonteproprioautor
 \end{table}
 
+Para fins dessa distribuição, cada cenário será associado
+à área da situação principal avaliada, mesmo quando incluir
+mudanças de assunto para outros setores. O conjunto será
+formado por 12 situações-base, das quais serão derivadas
+48 versões conversacionais por meio das variações de redação.
+
 Os casos utilizarão nomes, documentos, endereços, números de telefone e protocolos fictícios. Não haverá interação com clientes reais.
 
-O DeepEval poderá ser utilizado como apoio para sugerir variações de redação ou simular turnos de uma conversa~\cite{deepeval}. Entretanto, cada cenário será revisado antes de ser incorporado ao conjunto definitivo. A revisão verificará a clareza das mensagens, o destino esperado, os fatos necessários e a equivalência de aplicação entre as duas arquiteturas.
+A elaboração dos cenários será iniciada pela definição, pelo pesquisador, das situações de atendimento, das informações disponíveis e dos comportamentos esperados. Pretende-se utilizar o módulo \textit{Synthesizer} do DeepEval~\cite{deepeval} como apoio à geração de descrições candidatas e de desfechos esperados, a partir de contextos preparados para cada situação. As saídas geradas serão revisadas quanto à conformidade com a base de conhecimento, às regras de atendimento
+e ao escopo do estudo.
+
+A partir das descrições revisadas, serão preparadas as mensagens
+do usuário e as quatro variações de redação previstas para cada
+situação. As variações deverão preservar a necessidade apresentada,
+os fatos relevantes e os critérios de conclusão, modificando somente
+a forma de expressão. Também será verificada a apresentação gradual
+das informações ao longo dos turnos.
+
+Antes da execução do experimento principal, as mensagens e os
+critérios de avaliação serão revisados e fixados. Cada cenário será
+aplicado às duas arquiteturas com as mesmas mensagens e na mesma
+ordem, enquanto as respostas serão produzidas pelos respectivos
+protótipos. Os critérios esperados serão utilizados na avaliação
+e não serão fornecidos aos agentes como respostas de referência.
+Caso as saídas do gerador não sejam adequadas, os roteiros serão
+corrigidos ou elaborados manualmente, mantendo-se o registro
+de sua origem e das alterações realizadas.
 
 \subsection{Cenário conversacional de exemplo}\label{subsec:cenario-exemplo}
 
 O cenário inicial começará com uma solicitação comercial e, durante a mesma conversa, passará a tratar de uma falha de conexão e de uma reclamação. Esse caso permitirá observar a preservação do contexto e as decisões de encaminhamento.
+
+A Tabela~\ref{tab:cenario-exemplo} apresenta as mensagens
+e as áreas esperadas nesse exemplo.
 
 \begin{table}[htb]
     \ABNTEXfontereduzida
@@ -354,30 +244,7 @@ O cenário inicial começará com uma solicitação comercial e, durante a mesma
 
 % Inserir depois de finalizar o fluxograma:
 %
-\begin{figure}[p]
-    \centering
-    \caption{Fluxo de processamento de uma mensagem}
-    \label{fig:fluxo-processamento}
-    \includegraphics[
-        width=\textwidth,
-        height=0.7\textheight,
-        keepaspectratio,
-        trim={0 0 10cm 0},
-        clip
-    ]{figuras/fluxo-processamento-mensagem.png}
-    \par\smallskip
-    \begin{minipage}{\textwidth}
-        \small
-        \textbf{Nota:} A arquitetura de agente único realiza uma
-        chamada principal ao modelo por mensagem. Na arquitetura
-        multiagente, a triagem é executada quando não existe
-        agente ativo ou quando o especialista solicita nova
-        classificação após identificar uma mudança de assunto.
-    \end{minipage}
-    \par\smallskip
-    \fonteproprioautor
-\end{figure}
-\FloatBarrier
+
 
 \section{Materiais e ferramentas}\label{sec:materiais-ferramentas}
 
@@ -554,39 +421,14 @@ das diferenças de qualidade e consumo de recursos observadas
 nos cenários avaliados, independentemente de uma arquitetura
 superar a outra.
 
-\section{Apresentação prevista dos resultados}\label{sec:apresentacao-resultados}
-
-Os resultados serão organizados conforme a estrutura apresentada na \autoref{tab:modelo-resultados}. Os campos serão preenchidos depois da execução do experimento no TCC2.
-
-\begin{table}[htb]
-    \ABNTEXfontereduzida
-    \centering
-    \caption{Estrutura prevista para apresentação dos resultados}
-    \label{tab:modelo-resultados}
-    \begin{tabular}{p{5.2cm} r r}
-        \toprule
-        Métrica & Agente único & Multiagente \\
-        \midrule
-        Relevância dos turnos & -- & -- \\
-        Retenção de conhecimento & -- & -- \\
-        Completude da conversa & -- & -- \\
-        Acurácia da identificação da área & -- & -- \\
-        Adequação das transferências para humanos & -- & -- \\
-        Trocas internas entre especialistas & Não se aplica & -- \\
-        Número de chamadas ao modelo & -- & -- \\
-        Tokens de entrada & -- & -- \\
-        Tokens de saída & -- & -- \\
-        Custo estimado & -- & -- \\
-        \bottomrule
-    \end{tabular}
-    \fonteproprioautor
-\end{table}
-
-A identificação da área de atendimento e a adequação das
-transferências para atendimento humano serão avaliadas nas
-duas arquiteturas. As trocas internas entre especialistas
-serão apresentadas somente para a arquitetura multiagente,
-pois esse mecanismo não se aplica ao agente único.
+Os resultados serão apresentados em tabelas e gráficos
+comparativos, considerando a qualidade das conversas,
+a identificação das áreas de atendimento, a adequação
+dos encaminhamentos para humanos e o consumo de recursos.
+As trocas internas entre especialistas serão apresentadas
+somente para a arquitetura multiagente. A análise discutirá
+as diferenças observadas e suas limitações, sem pressupor
+a superioridade de uma das arquiteturas.
 
 \section{Privacidade e proteção dos dados}\label{sec:privacidade}
 
@@ -600,7 +442,12 @@ Dessa forma, não serão enviados dados pessoais reais ao modelo de linguagem ou
 
 Entre os riscos previstos estão a variação das respostas do modelo, alterações ou indisponibilidade da \gls{API}, mudanças na versão do modelo, diferenças excessivas entre os prompts e limitações da avaliação automática de respostas abertas.
 
-A execução única de cada combinação de cenário e arquitetura não permitirá medir a variação de uma mesma resposta em execuções repetidas. Para reduzir essa limitação, o conjunto de testes utilizará diferentes cenários e variações de redação, aplicados igualmente às duas arquiteturas.
+A execução única de cada combinação de cenário e arquitetura
+não permitirá medir a variabilidade das respostas para uma
+mesma entrada. As variações de redação ampliarão a cobertura
+das formas de expressão, mas não substituirão execuções
+repetidas. Essa limitação será considerada na interpretação
+dos resultados.
 
 Também existe o risco de uma métrica baseada em modelo atribuir uma pontuação inadequada. Como medidas de controle, as duas arquiteturas serão avaliadas com as mesmas configurações, os encaminhamentos serão verificados por regras determinísticas e uma amostra das respostas será revisada manualmente.
 

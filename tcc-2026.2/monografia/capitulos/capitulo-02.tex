@@ -75,7 +75,12 @@ Neste trabalho, parte da avaliação será realizada com o DeepEval, uma bibliot
 
 Entre as métricas inicialmente previstas estão a relevância dos turnos, a retenção de conhecimento e a completude da conversa~\cite{deepeval}. A relevância dos turnos verifica se cada resposta permanece relacionada ao contexto anterior. A retenção de conhecimento observa se o sistema preserva fatos informados pelo usuário. A completude verifica se as intenções apresentadas durante a conversa foram atendidas. O DeepEval fornece, para cada métrica, uma pontuação e uma justificativa produzida pelo modelo avaliador.
 
-O DeepEval também disponibiliza recursos para apoiar a geração de casos e a simulação de usuários. No entanto, os cenários deste trabalho serão definidos e revisados pelo pesquisador. A ferramenta poderá auxiliar na produção de variações de redação e na execução de conversas, mas nenhum caso gerado automaticamente será incorporado ao experimento sem conferência prévia.
+Além da avaliação, o DeepEval será utilizado como apoio
+à preparação dos cenários sintéticos. As descrições
+e os desfechos sugeridos pela ferramenta serão revisados
+pelo pesquisador antes da elaboração dos roteiros
+definitivos, conforme o procedimento apresentado
+na seção de cenários conversacionais.
 
 Nem todos os resultados serão avaliados por um modelo. Informações objetivas, como a fila selecionada, o número de chamadas, o consumo de tokens e a ocorrência de uma transferência, serão verificadas diretamente nos registros da execução. Essa combinação reduz a dependência de avaliações subjetivas produzidas por outro LLM.
 
@@ -90,10 +95,15 @@ Os trabalhos analisados abordam diferentes aspectos do uso de modelos de linguag
 
 No contexto das telecomunicações, \textcite{lee2025} propõem uma arquitetura para sistemas de suporte à operação. A organização é composta por um agente principal, responsável pela coordenação, e agentes específicos, encarregados de tarefas relacionadas a diferentes áreas do sistema. Os autores apontam benefícios relacionados à flexibilidade e à divisão de responsabilidades. Entretanto, o estudo concentra-se na descrição da arquitetura e não apresenta uma comparação experimental entre agente único e multiagente utilizando os mesmos cenários e parâmetros.
 
-O reconhecimento de intenções é investigado por Yang, Xu e Zhang (2025). Os autores propõem uma abordagem em duas etapas. Na primeira, utilizam TF-IDF (\textit{Term Frequency--Inverse
-Document Frequency}), uma técnica que atribui pesos às palavras conforme sua frequência em um texto e sua raridade no conjunto de documentos. A mensagem do usuário e os nomes e descrições dos agentes são representados por vetores, comparados por similaridade de cosseno para selecionar o agente adequado.
-Quando a similaridade não atinge um limiar predefinido, um modelo de linguagem é acionado para identificar a intenção. A proposta procura equilibrar acurácia, latência e custo
-computacional. O estudo é pertinente ao mecanismo de triagem, mas sua avaliação concentra-se na identificação da intenção, sem avaliar a continuidade do atendimento após o encaminhamento.
+O reconhecimento de intenções é investigado por \textcite{yang2025}. Os autores propõem uma abordagem em duas
+etapas, combinando uma classificação inicial por similaridade
+textual com o acionamento de um modelo de linguagem quando
+essa classificação não é suficiente. A proposta procura
+equilibrar acurácia, latência e custo computacional.
+O estudo é pertinente ao mecanismo de triagem, mas sua
+avaliação concentra-se na identificação da intenção,
+sem avaliar a continuidade do atendimento após o
+encaminhamento.
 
 \textcite{amri2026} comparam arquiteturas de agente único e multiagente na decisão de encaminhar uma conversa para atendimento humano. Para realizar os testes, os autores utilizam uma base formada por diálogos de atendimento e comparam o desempenho das arquiteturas com diferentes modelos de linguagem. Os resultados indicam melhor desempenho do sistema multiagente em parte das medidas avaliadas. Entretanto, também mostram que a organização em múltiplos agentes pode alterar o momento em que ocorre a transferência. O estudo é próximo da proposta deste trabalho, mas está concentrado na decisão de transferência para humanos.
 
@@ -140,8 +150,7 @@ O \autoref{quadro:trabalhos-relacionados} resume as principais características 
 
         \textcite{yang2025} &
         Reconhecimento de intenção &
-        Classificação inicial com TF-IDF e uso de LLM como
-        segunda etapa &
+        Classificação inicial por similaridade textual e uso de LLM como segunda etapa &
         Avalia a identificação da intenção, mas não a continuidade
         do atendimento \\
         \hline
