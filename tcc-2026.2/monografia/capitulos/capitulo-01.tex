@@ -8,7 +8,7 @@ Na arquitetura de agente único, um mesmo componente interpreta as mensagens, co
 
 A comunicação entre os agentes influencia a eficiência, a escalabilidade e a robustez do sistema. Uma decisão incorreta na triagem pode encaminhar a conversa para um agente que não possui as informações necessárias. Também podem ocorrer perdas de contexto, encaminhamentos desnecessários ou propagação de erros entre os componentes. Falhas de agentes e interrupções na comunicação também são apontadas como riscos desses sistemas~\cite{owotogbe2025}.
 
-Estudos recentes investigam o encaminhamento de conversas para atendimento humano e o reconhecimento de intenções em ambientes multiagentes~\cite{amri2026,yang2025}. Os resultados apontam benefícios da especialização, mas também mostram que a vantagem da arquitetura multiagente não ocorre em todas as métricas. Além disso, os trabalhos adotam diferentes modelos, cenários e critérios de avaliação, o que dificulta uma comparação direta entre arquiteturas de agente único e multiagente.
+Estudos recentes investigam o encaminhamento de conversas para atendimento humano e o reconhecimento de intenções em ambientes multiagentes~\cite{amri2026,yang2025}. Os resultados apontam benefícios da especialização, mas também mostram que a vantagem da arquitetura multiagente não ocorre em todas as métricas. Além disso, os trabalhos adotam diferentes modelos, cenários e critérios de avaliação, o que dificulta uma comparação direta entre arquiteturas de agente único e multiagente. Na comparação realizada por Amri et al.~\cite{amri2026}, também foi observada uma tendência de o sistema multiagente realizar transferências para atendimento humano mais cedo.
 
 Esses resultados indicam que a adoção de uma arquitetura multiagente não representa, necessariamente, uma melhoria em todas as situações. Ainda são necessárias comparações nas quais as arquiteturas utilizem o mesmo modelo, a mesma base de conhecimento, parâmetros equivalentes e cenários de atendimento comparáveis. Também é necessário observar o desenvolvimento da conversa, as decisões de encaminhamento e os recursos utilizados até a conclusão da tarefa.
 
@@ -23,14 +23,6 @@ Diante desse contexto, este trabalho busca responder à seguinte pergunta:
 \begin{quote}
 Quais diferenças de desempenho são observadas entre uma arquitetura de agente único e uma arquitetura multiagente, ambas baseadas em modelos de linguagem em grande escala e aplicadas a cenários conversacionais de atendimento, quanto à correção e à relevância das respostas, à conclusão das tarefas, à precisão dos encaminhamentos, ao número de chamadas ao modelo e ao consumo de tokens?
 \end{quote}
-
-\section{Justificativa}\label{sec:justificativa}
-
-A escolha da arquitetura influencia tanto a qualidade do atendimento quanto o custo de operação de sistemas baseados em LLMs. Uma solução centralizada pode ser suficiente para tarefas simples e utilizar menos chamadas ao modelo. Por outro lado, a distribuição das responsabilidades entre agentes especializados pode favorecer situações que exigem regras específicas ou mudanças de setor durante uma conversa, embora acrescente etapas de comunicação e novos pontos de falha~\cite{yan2026}.
-
-No atendimento de provedores de Internet, uma mesma conversa pode envolver dúvidas gerais, solicitações comerciais, reclamações e problemas técnicos. Um encaminhamento incorreto pode levar o usuário para uma fila inadequada ou produzir uma resposta sem as informações necessárias. Estudos anteriores demonstram que a especialização pode melhorar determinadas métricas, mas essa vantagem não ocorre em todas as situações. Também foi observada uma tendência de o sistema multiagente realizar transferências para atendimento humano mais cedo~\cite{amri2026}.
-
-A contribuição esperada deste trabalho é a implementação de dois protótipos equivalentes e a realização de uma comparação controlada entre as arquiteturas. A avaliação considerará a qualidade das respostas, a conclusão das tarefas, os encaminhamentos realizados e os recursos consumidos. Os resultados poderão servir como referência para pesquisadores e desenvolvedores na escolha de uma arquitetura compatível com os requisitos de qualidade, organização e custo da aplicação.
 
 \section{Objetivos}\label{sec:objetivos}
 
@@ -49,11 +41,7 @@ Para alcançar o objetivo geral, foram definidos os seguintes objetivos específ
 
     \item elaborar e revisar um conjunto de cenários conversacionais de teste para primeiro atendimento, comercial, ouvidoria e suporte técnico;
 
-    \item avaliar a correção e a relevância das respostas, a conclusão das tarefas e a precisão dos encaminhamentos;
-
-    \item medir o consumo de tokens e o número de chamadas ao modelo durante cada conversa;
-
-    \item estimar o custo de execução de cada arquitetura;
+    \item avaliar o desempenho das duas arquiteturas quanto à correção e à relevância das respostas, à conclusão das tarefas, à precisão dos encaminhamentos, ao consumo de tokens, ao número de chamadas ao modelo e ao custo estimado de execução;
 
     \item comparar os resultados para identificar as vantagens, limitações e custos de cada arquitetura.
 \end{itemize}
@@ -72,13 +60,10 @@ Serão consideradas quatro áreas de atendimento: primeiro atendimento, comercia
 
 Não fazem parte do escopo o atendimento por voz, o processamento de conteúdo multimodal, o treinamento ou ajuste fino de modelos, a comparação entre diferentes LLMs e a implantação do sistema com clientes reais. Também não serão realizados testes de robustez com injeção deliberada de falhas nos agentes ou na comunicação.
 
+A latência das respostas não será avaliada. Como o acesso ao modelo será realizado por uma API externa, o tempo observado poderá variar conforme as condições da rede e do serviço, sobre as quais o experimento não terá controle. A comparação dos recursos utilizados ficará restrita ao número de chamadas ao modelo, ao consumo de tokens e ao custo estimado de execução.
+
 \section{Organização do texto}\label{sec:organizacao}
 
-Além deste capítulo introdutório, o trabalho está organizado
-da seguinte forma: o \autoref{cap:revisao} apresenta a fundamentação
-teórica, os trabalhos relacionados e a lacuna de pesquisa;
-o \autoref{cap:metodologia} descreve as arquiteturas propostas,
-a base de conhecimento, os cenários conversacionais, as ferramentas,
-o procedimento experimental e os critérios de avaliação;
-e o \autoref{cap:cronograma} apresenta o cronograma das atividades
-previstas para o desenvolvimento do trabalho no TCC2.
+Além deste capítulo introdutório, a proposta está organizada da seguinte forma: o \autoref{cap:revisao} apresenta a fundamentação teórica, os trabalhos relacionados e a lacuna de pesquisa;
+o \autoref{cap:metodologia} descreve as arquiteturas propostas, a base de conhecimento, os cenários conversacionais, as ferramentas, o procedimento experimental e os critérios de avaliação;
+e o \autoref{cap:cronograma} apresenta o cronograma das atividades previstas para o desenvolvimento do trabalho no TCC2.
