@@ -1,0 +1,478 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\IfFileExists{beamerthemeifsclean.sty}{}{%
+ \IfFileExists{brazilian.ldf}{\usepackage[brazilian]{babel}}{\usepackage[english]{babel}}
+}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,array,graphicx,tikz,ragged2e,url}
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds}
+\definecolor{ifscgreen}{RGB}{0,128,0}
+\definecolor{darkgreen}{RGB}{0,90,0}
+\definecolor{lightgraybox}{RGB}{245,245,245}
+\IfFileExists{beamerthemeifsclean.sty}{\usetheme{ifsclean}}{%
+ \usetheme{Boadilla}
+ \usecolortheme[named=darkgreen]{structure}
+ \setbeamercolor{title}{fg=white,bg=darkgreen}
+ \setbeamercolor{frametitle}{fg=darkgreen,bg=white}
+ \setbeamercolor{block title}{fg=white,bg=darkgreen}
+ \setbeamercolor{block body}{bg=lightgraybox}
+ \setbeamertemplate{navigation symbols}{}
+ \setbeamertemplate{footline}{\leavevmode\hbox{%
+ \begin{beamercolorbox}[wd=.76\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=1em]{author in head/foot}\usebeamerfont{author in head/foot}Wagner Flores dos Santos\quad TCC1\end{beamercolorbox}%
+ \begin{beamercolorbox}[wd=.24\paperwidth,ht=2.8ex,dp=1.2ex,rightskip=1em plus1fil]{date in head/foot}\hfill 2026.2\quad\insertframenumber\end{beamercolorbox}}}
+}
+\setbeamersize{text margin left=0.8cm,text margin right=0.8cm}
+\setlength{\emergencystretch}{2em}
+\newcommand{\fonte}[1]{\par\vspace{0.5em}{\tiny\color{gray}\textbf{Fonte:} #1}}
+\newcommand{\refweb}[2]{\href{#1}{\textcolor{darkgreen}{#2}}}
+\tikzset{caixa/.style={draw=darkgreen,rounded corners=2pt,fill=green!5,align=center,minimum height=1cm,text width=2.4cm,font=\small},seta/.style={-{Latex[length=2mm]},thick,darkgreen}}
+\title[Agente único e multiagente]{Análise Comparativa entre Arquiteturas de Agente Único e \\ Multiagente Baseadas em LLM para Chatbots de Atendimento}
+\subtitle{Seminário de apresentação do tema -- TCC1}
+\author{Wagner Flores dos Santos}
+\institute{Engenharia de Telecomunicações -- IFSC Câmpus São José\\Orientador: Prof. Arliones Stevert Hoeller Júnior, Dr.}
+\date{2026.2}
+\newcommand{\origem}{\fonte{Pré-projeto do autor, versão disponibilizada em 14/11/2026.}}
+\begin{document}
+% Capa: 20 s. Conteúdo principal: 8 min 40 s. Total planejado: 9 min.
+\begin{frame}[plain,noframenumbering]\maketitle\end{frame}
+%% Tempo: 55 s
+\begin{frame}{Especializar agentes pode melhorar o atendimento, mas tem custo}
+\begin{block}{Problema de pesquisa}
+Como agente único e multiagente diferem em qualidade, encaminhamentos e consumo de recursos ao longo de uma conversa?
+\end{block}
+\vspace{.25cm}
+\begin{itemize}
+\item LLM: modelo de linguagem em grande escala.
+\item O cliente informa dados aos poucos e pode mudar de assunto.
+\item Mais agentes acrescentam decisões e comunicação ao atendimento.
+\end{itemize}
+\origem
+\end{frame}
+
+\begin{frame}{A escolha da arquitetura afeta qualidade e recursos}
+\begin{columns}[T]
+\column{.48\textwidth}
+\begin{block}{Agente único}
+Reúne as regras das quatro áreas.\\[.3cm]
+Menos coordenação interna; contexto mais amplo.
+\end{block}
+\column{.48\textwidth}
+\begin{block}{Multiagente}
+Distribui regras entre especialistas.\\[.3cm]
+Especialização; novas decisões e possível perda de contexto.
+\end{block}
+\end{columns}
+\vspace{.35cm}
+\textbf{Justificativa:} medir se os ganhos observados compensam chamadas e tokens adicionais.
+\fonte{Síntese do pré-projeto; Yan et al. (2026); Amri et al. (2026).}
+\end{frame}
+
+\begin{frame}{Os estudos revisados deixam a avaliação conjunta em aberto}
+\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{3cm}p{4.25cm}p{6cm}@{}}\toprule
+Estudo & Contribuição & Limite para esta proposta\\\midrule
+Moncada et al. (2025) & Classificação e respostas a chamados & Sem comparação com agente único ou conversa com vários turnos\\
+Lee et al. (2025) & Arquitetura em telecomunicações & Sem comparação quantitativa própria\\
+Amri et al. (2026) & Compara arquiteturas em diálogos & Foco na transferência para humanos; sem consumo de recursos\\\bottomrule
+\end{tabular}
+\vspace{.3cm}
+\begin{block}{Lacuna no conjunto revisado}
+Avaliar conjuntamente qualidade, retenção, conclusão, encaminhamentos e consumo em conversas com vários turnos.
+\end{block}
+\fonte{Síntese da revisão do pré-projeto, seções 2.2 e 2.3.}
+\end{frame}
+
+\begin{frame}{O objetivo é comparar as arquiteturas sob condições comuns}
+\begin{block}{Objetivo geral}
+Comparar experimentalmente agente único e multiagente no atendimento textual de um provedor de Internet.
+\end{block}
+\vspace{.2cm}
+\begin{enumerate}
+\item Definir base e regras comuns; implementar dois protótipos.
+\item Elaborar e revisar os cenários conversacionais.
+\item Avaliar respostas, conclusão e encaminhamentos.
+\item Medir chamadas, tokens e custo; comparar as diferenças.
+\end{enumerate}
+\origem
+\end{frame}
+
+\begin{frame}{Um único agente concentra as regras das quatro áreas}
+\centering\resizebox{.96\textwidth}{!}{%
+\begin{tikzpicture}[
+        font=\small,
+        bloco/.style={
+            draw,
+            rounded corners=3pt,
+            align=center,
+            fill=blue!6,
+            minimum height=11mm,
+            text width=24mm
+        },
+        auxiliar/.style={
+            bloco,
+            fill=gray!8,
+            text width=22mm
+        },
+        agente/.style={
+            bloco,
+            fill=blue!12,
+            text width=21mm,
+            minimum height=16mm
+        },
+        troca/.style={
+            <->,
+            >=Latex,
+            thick
+        },
+        registro/.style={
+            ->,
+            >=Latex,
+            thick
+        },
+        base/.style={
+            ->,
+            >=Latex,
+            dashed,
+            gray!80
+        }
+    ]
+    % Robô simplificado.
+    \newcommand{\robo}{%
+        \begin{tikzpicture}[
+            x=1mm,
+            y=1mm,
+            baseline=-0.5mm,
+            line width=0.5pt
+        ]
+            \draw[fill=blue!15,rounded corners=1pt]
+                (-3,-2) rectangle (3,2);
+            \fill (-1.2,0.4) circle (0.35);
+            \fill (1.2,0.4) circle (0.35);
+            \draw (-1,-0.9) -- (1,-0.9);
+            \draw (0,2) -- (0,3);
+            \fill (0,3) circle (0.35);
+            \draw (-3,-0.7) -- (-3.8,-0.7)
+                  -- (-3.8,0.7) -- (-3,0.7);
+            \draw (3,-0.7) -- (3.8,-0.7)
+                  -- (3.8,0.7) -- (3,0.7);
+        \end{tikzpicture}%
+    }
+    \node[bloco] (u1) at (-5,-1.2)
+        {Usuário};
+    \node[bloco] (o1) at (-1.5,-1.2)
+        {Orquestrador\\[-1pt]
+         \scriptsize Controle em Python};
+    \node[agente] (a1) at (2,-1.2)
+        {\robo\\Agente único};
+    \node[auxiliar] (b1) at (5.2,-1.2)
+        {Base completa\\[-1pt]
+         \scriptsize Quatro áreas};
+    \node[auxiliar] (h1) at (-3.2,-3.5)
+        {Histórico e fatos};
+    \node[auxiliar] (r1) at (0.2,-3.5)
+        {Registro da execução};
+    % Comunicação principal.
+    \draw[troca] (u1) -- (o1);
+    \draw[troca] (o1) -- (a1);
+    % Informações da base.
+    \draw[base] (b1) -- (a1);
+    % Histórico e registro.
+    \draw[troca]
+        (o1.south) -- ++(0,-0.45)
+        -| (h1.north);
+    \draw[registro]
+        (o1.south) -- ++(0,-0.45)
+        -| (r1.north);
+    \end{tikzpicture}}
+\par\vspace{.25cm}\small O orquestrador mantém o histórico e os registros; o agente decide e responde.\\[.2cm] Linhas tracejadas: informações disponibilizadas ao agente.
+\fonte{TikZ da Figura 1 da monografia do autor, adaptado apenas para apresentação em dois slides.}
+\end{frame}
+
+\begin{frame}{A triagem e os especialistas são coordenados pelo orquestrador}
+\centering\resizebox{.75\textwidth}{!}{%
+\begin{tikzpicture}[
+        font=\small,
+        bloco/.style={
+            draw,
+            rounded corners=3pt,
+            align=center,
+            fill=blue!6,
+            minimum height=11mm,
+            text width=24mm
+        },
+        auxiliar/.style={
+            bloco,
+            fill=gray!8,
+            text width=22mm
+        },
+        agente/.style={
+            bloco,
+            fill=blue!12,
+            text width=21mm,
+            minimum height=16mm
+        },
+        troca/.style={
+            <->,
+            >=Latex,
+            thick
+        },
+        registro/.style={
+            ->,
+            >=Latex,
+            thick
+        },
+        base/.style={
+            ->,
+            >=Latex,
+            dashed,
+            gray!80
+        }
+    ]
+
+    \newcommand{\robo}{%
+        \begin{tikzpicture}[
+            x=1mm,
+            y=1mm,
+            baseline=-0.5mm,
+            line width=0.5pt
+        ]
+            \draw[fill=blue!15,rounded corners=1pt]
+                (-3,-2) rectangle (3,2);
+            \fill (-1.2,0.4) circle (0.35);
+            \fill (1.2,0.4) circle (0.35);
+            \draw (-1,-0.9) -- (1,-0.9);
+            \draw (0,2) -- (0,3);
+            \fill (0,3) circle (0.35);
+            \draw (-3,-0.7) -- (-3.8,-0.7)
+                  -- (-3.8,0.7) -- (-3,0.7);
+            \draw (3,-0.7) -- (3.8,-0.7)
+                  -- (3.8,0.7) -- (3,0.7);
+        \end{tikzpicture}%
+    }
+
+    \begin{scope}[yshift=-10mm]
+        \node[bloco] (u2) at (-5,-5.4)
+            {Usuário};
+        \node[bloco] (o2) at (-1.5,-5.4)
+            {Orquestrador\\[-1pt]
+             \scriptsize Controle em Python};
+        \node[auxiliar] (h2) at (2,-5.4)
+            {Histórico e fatos};
+        \node[auxiliar] (r2) at (5.2,-5.4)
+            {Registro da execução};
+        % Comunicação com usuário e histórico.
+        \draw[troca] (u2) -- (o2);
+        \draw[troca] (o2) -- (h2);
+        % Registro ligado ao orquestrador por cima dos blocos.
+        \draw[registro]
+            (o2.north) -- ++(0,0.45)
+            -| (r2.north);
+        % Agentes.
+        \node[agente] (t) at (-5.1,-8.2)
+            {\robo\\Triagem};
+        \node[agente] (p) at (-2.2,-8.2)
+            {\robo\\Primeiro\\atendimento};
+        \node[agente] (c) at (0.7,-8.2)
+            {\robo\\Comercial};
+        \node[agente] (v) at (3.6,-8.2)
+            {\robo\\Ouvidoria};
+        \node[agente] (s) at (6.5,-8.2)
+            {\robo\\Suporte\\técnico};
+        % Barramento de comunicação do orquestrador.
+        \coordinate (centro) at (-1.5,-6.8);
+        \draw[thick] (o2.south) -- (centro);
+        \draw[thick]
+            (-5.1,-6.8) -- (6.5,-6.8);
+        \foreach \n in {t,p,c,v,s}{
+            \draw[troca]
+                (\n.north |- centro) -- (\n.north);
+        }
+        % Base de conhecimento.
+        \node[
+            auxiliar,
+            text width=55mm
+        ] (b2) at (0.7,-10.7)
+            {Base comum e bases por área};
+        \coordinate (bases) at (0.7,-9.7);
+        \draw[dashed,gray!80]
+            (b2.north) -- (bases);
+        \draw[dashed,gray!80]
+            (-5.1,-9.7) -- (6.5,-9.7);
+        \foreach \n in {t,p,c,v,s}{
+            \draw[base]
+                (\n.south |- bases) -- (\n.south);
+        }
+    \end{scope}
+    \end{tikzpicture}}
+\par\vspace{.25cm}\scriptsize Conexões: possibilidades de comunicação, sem execução simultânea obrigatória.\\O especialista permanece ativo; mudanças de assunto solicitam nova triagem.\\Linhas tracejadas: base comum e informações por responsabilidade.
+\fonte{TikZ da Figura 1 da monografia do autor, adaptado apenas para apresentação em dois slides.}
+\end{frame}
+
+\begin{frame}{48 cenários testarão continuidade e mudanças de assunto}
+\begin{columns}[T]
+\column{.49\textwidth}
+\begin{block}{Conjunto de teste}
+4 áreas $\times$ 3 situações $\times$ 4 variações de redação = \textbf{48 cenários}.
+\end{block}
+Cada cenário nas duas arquiteturas:\\[.15cm]
+\textbf{96 conversas completas}, uma execução por combinação.
+\column{.47\textwidth}
+\small
+\begin{tabular}{@{}p{4cm}p{2.1cm}@{}}\toprule
+Mensagem (exemplo) & Área\\\midrule
+Quero conhecer os planos. & Comercial\\
+Meu CEP é 88110-000. & Comercial\\
+Já sou cliente e estou sem Internet. & Suporte\\
+A luz LOS está vermelha. & Suporte\\
+Isso se repete; quero reclamar. & Ouvidoria\\\bottomrule
+\end{tabular}
+\end{columns}
+\vspace{.35cm}
+\textbf{Dados fictícios.} As variações preservam fatos e critérios de conclusão.
+\origem
+\end{frame}
+
+\begin{frame}{A avaliação combinará métricas e verificações objetivas}
+\renewcommand{\arraystretch}{1.35}
+\small
+\begin{tabular}{@{}p{3.2cm}p{6.5cm}p{3.5cm}@{}}\toprule
+Dimensão & O que observar & Como verificar\\\midrule
+Qualidade & Relevância, retenção e completude & DeepEval + revisão de amostra\\
+Correção e tarefa & Respeito às regras e condições de conclusão & Critérios por cenário\\
+Encaminhamentos & Área por turno e indicação de humano & Acurácia e matriz de confusão; regras\\
+Recursos & Chamadas, tokens de entrada e saída; custo & Registros em Python\\\bottomrule
+\end{tabular}
+\vspace{.35cm}
+\textbf{Comparação equivalente:} área identificada no agente único versus área do especialista acionado no multiagente.
+\vspace{.2cm}
+Trocas internas serão contadas apenas no multiagente; indicação de humano, nas duas arquiteturas.
+\fonte{Pré-projeto, seção 3.7; Confident AI (2026).}
+\end{frame}
+%% Tempo: 65 s
+\begin{frame}{O piloto fixará as condições antes da comparação}
+\begin{columns}[T]
+\column{.53\textwidth}
+\begin{block}{Controles previstos}
+Mesmo GPT-4.1-mini, parâmetros, conteúdo total, regras e mensagens.\\[.2cm]
+Mesmo avaliador e limiares nas duas arquiteturas.
+\end{block}
+\textbf{Sequência:} revisar $\rightarrow$ piloto $\rightarrow$ congelar versões $\rightarrow$ executar $\rightarrow$ avaliar.
+\column{.43\textwidth}
+\begin{block}{Limites da interpretação}
+Uma execução não mede a variabilidade da mesma entrada.\\[.2cm]
+48 versões derivam de 12 situações-base.\\[.2cm]
+Resultados restritos ao modelo e aos cenários escolhidos.
+\end{block}
+\end{columns}
+\vspace{.25cm}
+Python, arquivos JSON e Git para implementar, registrar e versionar. O piloto fica fora dos resultados finais.
+\origem
+\end{frame}
+
+\begin{frame}{O TCC2 entregará evidências para a escolha da arquitetura}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{7cm}cccccc@{}}\toprule
+Atividade em 2027 & Fev & Mar & Abr & Mai & Jun & Jul\\\midrule
+Base, prompts, protótipos e cenários & X & X & & & &\\
+Métricas e piloto & & X & X & & &\\
+Congelamento e experimento & & & X & & &\\
+Análise comparativa & & & X & X & &\\
+Redação e revisões & X & X & X & X & X &\\
+Preparação e defesa & & & & & X &\\
+Correções e entrega & & & & & X & X\\\bottomrule
+\end{tabular}
+\begin{block}{Mensagem central}
+A especialização pode melhorar o atendimento, mas acrescenta coordenação. O estudo medirá qualidade e recursos para identificar as diferenças, sem pressupor um vencedor.
+\end{block}
+\fonte{Cronograma previsto no pré-projeto; defesa e entrega sujeitas ao calendário oficial.}
+\end{frame}
+\appendix
+
+\begin{frame}{Referências utilizadas na apresentação}
+\scriptsize
+\begin{itemize}
+\item AMRI, M. F. et al. Optimizing LLM Chatbot to Human Handover with Multi-Agent AI Approach. ICADEIS, 2026, p. 1--6. DOI: 10.1109/ICADEIS71120.2026.11644567.
+\item CONFIDENT AI. DeepEval Documentation. 2026. \url{https://deepeval.com/docs/introduction}. Acesso: 8 out. 2026.
+\item LEE, K.-Y.; TSENG, P.-A.; CHEN, W.-C. Enhancing Telecom Operation Support Systems with Multi-Agent Large Language Models. ICCAI, 2025, p. 309--316. DOI: 10.1109/ICCAI66501.2025.00055.
+\item MONCADA, C. et al. Large Language Models and Multi-Agent Systems for Customer Support Ticket Automation. ETCM, 2025, p. 1--6. DOI: 10.1109/ETCM67548.2025.11304425.
+\item YAN, B. et al. Beyond Self-Talk: A Communication-Centric Survey of LLM-Based Multi-Agent Systems. Frontiers of Computer Science, 2026. DOI: 10.1007/s11704-026-50857-y.
+\item YANG, W.; XU, P.; ZHANG, X. A Two-Stage Intent Recognition Framework in Multi-Agent Environments. ICCEA, 2025, p. 1--5. DOI: 10.1109/ICCEA65460.2025.11103313.
+\item OWOTOGBE, J. Assessing and Enhancing the Robustness of LLM-Based Multi-Agent Systems Through Chaos Engineering. CAIN, 2025, p. 250--252. DOI: 10.1109/CAIN66642.2025.00039.
+\item OPENAI. GPT-4.1 mini Model. 2026. \url{https://developers.openai.com/api/docs/models/gpt-4.1-mini}. Acesso: 10 out. 2026.
+\end{itemize}
+\fonte{Dados bibliográficos reproduzidos da monografia fornecida.}
+\end{frame}
+
+\begin{frame}{Reserva: escopo e decisões pendentes}
+\begin{itemize}
+\item Atendimento textual, quatro áreas, dados sintéticos e documentos no contexto; sem recuperação dinâmica de documentos.
+\item Sem clientes reais, voz, multimodalidade, ajuste fino, comparação entre modelos ou injeção de falhas.
+\item Latência não será avaliada; a transferência humana será apenas registrada.
+\item Versão exata do modelo, parâmetros, avaliador e limiares: registrar e congelar após o piloto.
+\item TCC1: fundamentação e planejamento; experimento definitivo no TCC2.
+\end{itemize}
+\origem
+\end{frame}
+
+\begin{frame}{Reserva: custo e critérios de sucesso}
+\[C=T_e P_e + T_s P_s\]
+\begin{itemize}
+\item $T_e,T_s$: tokens de entrada e saída; $P_e,P_s$: preço por token.
+\item Registrar fonte e data dos preços no experimento.
+\item Concluir uma tarefa pode significar indicar humano com os dados necessários, quando isso for previsto no cenário.
+\item Sucesso da pesquisa: comparação executada e diferenças analisadas, independentemente da arquitetura com melhor desempenho.
+\end{itemize}
+\origem
+\end{frame}
+
+\begin{frame}{Reserva: os seis estudos fundamentam o recorte da pesquisa}
+\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{2.9cm}p{5cm}p{5.3cm}@{}}
+\toprule
+Estudo & Contribuição & Limite para esta comparação\\
+\midrule
+Moncada et al. (2025) & Classificação e geração de respostas a chamados & 20 chamados; sem agente único ou conversa com vários turnos\\
+Lee et al. (2025) & Coordenação e especialistas em telecomunicações & Sem avaliação quantitativa própria entre arquiteturas\\
+Yang et al. (2025) & Seleção de agentes por TF-IDF e LLM & 30 consultas; sem avaliação da conversa após a seleção\\
+Amri et al. (2026) & Compara agente único e multiagente em diálogos & Foco na transferência humana; sem consumo de recursos\\
+Yan et al. (2026) & Revisão centrada na comunicação entre agentes & Sem experimento próprio comparando as arquiteturas\\
+Owotogbe (2025) & Proposta para investigar robustez e propagação de falhas & Validação em andamento; sem resultados quantitativos do framework\\
+\bottomrule
+\end{tabular}
+\par\vspace{.2cm}
+\textbf{Recorte do TCC:} qualidade, retenção, conclusão, encaminhamentos e recursos avaliados conjuntamente.
+\fonte{Síntese da revisão da monografia, seções 2.2 e 2.3. Referências completas no slide anterior.}
+\end{frame}
+
+\begin{frame}{Reserva: DeepEval avalia; Synthesizer apoia os cenários}
+\small
+\begin{columns}[T]
+\column{.48\textwidth}
+\begin{block}{Antes dos testes: Synthesizer}
+\begin{itemize}
+\item Usa contextos ou documentos para sugerir cenários e desfechos esperados.
+\item O pesquisador revisa as sugestões, prepara os turnos e as variações de redação.
+\item As mensagens são fixadas e aplicadas igualmente às duas arquiteturas.
+\end{itemize}
+\end{block}
+\column{.48\textwidth}
+\begin{block}{Após os testes: DeepEval}
+\begin{itemize}
+\item Relevância: a resposta atende ao assunto do turno?
+\item Retenção: preserva os fatos informados na conversa?
+\item Completude: atende às necessidades apresentadas?
+\end{itemize}
+\end{block}
+\end{columns}
+\vspace{.15cm}
+\footnotesize
+\textbf{Controles:} revisão humana dos cenários; mesmo avaliador e limiares; revisão manual de uma amostra das avaliações. Encaminhamentos, chamadas e tokens: verificações em Python.
+\par\vspace{.15cm}
+\textbf{Distinção:} gerar cenários não é validá-los. Neste estudo, o Synthesizer não decidirá sozinho o roteiro final nem substituirá a revisão do pesquisador.
+\fonte{Pré-projeto, seções 3.4 e 3.7; documentação DeepEval: \href{https://deepeval.com/docs/golden-synthesizer}{Synthesizer} e \href{https://deepeval.com/docs/metrics-introduction}{métricas}. Consulta: 14/11/2026.}
+\end{frame}
+\end{document}
